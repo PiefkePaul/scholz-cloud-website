@@ -86,14 +86,14 @@ const content = isEnglish
     </div>
 
     <form
-      action="https://formspree.io/f/FORMSPREE_ID_PLACEHOLDER"
+      action="https://formspree.io/f/xykbqngy"
       method="POST"
       class="contact-form rounded-[2rem] bg-white p-8 text-slate-900 shadow-2xl shadow-black/20 ring-1 ring-slate-200"
       data-contact-form
       aria-label={isEnglish ? 'Contact form' : 'Kontaktformular'}
     >
-      <input type="hidden" name="_subject" value="Neue Anfrage von paulscholz.de" />
-      <input type="hidden" name="_next" value="https://www.scholz-cloud.de/danke" />
+      <input type="hidden" name="_subject" value="Neue Anfrage von scholz-cloud.de" />
+      <input type="hidden" name="_next" value={isEnglish ? 'https://www.scholz-cloud.de/en/danke/' : 'https://www.scholz-cloud.de/danke/'} />
 
       <div class="grid gap-5 sm:grid-cols-2">
         <label class="block">

@@ -1,0 +1,44 @@
+---
+import Footer from '../../../components/Footer.astro';
+import Navigation from '../../../components/Navigation.astro';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  lang="en"
+  title="Paul Scholz | Legal Notice"
+  description="Legal notice for the website of Paul Scholz."
+  noindex={true}
+  alternateLinks={false}
+>
+  <Navigation lang="en" />
+  <main class="bg-white pt-32">
+    <section class="mx-auto max-w-4xl px-6 py-24 md:px-10 lg:px-12" aria-labelledby="legal-heading">
+      <p class="text-sm font-semibold uppercase tracking-[0.24em] text-teal">Legal</p>
+      <h1 id="legal-heading" class="mt-4 text-4xl font-semibold tracking-tight text-navy">
+        Legal Notice
+      </h1>
+
+      <div class="mt-10 space-y-4 text-base leading-8 text-slate-700">
+        <p>Information pursuant to § 5 TMG (German Telemedia Act)</p>
+        <p>
+          Paul Scholz
+          <br />
+          Germany
+          <br />
+          E-Mail:{' '}
+          <a href="mailto:kontakt@wichtige.email" class="text-teal hover:text-navy">
+            kontakt@wichtige.email
+          </a>
+        </p>
+
+        <h2 class="mt-8 text-xl font-semibold text-navy">Disclaimer</h2>
+        <p>
+          Despite careful content checks, I assume no liability for the content of external links.
+          The operators of linked pages are solely responsible for their content.
+        </p>
+      </div>
+    </section>
+  </main>
+  <Footer lang="en" />
+</BaseLayout>

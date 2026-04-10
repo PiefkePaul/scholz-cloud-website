@@ -7,6 +7,8 @@ interface Props {
   ogType?: 'website' | 'article';
   personName?: string;
   personRole?: string;
+  noindex?: boolean;
+  alternateLinks?: boolean;
 }
 
 const {
@@ -18,10 +20,19 @@ const {
   personName = 'Paul Scholz',
   personRole = lang === 'de'
     ? 'IT-Systemadministrator und SEO-Berater'
-    : 'IT systems administrator and SEO consultant'
+    : 'IT systems administrator and SEO consultant',
+  noindex = false,
+  alternateLinks = true,
 } = Astro.props;
 
 const site = Astro.site ?? new URL('https://www.scholz-cloud.de');
+const pathname = Astro.url.pathname;
+// Build hreflang URLs: strip /en prefix for de, add for en
+const dePathname = pathname.startsWith('/en/') ? pathname.slice(3) || '/' : pathname;
+const enPathname = pathname.startsWith('/en/') ? pathname : '/en' + pathname;
+const deUrl = new URL(dePathname, site).toString();
+const enUrl = new URL(enPathname, site).toString();
+
 const canonical = new URL(Astro.url.pathname, site).toString();
 const socialImage = new URL(ogImage, site).toString();
 
@@ -72,7 +83,17 @@ const personSchema = {
     <meta property="og:type" content={ogType} />
     <meta name="twitter:card" content="summary_large_image" />
     <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+    {alternateLinks && (
+      <>
+        <link rel="alternate" hreflang="de" href={deUrl} />
+        <link rel="alternate" hreflang="en" href={enUrl} />
+        <link rel="alternate" hreflang="x-default" href={deUrl} />
+      </>
+    )}
+    <meta name="theme-color" content="#0f172a" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
     <link
