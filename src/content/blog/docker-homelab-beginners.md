@@ -1,14 +1,14 @@
 ---
-title: "Docker Homelab 2025: Mein Setup mit Synology, Nginx Proxy Manager und 15+ Containern"
-titleEn: "Docker Homelab 2025: My Setup with Synology, Nginx Proxy Manager & 15+ Containers"
-description: "Mein komplettes Docker-Homelab-Setup mit echten docker-compose Dateien, Nginx Proxy Manager, SSL und 15+ Diensten auf einer Synology NAS – aus der Praxis eines Enterprise-IT-Admins."
-descriptionEn: "My complete Docker homelab setup with real docker-compose files, Nginx Proxy Manager, SSL, and 15+ services on a Synology NAS – from an enterprise IT admin's perspective."
+title: "Docker On-Premises 2025: Mein Setup mit Nginx Proxy Manager und 12+ Self-Hosted Diensten"
+titleEn: "Docker On-Premises 2025: My Setup with Nginx Proxy Manager & 12+ Self-Hosted Services"
+description: "Wie ich Docker auf einem dedizierten Homeserver betreibe – mit echten docker-compose Dateien, Nginx Proxy Manager, Let's Encrypt SSL und der Erfahrung aus dem Enterprise-Umfeld."
+descriptionEn: "How I run Docker on a dedicated homeserver – with real docker-compose files, Nginx Proxy Manager, Let's Encrypt SSL, and experience from enterprise IT."
 pubDate: 2025-03-15
 updatedDate: 2025-04-10
-tags: ["Docker", "Homelab", "Synology", "Self-Hosting", "Nginx Proxy Manager", "docker-compose"]
+tags: ["Docker", "Self-Hosting", "Nginx Proxy Manager", "docker-compose", "On-Premises", "Homelab"]
 ---
 
-Ich verwalte beruflich hunderte von Hyper-V-Hosts und tausende virtuelle Maschinen. Abends läuft mein Homelab. Der Unterschied ist kleiner als die meisten denken – und genau das ist das Interessante daran.
+Ich verwalte beruflich hunderte von Hyper-V-Hosts und tausende virtuelle Maschinen. Abends läuft mein privater Docker-Stack. Der Unterschied zwischen Enterprise und Homelab ist kleiner als die meisten denken – und genau das macht es interessant.
 
 Dieser Beitrag ist keine Theorie. Es ist das Setup, das bei mir gerade wirklich läuft: mit konkreten `docker-compose`-Dateien, echten Fehlern die ich auf dem Weg gemacht habe, und ehrlichen Einschätzungen was sich lohnt und was nicht.
 
@@ -22,28 +22,24 @@ Eine VM für Jellyfin bedeutet volles Betriebssystem, Updates, Snapshot-Manageme
 docker compose down && docker compose up -d
 ```
 
-Für ein Homelab, das nebenher funktionieren soll und nicht zum zweiten Job werden soll, ist das der entscheidende Vorteil.
+Für einen Stack, der nebenher laufen soll und nicht zum zweiten Job werden soll, ist das der entscheidende Vorteil.
 
 > **Meine Faustregel:** Docker für Services die regelmäßig aktualisiert werden. VMs für Dinge die stateful, komplex sind oder Windows brauchen.
 
 ---
 
-## Hardware: Synology NAS als Docker-Plattform
+## Hardware: Dedizierter Homeserver als Docker-Plattform
 
-Mein primärer Docker-Host ist eine Synology NAS mit genug RAM und einer SSD als System-Drive. Keine Hochleistungsmaschine – aber sie läuft 24/7, zieht wenig Strom, hat einen RAID-Verbund für die Daten und unterstützt Docker nativ über den „Container Manager".
+Mein primärer Docker-Host ist ein kompakter Homeserver mit Intel N100 CPU, 16 GB RAM und einer schnellen SSD als System-Drive – ergänzt durch eine HDD für Mediendaten. Keine Hochleistungsmaschine – aber sie läuft 24/7, zieht unter Last weniger als 15 Watt und unterstützt Intel Quick Sync für Hardware-Transcoding.
 
-**Vorteile:**
-- Nativer Docker-Support in DSM (kein separater Hypervisor)
-- SSH-Zugang für `docker compose`-Befehle
-- Integriertes NFS/SMB für Media-Shares
-- Energiesparmodi und Wake-on-LAN
+Die Hardware-Wahl ist dabei weniger wichtig als das Prinzip dahinter: **Ein dediziertes Gerät mit Linux, SSH-Zugang und Docker CE.** Ob das ein gebrauchter Mini-PC, ein NAS mit Docker-Support oder ein alter Laptop ist, spielt für das grundlegende Setup keine Rolle.
 
-**Ehrliche Einschränkungen:**
-- Docker-Updates kommen zeitverzögert gegenüber Docker CE
-- ARM-Architektur (ältere Modelle) schließt manche Images aus
-- Transcoding-Performance begrenzt ohne Hardware-Beschleunigung
-
-Für Transcoding-intensive Workloads läuft bei mir parallel ein Intel-Mini-PC mit Quick-Sync-Support. Das Grundprinzip bleibt aber gleich.
+**Wichtige Eigenschaften eines guten Docker-Hosts:**
+- x86-64 Architektur (maximale Image-Kompatibilität)
+- Mindestens 8 GB RAM für einen komfortablen Stack
+- SSD für System und Konfigurationsdaten (Performance bei DB-Zugriffen)
+- Separate HDD/NAS-Share für Mediendaten
+- UPS (Unterbrechungsfreie Stromversorgung) empfohlen – ein harter Stromausfall kann Docker-Volumes beschädigen
 
 ---
 
@@ -54,7 +50,7 @@ Bevor der erste Container läuft, ist die Ordnerstruktur entscheidend. Mein frü
 Heute arbeite ich nach diesem Schema:
 
 ```
-/volume1/docker/
+/opt/docker/
 ├── nginx-proxy-manager/
 │   ├── docker-compose.yml
 │   ├── data/
@@ -71,11 +67,11 @@ Heute arbeite ich nach diesem Schema:
     └── data/
 ```
 
-Jeder Dienst bekommt seinen eigenen Ordner. Daten und Konfiguration liegen **immer** außerhalb des Containers auf der NAS. Der Container ist austauschbar – die Daten nicht.
+Jeder Dienst bekommt seinen eigenen Ordner. Daten und Konfiguration liegen **immer** außerhalb des Containers – direkt auf dem Host-Dateisystem. Der Container ist austauschbar – die Daten nicht.
 
 ---
 
-## Nginx Proxy Manager: Das wichtigste Tool im Homelab
+## Nginx Proxy Manager: Das wichtigste Tool im Stack
 
 Wenn du nur einen Container aus diesem Artikel mitnimmst, nimm Nginx Proxy Manager. Er hat mein Setup von einem Port-Chaos (`192.168.1.100:8096`, `:9090`, `:3000`) in etwas Wartbares und Professionelles verwandelt.
 
@@ -105,40 +101,40 @@ services:
       - TZ=Europe/Berlin
 ```
 
-Nach dem Start: Admin-Interface unter `http://deine-nas-ip:81`. Standard-Login `admin@example.com` / `changeme` – **sofort ändern**.
+Nach dem Start: Admin-Interface unter `http://server-ip:81`. Standard-Login `admin@example.com` / `changeme` – **sofort ändern**.
 
 ### Subdomain in 60 Sekunden einrichten
 
 1. **Proxy Hosts → Add Proxy Host**
 2. Domain: `jellyfin.deinedomain.de`
-3. Forward Hostname: `jellyfin` (Container-Name) oder die lokale IP
+3. Forward Hostname: `jellyfin` (Container-Name im gleichen Docker-Netzwerk)
 4. Forward Port: `8096`
 5. Reiter SSL → Let's Encrypt → Force SSL aktivieren
 
-Jellyfin ist danach unter `https://jellyfin.deinedomain.de` erreichbar.
+Jellyfin ist danach unter `https://jellyfin.deinedomain.de` erreichbar – mit gültigem Zertifikat, ohne Port im Browser.
 
-> **Sicherheitshinweis:** NPM ist kein Sicherheitskonzept. Ich veröffentliche nur Dienste ins Internet, die ich wirklich öffentlich brauche. Monitoring-Tools, Portainer und Admin-Interfaces bleiben intern oder hinter zusätzlicher Authentifizierung (NPM unterstützt auch HTTP Basic Auth).
+> **Sicherheitshinweis:** NPM ist kein Sicherheitskonzept – nur ein Reverse Proxy. Ich veröffentliche nur Dienste ins Internet, die ich wirklich öffentlich brauche. Monitoring-Tools, Portainer und Admin-Interfaces bleiben intern oder hinter zusätzlicher Authentifizierung (NPM unterstützt auch HTTP Basic Auth).
 
 ---
 
 ## Meine laufenden Container – die ehrliche Liste
 
-Keine Demo-Liste: Das sind die Dienste, die bei mir täglich wirklich laufen.
+Keine Demo-Liste. Das sind die Dienste, die bei mir täglich wirklich laufen.
 
-| Dienst | Zweck | Öffentlich |
-|--------|-------|-----------|
+| Dienst | Zweck | Öffentlich erreichbar |
+|--------|-------|----------------------|
 | **Nginx Proxy Manager** | Reverse Proxy & SSL | Ports 80/443 |
 | **Portainer** | Container-Verwaltung | Nein (intern) |
 | **Jellyfin** | Medienserver | Ja (mit SSL) |
-| **Plex** | Alternativer Medienserver | Ja (mit SSL) |
 | **n8n** | Workflow-Automatisierung | Ja (mit Auth) |
-| **Vaultwarden** | Passwort-Manager | Ja (mit SSL) |
-| **Immich** | Foto-Backup | Ja (mit SSL) |
-| **Uptime Kuma** | Monitoring & Alerts | Nein (intern) |
-| **Prowlarr** | Indexer-Management | Nein (intern) |
-| **Tautulli** | Plex-Statistiken | Nein (intern) |
-| **Watchtower** | Auto-Updates | — |
+| **Vaultwarden** | Passwort-Manager (Bitwarden-kompatibel) | Ja (mit SSL) |
+| **Immich** | Foto-Backup & -Verwaltung | Ja (mit SSL) |
+| **Uptime Kuma** | Monitoring & Alerting | Nein (intern) |
+| **Watchtower** | Automatische Image-Updates | — |
 | **Netdata** | System-Monitoring | Nein (intern) |
+| **Gotify** | Push-Benachrichtigungen | Ja (mit SSL) |
+| **Homepage** | Persönliches Dashboard | Nein (intern) |
+| **Stirling PDF** | PDF-Werkzeuge | Nein (intern) |
 
 ### Beispiel: Jellyfin docker-compose.yml
 
@@ -152,12 +148,12 @@ services:
     volumes:
       - ./config:/config
       - ./cache:/cache
-      - /volume1/Media:/media:ro
+      - /mnt/media:/media:ro
     environment:
       - TZ=Europe/Berlin
       - JELLYFIN_PublishedServerUrl=https://jellyfin.deinedomain.de
     devices:
-      - /dev/dri:/dev/dri
+      - /dev/dri:/dev/dri   # Intel Quick Sync / iGPU Transcoding
 ```
 
 ### Beispiel: n8n docker-compose.yml
@@ -186,11 +182,11 @@ services:
 
 ## Vaultwarden: Eigener Passwort-Manager – lohnt es sich?
 
-Das ist einer der Container, über den ich am meisten nachgedacht habe. Ein Passwort-Manager ist kritisch – wenn er ausfällt, ist das ein ernstes Problem.
+Das ist einer der Container, über den ich am meisten nachgedacht habe. Ein Passwort-Manager ist kritisch – wenn er ausfällt oder Daten verliert, ist das ein ernstes Problem.
 
 **Warum ich es trotzdem self-hoste:**
-- Keine Subscription (Bitwarden Premium kostet 10 $/Jahr, Vaultwarden kostet RAM)
-- Meine Passwörter liegen auf meinem Server, nicht bei einem US-Unternehmen
+- Keine Subscription (Bitwarden Premium kostet ~10 $/Jahr, Vaultwarden kostet Strom)
+- Passwörter liegen auf meinem Server, nicht bei einem externen Anbieter
 - Volle Kontrolle über Backups und Verfügbarkeit
 
 ```yaml
@@ -214,7 +210,7 @@ services:
 
 ## Watchtower: Automatische Updates richtig konfigurieren
 
-Watchtower hält Container-Images automatisch aktuell. Die Grundkonfiguration ist simpel:
+Watchtower hält Container-Images automatisch aktuell. Die Grundkonfiguration:
 
 ```yaml
 services:
@@ -225,15 +221,18 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     environment:
-      - WATCHTOWER_SCHEDULE=0 0 4 * * *
+      - WATCHTOWER_SCHEDULE=0 0 4 * * *   # Täglich um 4 Uhr
       - WATCHTOWER_CLEANUP=true
+      - WATCHTOWER_NOTIFICATIONS=gotify
+      - WATCHTOWER_NOTIFICATION_GOTIFY_URL=https://gotify.deinedomain.de
+      - WATCHTOWER_NOTIFICATION_GOTIFY_TOKEN=deinToken
       - TZ=Europe/Berlin
 ```
 
 **Was ich bei Watchtower beachte:**
-- Updates nur nachts (niemand schaut Jellyfin um 4 Uhr)
+- Updates nur nachts – niemand streamt Jellyfin um 4 Uhr
 - Kritische Container (`vaultwarden`, n8n mit aktiven Workflows) pinne ich auf spezifische Image-Tags und update sie manuell nach Changelog-Check
-- Benachrichtigungen via Gotify oder Apprise aktiviert
+- Benachrichtigungen immer aktivieren – sonst weiß man nicht, ob Updates durchlaufen sind
 
 ---
 
@@ -242,9 +241,9 @@ services:
 Diese Fehler kosten Zeit. Spare dir die Erfahrung:
 
 1. **Volumes vergessen** — Container ohne explizite Volumes verlieren beim Neustart alle Daten. Passiert einmal, dann nie wieder.
-2. **Alle Dienste auf eigenen Ports** — Ohne Reverse Proxy wird die Port-Verwaltung zum Chaos.
-3. **Root-User in Containern** — Viele Images laufen standardmäßig als Root. Ein dedizierter Docker-User mit UID/GID ist besser.
-4. **Kein Backup-Konzept** — Die erste Frage vor dem ersten Container: Wie sichere ich `/config` und `/data`? Meine Antwort: Synology Hyper Backup auf externe HDD, täglich.
+2. **Alle Dienste auf eigenen Ports** — Ohne Reverse Proxy wird die Port-Verwaltung zum Chaos. NPM löst das elegant.
+3. **Root-User in Containern** — Viele Images laufen standardmäßig als Root. Ein dedizierter Docker-User mit UID/GID ist besser für die Sicherheit.
+4. **Kein Backup-Konzept** — Die erste Frage vor dem ersten Container: Wie sichere ich `/data` und `/config`? Meine Antwort: tägliches rsync auf ein NAS, wöchentliches Offsite-Backup.
 5. **Admin-Interfaces veröffentlichen** — Portainer, Netdata, NPM-Admin gehören nicht ins öffentliche Internet.
 6. **Updates ignorieren** — Veraltete Images sind Sicherheitsrisiken. Watchtower oder manuelle Routinen sind Pflicht, kein Luxus.
 
@@ -252,27 +251,30 @@ Diese Fehler kosten Zeit. Spare dir die Erfahrung:
 
 ## Häufige Fragen
 
-**Welche Synology-Modelle eignen sich für Docker?**
-Modelle mit Intel-CPU (x86-64) sind die erste Wahl – sie unterstützen alle Images und Hardware-Transcoding. ARM-Modelle (ältere Plus-Reihe) funktionieren, schränken die Image-Auswahl aber ein.
+**Welche Hardware eignet sich am besten für einen Docker-Host?**
+Für den Einstieg reicht jede x86-64 Maschine mit 8+ GB RAM und Linux. Intel N100/N305-Mini-PCs bieten 2025 das beste Verhältnis aus Stromverbrauch, Leistung und Quick-Sync-Support für unter 200 €. Alternativ: jeder günstige NAS mit Docker-Unterstützung (QNAP, Ugreen, Synology) funktioniert für leichte bis mittlere Workloads.
 
 **Brauche ich eine eigene Domain?**
-Für Let's Encrypt-Zertifikate ja. Alternativ kannst du intern auch mit selbst-signierten Certs oder einer `.local`-Domain arbeiten. Ich nutze eine günstige `.de`-Domain (~6 €/Jahr).
+Für Let's Encrypt-Zertifikate ja. Alternativ kannst du intern mit selbst-signierten Certs oder einer `.local`-Domain arbeiten. Eine günstige `.de`-Domain kostet ca. 5–8 €/Jahr und ist eine sinnvolle Investition.
 
 **Was passiert bei Stromausfall?**
-`restart: unless-stopped` in jeder `docker-compose.yml` sorgt dafür, dass Container nach dem Neustart der NAS automatisch wieder hochkommen.
+`restart: unless-stopped` in jeder `docker-compose.yml` sorgt dafür, dass Container nach dem Neustart automatisch wieder hochkommen. Eine USV schützt vor korrupten Volumes bei hartem Abschalten.
 
 **Wie viel RAM wird gebraucht?**
-NPM + Portainer + Uptime Kuma + Vaultwarden: ca. 1,5 GB. Mit Jellyfin + n8n + Immich: 6–8 GB für komfortables Arbeiten empfohlen.
+NPM + Portainer + Uptime Kuma + Vaultwarden: ca. 1,5 GB. Mit Jellyfin + n8n + Immich: 6–8 GB für komfortables Arbeiten empfohlen. 16 GB sind für einen vollständigen Stack mit Reserve ideal.
+
+**Ist das sicher, wenn ich Dienste ins Internet exponiere?**
+Mit NPM + Let's Encrypt, regelmäßigen Updates, keinen offenen Admin-Interfaces und optionaler Cloudflare-Vorschaltung: ja, auf einem vertretbaren Sicherheitsniveau. Für sensible Dienste (Vaultwarden, Immich) empfehle ich zusätzlich Fail2Ban oder Cloudflare Access.
 
 ---
 
 ## Fazit
 
-Mein Homelab ist kein Bastelprojekt, das mich nervt – es ist ein Netz aus Diensten, das meinen Alltag vereinfacht. Fotos werden automatisch gesichert, Medien sind überall verfügbar, Workflows laufen automatisch, Passwörter sind kontrolliert gespeichert.
+Mein Docker-Stack ist kein Bastelprojekt, das mich nervt – es ist ein Netz aus Diensten, das meinen Alltag vereinfacht. Fotos werden automatisch gesichert, Medien sind überall verfügbar, Workflows laufen automatisch, Passwörter sind kontrolliert gespeichert.
 
-Der Aufwand für die initiale Einrichtung war etwa 15–20 Stunden. Die laufende Wartung: kaum messbar. Das Verhältnis passt.
+Der Aufwand für die initiale Einrichtung war etwa 15–20 Stunden verteilt über mehrere Wochenenden. Die laufende Wartung: kaum messbar. Das Verhältnis passt.
 
-Wenn du Fragen zu meinem Setup hast oder selbst ein Homelab aufbauen möchtest, [schreib mir gern](#kontakt).
+Wenn du Fragen zu meinem Setup hast oder selbst einen Stack aufbauen möchtest, [schreib mir gern](#kontakt).
 
 ---
 *Zuletzt aktualisiert: April 2025. Prüfe immer die aktuellen Changelogs der eingesetzten Projekte vor dem Update.*

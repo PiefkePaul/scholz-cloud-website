@@ -1,0 +1,74 @@
+name: Publish Blog Post
+
+# Dieser Workflow kann über die GitHub API oder das GitHub UI ausgelöst werden.
+# n8n nutzt den API-Endpunkt:
+#   POST https://api.github.com/repos/PiefkePaul/scholz-cloud-website/actions/workflows/publish-blog.yml/dispatches
+#   Authorization: Bearer <GITHUB_PAT>
+#   Body: { "ref": "main", "inputs": { "filename": "mein-post.md", "content_b64": "<BASE64>" } }
+
+on:
+  workflow_dispatch:
+    inputs:
+      filename:
+        description: 'Dateiname (z.B. mein-post-2025.md) – nur Kleinbuchstaben und Bindestriche'
+        required: true
+        type: string
+      content_b64:
+        description: 'Vollständiger Markdown-Inhalt inkl. Frontmatter – Base64-kodiert'
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Decode and write blog post
+        run: |
+          FILENAME="${{ github.event.inputs.filename }}"
+          # Sicherheitscheck: Nur .md Dateien erlaubt, keine Pfadtraversierung
+          if [[ ! "$FILENAME" =~ ^[a-z0-9-]+\.md$ ]]; then
+            echo "::error::Ungültiger Dateiname: $FILENAME (nur Kleinbuchstaben, Ziffern, Bindestriche, .md)"
+            exit 1
+          fi
+          echo "${{ github.event.inputs.content_b64 }}" | base64 --decode > "src/content/blog/$FILENAME"
+          echo "Datei erstellt: src/content/blog/$FILENAME"
+          echo "--- Frontmatter-Vorschau ---"
+          head -15 "src/content/blog/$FILENAME"
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build website
+        run: npm run build
+
+      - name: Commit blog post to main
+        run: |
+          git config user.name "Blog Publisher Bot"
+          git config user.email "bot@scholz-cloud.de"
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/PiefkePaul/scholz-cloud-website.git
+          git add "src/content/blog/${{ github.event.inputs.filename }}"
+          git commit -m "blog: publish ${{ github.event.inputs.filename }}"
+          git push origin main
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: ./dist
+          cname: www.scholz-cloud.de

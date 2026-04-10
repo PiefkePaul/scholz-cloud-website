@@ -1,0 +1,161 @@
+{
+  "name": "Blog Publisher – Scholz Cloud",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [{ "field": "days", "daysInterval": 3 }]
+        }
+      },
+      "name": "Alle 3 Tage",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [240, 300]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "publish-blog",
+        "options": {}
+      },
+      "name": "Webhook (Breaking News)",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1.1,
+      "position": [240, 480],
+      "webhookId": "blog-publisher"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Themen-Pool für den Scheduler\n// Beim Webhook-Trigger kommt das Thema aus dem Request-Body\nconst isWebhook = $input.first().json.body !== undefined;\n\nlet topic, language;\n\nif (isWebhook) {\n  // Webhook: { topic: 'Claude source leak', lang: 'de' }\n  topic = $input.first().json.body.topic;\n  language = $input.first().json.body.lang || 'de';\n} else {\n  // Scheduler: Thema aus aktuellem Tech-Kontext\n  const topics = [\n    'PowerShell Best Practices für Windows Server Admins 2025',\n    'Docker Security Hardening – Produktionsreife Container',\n    'Cloudflare Workers vs. traditionelle Server für Webhooks',\n    'AI in der IT-Administration – sinnvolle Anwendungsfälle',\n    'Hyper-V Cluster Performance-Optimierung',\n    'Self-Hosted Monitoring Stack mit Netdata und Gotify',\n    'DNS-Architektur für On-Premises Umgebungen',\n    'n8n für IT-Automatisierung – Praxisbeispiele'\n  ];\n  topic = topics[Math.floor(Math.random() * topics.length)];\n  language = 'de';\n}\n\nreturn [{ json: { topic, language } }];"
+      },
+      "name": "Thema vorbereiten",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [480, 380]
+    },
+    {
+      "parameters": {
+        "resource": "chat",
+        "operation": "create",
+        "model": "claude-opus-4-6",
+        "messages": {
+          "values": [
+            {
+              "role": "user",
+              "content": "=Du bist Paul Scholz – IT-Administrator und SEO-Berater mit über 10 Jahren Enterprise-Erfahrung (Hyper-V, SCVMM, Docker, PowerShell). Du schreibst einen fundierten Blog-Post auf Deutsch für scholz-cloud.de.\n\nThema: {{ $json.topic }}\n\nAnforderungen:\n- Mindestens 1200 Wörter\n- Schreibe aus persönlicher Erfahrung (Ich-Perspektive), nicht theoretisch\n- Konkrete Code-Beispiele, Befehle, Konfigurationen wo sinnvoll\n- Strukturiert mit ## Überschriften, ### Unterüberschriften\n- Mind. 1 Tabelle und 1 Blockquote (> Text)\n- Ehrliche Vor- und Nachteile, keine reine Werbung\n- Vermeide Buzzwords ohne Substanz\n- Schließe mit einer kurzen FAQ-Sektion ab (3-5 Fragen)\n- E-E-A-T: zeige echte Expertise durch spezifische Details\n\nFormat – gib NUR das Markdown aus, ohne Erklärungen davor oder danach:\n\n```markdown\n---\ntitle: \"[Titel auf Deutsch]\"\ntitleEn: \"[Titel auf Englisch]\"\ndescription: \"[Meta-Beschreibung DE, 120-160 Zeichen]\"\ndescriptionEn: \"[Meta-Beschreibung EN, 120-160 Zeichen]\"\npubDate: {{ new Date().toISOString().split('T')[0] }}\ntags: [\"Tag1\", \"Tag2\", \"Tag3\", \"Tag4\"]\n---\n\n[Vollständiger Markdown-Inhalt]\n```"
+            }
+          ]
+        },
+        "options": {
+          "maxTokens": 4000,
+          "temperature": 0.7
+        }
+      },
+      "name": "Claude – Blog schreiben",
+      "type": "n8n-nodes-base.anthropic",
+      "typeVersion": 1,
+      "position": [720, 380],
+      "credentials": {
+        "anthropicApi": { "name": "Anthropic API" }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const raw = $input.first().json.content[0].text;\n\n// Markdown aus dem ```markdown ... ``` Block extrahieren\nlet markdown = raw;\nconst fenceMatch = raw.match(/```markdown\\n([\\s\\S]+?)\\n```/);\nif (fenceMatch) {\n  markdown = fenceMatch[1];\n}\n\n// Slug aus dem Titel generieren\nconst titleMatch = markdown.match(/^title:\\s*\"([^\"]+)\"/m);\nconst title = titleMatch ? titleMatch[1] : 'neuer-blog-post';\n\nconst slug = title\n  .toLowerCase()\n  .replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue').replace(/ß/g, 'ss')\n  .replace(/[^a-z0-9\\s-]/g, '')\n  .replace(/\\s+/g, '-')\n  .replace(/-+/g, '-')\n  .substring(0, 60);\n\nconst filename = `${slug}.md`;\n\n// Base64-kodieren für die GitHub API\nconst contentB64 = Buffer.from(markdown).toString('base64');\n\nreturn [{ json: { filename, contentB64, markdown, slug } }];"
+      },
+      "name": "Markdown aufbereiten",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [960, 380]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.github.com/repos/PiefkePaul/scholz-cloud-website/actions/workflows/publish-blog.yml/dispatches",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "Accept", "value": "application/vnd.github+json" },
+            { "name": "X-GitHub-Api-Version", "value": "2022-11-28" }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            { "name": "ref", "value": "main" },
+            { "name": "inputs", "value": "={{ JSON.stringify({ filename: $json.filename, content_b64: $json.contentB64 }) }}" }
+          ]
+        },
+        "options": {}
+      },
+      "name": "GitHub – Blog veröffentlichen",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [1200, 380],
+      "credentials": {
+        "httpHeaderAuth": { "name": "GitHub PAT" }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": { "leftValue": "", "caseSensitive": true },
+          "conditions": [
+            {
+              "leftValue": "={{ $response.statusCode }}",
+              "rightValue": 204,
+              "operator": { "type": "number", "operation": "equals" }
+            }
+          ]
+        }
+      },
+      "name": "Erfolgreich?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [1440, 380]
+    },
+    {
+      "parameters": {
+        "jsCode": "console.log('Blog veröffentlicht:', $input.first().json.filename);\nreturn [{ json: { status: 'published', filename: $input.first().json.filename, url: `https://www.scholz-cloud.de/blog/${$input.first().json.slug}/` } }];"
+      },
+      "name": "Erfolg loggen",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1680, 280]
+    },
+    {
+      "parameters": {
+        "jsCode": "console.error('Fehler beim Veröffentlichen:', JSON.stringify($input.first().json));\nreturn [{ json: { status: 'error', message: 'GitHub Workflow konnte nicht gestartet werden' } }];"
+      },
+      "name": "Fehler loggen",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1680, 480]
+    }
+  ],
+  "connections": {
+    "Alle 3 Tage": { "main": [[{ "node": "Thema vorbereiten", "type": "main", "index": 0 }]] },
+    "Webhook (Breaking News)": { "main": [[{ "node": "Thema vorbereiten", "type": "main", "index": 0 }]] },
+    "Thema vorbereiten": { "main": [[{ "node": "Claude – Blog schreiben", "type": "main", "index": 0 }]] },
+    "Claude – Blog schreiben": { "main": [[{ "node": "Markdown aufbereiten", "type": "main", "index": 0 }]] },
+    "Markdown aufbereiten": { "main": [[{ "node": "GitHub – Blog veröffentlichen", "type": "main", "index": 0 }]] },
+    "GitHub – Blog veröffentlichen": { "main": [[{ "node": "Erfolgreich?", "type": "main", "index": 0 }]] },
+    "Erfolgreich?": {
+      "main": [
+        [{ "node": "Erfolg loggen", "type": "main", "index": 0 }],
+        [{ "node": "Fehler loggen", "type": "main", "index": 0 }]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [{ "name": "blog-automation" }],
+  "meta": {
+    "templateId": "scholz-cloud-blog-publisher",
+    "instanceId": ""
+  }
+}
