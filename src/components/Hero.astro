@@ -6,26 +6,38 @@ interface Props {
 const { lang = 'de' } = Astro.props;
 const isEnglish = lang === 'en';
 
+const stats = isEnglish
+  ? [
+      { value: '10+', label: 'Years in Enterprise IT' },
+      { value: '1000+', label: 'VMs managed' },
+      { value: '50+', label: 'Local SEO clients' },
+    ]
+  : [
+      { value: '10+', label: 'Jahre Enterprise-IT' },
+      { value: '1000+', label: 'VMs verwaltet' },
+      { value: '50+', label: 'SEO-Projekte' },
+    ];
+
 const content = isEnglish
   ? {
-      headline: 'IT Expert. SEO Consultant. Problem Solver.',
+      headline: 'Enterprise IT.\nSEO that converts.\nAutomation that scales.',
       subheadline:
-        'I help businesses optimize their digital infrastructure and increase their online visibility.',
-      primaryCta: 'Discover Services',
+        'I combine deep infrastructure expertise with measurable SEO strategy – for businesses that need both reliability and visibility.',
+      primaryCta: 'View Services',
       secondaryCta: 'Get in Touch',
       primaryHref: '#services',
       secondaryHref: '#contact',
-      eyebrow: 'Infrastructure, automation and visibility'
+      eyebrow: 'IT Administration · SEO · Automation'
     }
   : {
-      headline: 'IT-Experte. SEO-Berater. Problemlöser.',
+      headline: 'Enterprise-IT.\nSEO der wirkt.\nAutomatisierung die skaliert.',
       subheadline:
-        'Ich helfe Unternehmen, ihre digitale Infrastruktur zu optimieren und online sichtbarer zu werden.',
-      primaryCta: 'Leistungen entdecken',
+        'Ich verbinde tiefe Infrastruktur-Expertise mit messbarer SEO-Strategie – für Unternehmen, die beides brauchen: Verlässlichkeit und Sichtbarkeit.',
+      primaryCta: 'Leistungen ansehen',
       secondaryCta: 'Kontakt aufnehmen',
       primaryHref: '#leistungen',
       secondaryHref: '#kontakt',
-      eyebrow: 'Infrastruktur, Automatisierung und digitale Sichtbarkeit'
+      eyebrow: 'IT-Administration · SEO · Automatisierung'
     };
 ---
 
@@ -52,7 +64,16 @@ const content = isEnglish
         {content.subheadline}
       </p>
 
-      <div class="mt-10 flex flex-col items-center gap-4 sm:flex-row md:items-start">
+      <div class="mt-8 flex flex-wrap gap-6 md:justify-start justify-center motion-safe:animate-fade-up [animation-delay:180ms]">
+        {stats.map((stat) => (
+          <div class="text-center md:text-left">
+            <p class="text-2xl font-bold text-teal">{stat.value}</p>
+            <p class="text-xs text-slate-400 mt-0.5">{stat.label}</p>
+          </div>
+        ))}
+      </div>
+
+      <div class="mt-8 flex flex-col items-center gap-4 sm:flex-row md:items-start">
         <a
           href={content.primaryHref}
           class="inline-flex items-center justify-center rounded-full bg-teal px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-teal/25 transition-transform duration-200 hover:-translate-y-0.5 hover:bg-sky-500"

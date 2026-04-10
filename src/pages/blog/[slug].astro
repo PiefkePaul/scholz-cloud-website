@@ -83,8 +83,39 @@ const readingTime = getReadingTime(post.body);
         </header>
 
         <div class="px-6 py-10 md:px-10 md:py-12">
-          <div class="prose prose-slate max-w-none prose-headings:text-navy prose-a:text-teal prose-a:no-underline hover:prose-a:text-navy prose-strong:text-navy prose-code:text-sky-700 prose-code:before:content-none prose-code:after:content-none prose-pre:overflow-x-auto prose-pre:rounded-2xl prose-pre:border prose-pre:border-slate-800 prose-pre:bg-slate-950 prose-pre:text-slate-100 prose-img:rounded-2xl prose-blockquote:border-teal prose-blockquote:text-slate-700">
+          <div class="prose prose-slate max-w-none
+            prose-headings:text-navy prose-headings:font-semibold prose-headings:tracking-tight
+            prose-h2:text-2xl prose-h2:mt-12 prose-h2:mb-4 prose-h2:pb-3 prose-h2:border-b prose-h2:border-slate-200
+            prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-3
+            prose-p:text-slate-700 prose-p:leading-8
+            prose-li:text-slate-700 prose-li:leading-8
+            prose-a:text-teal prose-a:no-underline prose-a:font-medium hover:prose-a:text-navy
+            prose-strong:text-navy prose-strong:font-semibold
+            prose-code:text-sky-700 prose-code:bg-sky-50 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-sm prose-code:font-mono prose-code:before:content-none prose-code:after:content-none
+            prose-pre:overflow-x-auto prose-pre:rounded-2xl prose-pre:border prose-pre:border-slate-800 prose-pre:bg-slate-950 prose-pre:text-slate-100 prose-pre:text-sm prose-pre:leading-7
+            prose-img:rounded-2xl prose-img:shadow-md
+            prose-blockquote:border-l-4 prose-blockquote:border-teal prose-blockquote:bg-teal/5 prose-blockquote:rounded-r-2xl prose-blockquote:px-6 prose-blockquote:py-4 prose-blockquote:not-italic prose-blockquote:text-slate-700
+            prose-blockquote:before:content-none prose-blockquote:after:content-none
+            prose-table:text-sm prose-th:bg-slate-100 prose-th:text-navy prose-th:font-semibold
+            prose-td:text-slate-700
+            prose-hr:border-slate-200 prose-hr:my-10">
             <Content />
+          </div>
+        </div>
+
+        <div class="border-t border-slate-200 bg-slate-50 px-6 py-8 md:px-10">
+          <div class="flex flex-col items-center gap-4 text-center sm:flex-row sm:text-left">
+            <img
+              src="/images/paul-scholz.jpg"
+              alt="Paul Scholz"
+              width="56"
+              height="56"
+              class="h-14 w-14 rounded-full object-cover ring-2 ring-teal/30 shrink-0"
+            />
+            <div>
+              <p class="font-semibold text-navy">Paul Scholz</p>
+              <p class="text-sm text-slate-600 mt-0.5">IT-Administrator &amp; SEO-Berater · Enterprise Hyper-V/SCVMM · Docker Homelab · Lokale SEO</p>
+            </div>
           </div>
         </div>
       </article>

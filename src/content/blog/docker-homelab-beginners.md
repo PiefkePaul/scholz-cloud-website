@@ -1,84 +1,278 @@
 ---
-title: "Docker für Einsteiger: Mein Homelab-Setup erklärt"
-titleEn: "Docker for Beginners: My Homelab Setup Explained"
-description: "Wie ich mit Docker, einer Synology NAS und Nginx Proxy Manager ein professionelles Homelab aufgebaut habe – Schritt für Schritt erklärt."
-descriptionEn: "How I built a professional homelab using Docker, a Synology NAS, and Nginx Proxy Manager – explained step by step."
+title: "Docker Homelab 2025: Mein Setup mit Synology, Nginx Proxy Manager und 15+ Containern"
+titleEn: "Docker Homelab 2025: My Setup with Synology, Nginx Proxy Manager & 15+ Containers"
+description: "Mein komplettes Docker-Homelab-Setup mit echten docker-compose Dateien, Nginx Proxy Manager, SSL und 15+ Diensten auf einer Synology NAS – aus der Praxis eines Enterprise-IT-Admins."
+descriptionEn: "My complete Docker homelab setup with real docker-compose files, Nginx Proxy Manager, SSL, and 15+ services on a Synology NAS – from an enterprise IT admin's perspective."
 pubDate: 2025-03-15
-tags: ["Docker", "Homelab", "Synology", "Self-Hosting", "NAS"]
+updatedDate: 2025-04-10
+tags: ["Docker", "Homelab", "Synology", "Self-Hosting", "Nginx Proxy Manager", "docker-compose"]
 ---
 
-## Warum Docker für mich der sinnvollste Einstieg war
+Ich verwalte beruflich hunderte von Hyper-V-Hosts und tausende virtuelle Maschinen. Abends läuft mein Homelab. Der Unterschied ist kleiner als die meisten denken – und genau das ist das Interessante daran.
 
-Als ich mein Homelab aufgebaut habe, wollte ich zuerst eigentlich nur ein paar Dienste sauber zuhause betreiben. Medienserver, Monitoring, kleine Automatisierungen, vielleicht noch ein Reverse Proxy. Mein erster Gedanke war klassisch: einzelne VMs aufsetzen, Software manuell installieren und dann schon irgendwie dokumentieren. Das hat kurzfristig funktioniert, aber es war schnell unübersichtlich. Updates waren nervig, Tests riskant und jeder neue Dienst fühlte sich an wie ein kleiner Sonderfall.
+Dieser Beitrag ist keine Theorie. Es ist das Setup, das bei mir gerade wirklich läuft: mit konkreten `docker-compose`-Dateien, echten Fehlern die ich auf dem Weg gemacht habe, und ehrlichen Einschätzungen was sich lohnt und was nicht.
 
-Docker hat das für mich komplett verändert. Statt Anwendungen direkt auf dem Host-System zu installieren, laufen sie in klar getrennten Containern. Für mich war das der entscheidende Vorteil: ein Dienst bleibt ein Dienst. Er bringt seine Laufzeitumgebung mit, kollidiert weniger mit anderen Anwendungen und lässt sich viel leichter neu aufsetzen oder verschieben.
+## Warum Docker statt klassischer Virtualisierung?
 
-Gerade Einsteiger fragen oft: "Warum soll ich Docker überhaupt benutzen?" Meine ehrliche Antwort ist: weil man damit schneller zu reproduzierbaren Ergebnissen kommt. Wenn ein Container kaputtgeht, baue ich ihn sauber neu. Wenn ich einen Dienst auf ein anderes System umziehen will, nehme ich meine Compose-Datei und die persistenten Daten mit. Wenn ich ein Update testen will, mache ich das kontrolliert statt auf gut Glück. Genau diese Mischung aus Ordnung und Flexibilität macht Docker für ein Homelab so stark.
+Als ich mein Homelab aufgebaut habe, war mein erster Gedanke Proxmox und VMs – ich kenne Virtualisierung schließlich aus dem Berufsalltag. Für zuhause hat sich Docker aber aus einem konkreten Grund durchgesetzt: **Verhältnis von Aufwand zu Nutzen**.
 
-## Mein Setup: Synology NAS plus Docker als stabile Basis
+Eine VM für Jellyfin bedeutet volles Betriebssystem, Updates, Snapshot-Management, Speicherplatz. Ein Docker-Container für Jellyfin bedeutet eine `docker-compose.yml` – und wenn er kaputtgeht, sind es zwei Befehle bis er wieder läuft:
 
-Mein Homelab läuft auf einer Synology NAS. Für meinen Alltag ist das eine sehr praktische Plattform, weil sie wenig Strom zieht, zuverlässig läuft und sich trotzdem gut erweitern lässt. Die NAS ist bei mir nicht nur Datenspeicher, sondern auch die zentrale Laufzeitumgebung für mehrere Services.
+```bash
+docker compose down && docker compose up -d
+```
 
-Was ich an einer Synology in Verbindung mit Docker mag: Der Einstieg ist angenehm niedrig, aber man kann trotzdem technisch sauber arbeiten. Viele starten dort mit der Paket-Oberfläche und merken später, dass sich mit Docker Compose deutlich strukturierter arbeiten lässt. Genau diesen Weg bin ich auch gegangen.
+Für ein Homelab, das nebenher funktionieren soll und nicht zum zweiten Job werden soll, ist das der entscheidende Vorteil.
 
-Ich halte mein Setup bewusst einfach. Für jeden Stack gibt es einen eigenen Ordner mit:
+> **Meine Faustregel:** Docker für Services die regelmäßig aktualisiert werden. VMs für Dinge die stateful, komplex sind oder Windows brauchen.
 
-- einer `docker-compose.yml`,
-- optional einer `.env`,
-- klar benannten Datenverzeichnissen,
-- einer kleinen Notiz, wofür der Stack gedacht ist.
+---
 
-Das klingt banal, ist aber extrem wichtig. Ein Homelab wird schneller unübersichtlich, als man denkt. Wer nach drei Monaten nicht mehr weiß, wo Volumes liegen, welche Ports belegt sind oder welcher Container zu welchem Dienst gehört, verliert den größten Vorteil von Docker direkt wieder.
+## Hardware: Synology NAS als Docker-Plattform
 
-Außerdem trenne ich konsequent zwischen Container und Daten. Die eigentliche Anwendung darf austauschbar sein, die Daten nicht. Medien, Konfigurationen, Datenbanken und Uploads liegen deshalb sauber auf der NAS. So kann ich Container neu erstellen, ohne jedes Mal Angst um Inhalte oder Einstellungen haben zu müssen.
+Mein primärer Docker-Host ist eine Synology NAS mit genug RAM und einer SSD als System-Drive. Keine Hochleistungsmaschine – aber sie läuft 24/7, zieht wenig Strom, hat einen RAID-Verbund für die Daten und unterstützt Docker nativ über den „Container Manager".
 
-## Nginx Proxy Manager für SSL und Reverse Proxy
+**Vorteile:**
+- Nativer Docker-Support in DSM (kein separater Hypervisor)
+- SSH-Zugang für `docker compose`-Befehle
+- Integriertes NFS/SMB für Media-Shares
+- Energiesparmodi und Wake-on-LAN
 
-Ein Werkzeug, das ich fast jedem Einsteiger empfehlen würde, ist Nginx Proxy Manager. Anfangs sind viele Homelabs ein Sammelsurium aus Ports: `:8096`, `:9443`, `:5678`, `:3000`. Intern funktioniert das, aber auf Dauer ist es weder schön noch wartbar.
+**Ehrliche Einschränkungen:**
+- Docker-Updates kommen zeitverzögert gegenüber Docker CE
+- ARM-Architektur (ältere Modelle) schließt manche Images aus
+- Transcoding-Performance begrenzt ohne Hardware-Beschleunigung
 
-Mit Nginx Proxy Manager habe ich meine Dienste hinter saubere Subdomains gelegt. Aus kryptischen Ports wurden erreichbare Adressen wie `jellyfin.meinedomain.de` oder `n8n.meinedomain.de`. Der zweite große Vorteil ist SSL. Let's-Encrypt-Zertifikate lassen sich sehr bequem einrichten und automatisch erneuern. Gerade wenn man mehrere Dienste betreibt, spart das enorm Zeit.
+Für Transcoding-intensive Workloads läuft bei mir parallel ein Intel-Mini-PC mit Quick-Sync-Support. Das Grundprinzip bleibt aber gleich.
 
-Für mich war Nginx Proxy Manager deshalb mehr als nur ein Komfort-Tool. Er hat mein Homelab deutlich professioneller gemacht. Ich habe eine zentrale Stelle für Routing, Zertifikate und Weiterleitungen, statt das Thema für jeden Dienst neu zu lösen.
+---
 
-Wichtig ist aber auch hier: Ein Reverse Proxy ist kein Sicherheitskonzept. Ich veröffentliche nicht jeden Container stumpf ins Internet. Einige Dienste bleiben intern, andere laufen nur mit zusätzlicher Authentifizierung. Genau diese Entscheidung sollte man bewusst treffen und nicht erst dann, wenn der erste Scan aus dem Internet auftaucht.
+## Ordnerstruktur: Das Fundament zuerst
 
-## Welche Container bei mir wirklich Mehrwert bringen
+Bevor der erste Container läuft, ist die Ordnerstruktur entscheidend. Mein früher Fehler: alles wild in `/docker` geworfen. Das rächt sich nach drei Monaten brutal.
 
-Ich betreibe mein Homelab nicht nach dem Motto "je mehr Container, desto besser". Jeder Dienst muss für mich einen echten Nutzen haben. Ein paar Container haben sich dabei besonders bewährt.
+Heute arbeite ich nach diesem Schema:
 
-### Portainer
+```
+/volume1/docker/
+├── nginx-proxy-manager/
+│   ├── docker-compose.yml
+│   ├── data/
+│   └── letsencrypt/
+├── jellyfin/
+│   ├── docker-compose.yml
+│   ├── config/
+│   └── cache/
+├── n8n/
+│   ├── docker-compose.yml
+│   └── data/
+└── portainer/
+    ├── docker-compose.yml
+    └── data/
+```
 
-Portainer ist für mich die Verwaltungsebene. Ja, ich arbeite gern mit Compose-Dateien, aber Portainer ist praktisch, um Logs, Container-Zustände, Netzwerke und Volumes schnell im Blick zu haben. Besonders für Einsteiger ist das hilfreich, weil man ein besseres Gefühl dafür bekommt, was auf dem Host gerade wirklich passiert.
+Jeder Dienst bekommt seinen eigenen Ordner. Daten und Konfiguration liegen **immer** außerhalb des Containers auf der NAS. Der Container ist austauschbar – die Daten nicht.
 
-### Jellyfin und Plex
+---
 
-Beide laufen bei mir, aber aus unterschiedlichen Gründen. Plex ist bei Clients und Komfort immer noch stark. Jellyfin gefällt mir wegen der Offenheit und weil ich mich nicht in ein kommerzielles Modell drängen lasse. Ich teste beide bewusst parallel, weil sie unterschiedliche Stärken haben und man dadurch viel über Anforderungen, Transcoding und Nutzerkomfort lernt.
+## Nginx Proxy Manager: Das wichtigste Tool im Homelab
 
-### n8n
+Wenn du nur einen Container aus diesem Artikel mitnimmst, nimm Nginx Proxy Manager. Er hat mein Setup von einem Port-Chaos (`192.168.1.100:8096`, `:9090`, `:3000`) in etwas Wartbares und Professionelles verwandelt.
 
-n8n ist einer meiner Lieblingscontainer, weil er die Brücke zwischen Infrastruktur und Automatisierung schlägt. Ich nutze ihn für kleine Workflows, Benachrichtigungen, API-Abfragen und teilweise auch für KI-gestützte Prozesse. Gerade wenn man repetitive Aufgaben reduzieren will, ist n8n im Homelab ein sehr dankbarer Dienst.
+### Was NPM konkret macht
 
-### Portainer, Uptime Kuma und kleine Helfer
+- **Reverse Proxy** für alle Dienste hinter saubere Subdomains
+- **Automatische SSL-Zertifikate** via Let's Encrypt oder eigene Certs
+- **Webinterface** zum Konfigurieren – kein manuelles Nginx-Config-Editieren
+- **Wildcard-Zertifikate** via DNS-Challenge möglich
 
-Neben den "großen" Diensten laufen bei mir immer auch ein paar Helfer. Uptime Kuma überwacht Erreichbarkeit und Ausfälle. Kleine DNS- oder Netzwerktools helfen beim Testen. Manchmal starte ich temporäre Container, um etwas auszuprobieren und danach wieder zu entfernen. Genau für solche Experimente ist Docker ideal, weil das Basissystem sauber bleibt.
+### docker-compose.yml für Nginx Proxy Manager
 
-## Meine wichtigsten Tipps für Einsteiger
+```yaml
+services:
+  nginx-proxy-manager:
+    image: jc21/nginx-proxy-manager:latest
+    container_name: nginx-proxy-manager
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+      - "81:81"
+    volumes:
+      - ./data:/data
+      - ./letsencrypt:/etc/letsencrypt
+    environment:
+      - TZ=Europe/Berlin
+```
 
-Wenn ich heute noch einmal von vorn anfangen würde, würde ich ein paar Dinge bewusst früher richtig machen:
+Nach dem Start: Admin-Interface unter `http://deine-nas-ip:81`. Standard-Login `admin@example.com` / `changeme` – **sofort ändern**.
 
-1. Nicht mit zehn Diensten gleichzeitig starten. Zwei oder drei Container reichen, um die Grundlagen wirklich zu verstehen.
-2. Docker Compose früh lernen. Wer nur über Oberflächen klickt, verliert schnell die Nachvollziehbarkeit.
-3. Daten immer persistent und getrennt speichern. Sonst wird der erste Neuaufbau unnötig schmerzhaft.
-4. Logs lesen. Sehr viele Probleme sind keine Docker-Probleme, sondern Konfigurations- oder Berechtigungsprobleme.
-5. Backups von Anfang an mitdenken. Ein Homelab ist keine Ausrede, Datensicherung auf später zu verschieben.
-6. Dienste nicht unüberlegt veröffentlichen. Nicht alles, was praktisch erreichbar wäre, sollte auch öffentlich erreichbar sein.
+### Subdomain in 60 Sekunden einrichten
 
-Außerdem hilft sauberes Benennen enorm. Ein Container namens `app1` ist nach kurzer Zeit wertlos. Ein Stack wie `n8n-prod`, `jellyfin-media` oder `npm-proxy` spart später sehr viel Sucherei.
+1. **Proxy Hosts → Add Proxy Host**
+2. Domain: `jellyfin.deinedomain.de`
+3. Forward Hostname: `jellyfin` (Container-Name) oder die lokale IP
+4. Forward Port: `8096`
+5. Reiter SSL → Let's Encrypt → Force SSL aktivieren
 
-## Fazit und Ausblick
+Jellyfin ist danach unter `https://jellyfin.deinedomain.de` erreichbar.
 
-Für mich war Docker der Schritt vom gelegentlichen Basteln hin zu einem Homelab, das sich strukturiert und zuverlässig anfühlt. Die Kombination aus Synology NAS, Docker und Nginx Proxy Manager hat sich im Alltag bewährt, weil sie genug Komfort für schnelles Arbeiten bietet und gleichzeitig technisch sauber genug ist, um daraus wirklich etwas zu lernen.
+> **Sicherheitshinweis:** NPM ist kein Sicherheitskonzept. Ich veröffentliche nur Dienste ins Internet, die ich wirklich öffentlich brauche. Monitoring-Tools, Portainer und Admin-Interfaces bleiben intern oder hinter zusätzlicher Authentifizierung (NPM unterstützt auch HTTP Basic Auth).
 
-Ich betreibe mein Homelab nicht nur aus Spaß. Es ist für mich auch eine Lern- und Testumgebung für Themen, die später produktiv relevant werden: saubere Service-Trennung, Reverse Proxies, Zertifikate, Monitoring und Automatisierung. Genau deshalb finde ich Docker so wertvoll. Man lernt nicht nur, wie man einen Container startet, sondern wie man Infrastruktur systematischer denkt.
+---
 
-Wenn du gerade anfängst, musst du kein perfektes Setup bauen. Viel wichtiger ist eine saubere Basis, die du später erweitern kannst. Genau dabei hilft Docker enorm. In einem nächsten Beitrag möchte ich tiefer auf Compose-Strukturen, Backup-Strategien und Sicherheitsmaßnahmen im Homelab eingehen, denn dort trennt sich die nette Demo von einem Setup, das langfristig wirklich Freude macht.
+## Meine laufenden Container – die ehrliche Liste
+
+Keine Demo-Liste: Das sind die Dienste, die bei mir täglich wirklich laufen.
+
+| Dienst | Zweck | Öffentlich |
+|--------|-------|-----------|
+| **Nginx Proxy Manager** | Reverse Proxy & SSL | Ports 80/443 |
+| **Portainer** | Container-Verwaltung | Nein (intern) |
+| **Jellyfin** | Medienserver | Ja (mit SSL) |
+| **Plex** | Alternativer Medienserver | Ja (mit SSL) |
+| **n8n** | Workflow-Automatisierung | Ja (mit Auth) |
+| **Vaultwarden** | Passwort-Manager | Ja (mit SSL) |
+| **Immich** | Foto-Backup | Ja (mit SSL) |
+| **Uptime Kuma** | Monitoring & Alerts | Nein (intern) |
+| **Prowlarr** | Indexer-Management | Nein (intern) |
+| **Tautulli** | Plex-Statistiken | Nein (intern) |
+| **Watchtower** | Auto-Updates | — |
+| **Netdata** | System-Monitoring | Nein (intern) |
+
+### Beispiel: Jellyfin docker-compose.yml
+
+```yaml
+services:
+  jellyfin:
+    image: jellyfin/jellyfin:latest
+    container_name: jellyfin
+    restart: unless-stopped
+    network_mode: host
+    volumes:
+      - ./config:/config
+      - ./cache:/cache
+      - /volume1/Media:/media:ro
+    environment:
+      - TZ=Europe/Berlin
+      - JELLYFIN_PublishedServerUrl=https://jellyfin.deinedomain.de
+    devices:
+      - /dev/dri:/dev/dri
+```
+
+### Beispiel: n8n docker-compose.yml
+
+```yaml
+services:
+  n8n:
+    image: n8nio/n8n:latest
+    container_name: n8n
+    restart: unless-stopped
+    ports:
+      - "5678:5678"
+    volumes:
+      - ./data:/home/node/.n8n
+    environment:
+      - TZ=Europe/Berlin
+      - N8N_BASIC_AUTH_ACTIVE=true
+      - N8N_BASIC_AUTH_USER=admin
+      - N8N_BASIC_AUTH_PASSWORD=einSicheresPasswort
+      - WEBHOOK_URL=https://n8n.deinedomain.de
+      - N8N_HOST=n8n.deinedomain.de
+      - N8N_PROTOCOL=https
+```
+
+---
+
+## Vaultwarden: Eigener Passwort-Manager – lohnt es sich?
+
+Das ist einer der Container, über den ich am meisten nachgedacht habe. Ein Passwort-Manager ist kritisch – wenn er ausfällt, ist das ein ernstes Problem.
+
+**Warum ich es trotzdem self-hoste:**
+- Keine Subscription (Bitwarden Premium kostet 10 $/Jahr, Vaultwarden kostet RAM)
+- Meine Passwörter liegen auf meinem Server, nicht bei einem US-Unternehmen
+- Volle Kontrolle über Backups und Verfügbarkeit
+
+```yaml
+services:
+  vaultwarden:
+    image: vaultwarden/server:latest
+    container_name: vaultwarden
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    volumes:
+      - ./data:/data
+    environment:
+      - SIGNUPS_ALLOWED=false
+      - TZ=Europe/Berlin
+```
+
+> **Ehrlich gesagt:** Wer keine Zeit hat, Backups zu pflegen und Updates regelmäßig einzuspielen, sollte bei Bitwarden Cloud bleiben. Self-Hosting bedeutet Verantwortung – nicht nur Kontrolle.
+
+---
+
+## Watchtower: Automatische Updates richtig konfigurieren
+
+Watchtower hält Container-Images automatisch aktuell. Die Grundkonfiguration ist simpel:
+
+```yaml
+services:
+  watchtower:
+    image: containrrr/watchtower:latest
+    container_name: watchtower
+    restart: unless-stopped
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - WATCHTOWER_SCHEDULE=0 0 4 * * *
+      - WATCHTOWER_CLEANUP=true
+      - TZ=Europe/Berlin
+```
+
+**Was ich bei Watchtower beachte:**
+- Updates nur nachts (niemand schaut Jellyfin um 4 Uhr)
+- Kritische Container (`vaultwarden`, n8n mit aktiven Workflows) pinne ich auf spezifische Image-Tags und update sie manuell nach Changelog-Check
+- Benachrichtigungen via Gotify oder Apprise aktiviert
+
+---
+
+## Die 6 Fehler, die ich als Einsteiger gemacht habe
+
+Diese Fehler kosten Zeit. Spare dir die Erfahrung:
+
+1. **Volumes vergessen** — Container ohne explizite Volumes verlieren beim Neustart alle Daten. Passiert einmal, dann nie wieder.
+2. **Alle Dienste auf eigenen Ports** — Ohne Reverse Proxy wird die Port-Verwaltung zum Chaos.
+3. **Root-User in Containern** — Viele Images laufen standardmäßig als Root. Ein dedizierter Docker-User mit UID/GID ist besser.
+4. **Kein Backup-Konzept** — Die erste Frage vor dem ersten Container: Wie sichere ich `/config` und `/data`? Meine Antwort: Synology Hyper Backup auf externe HDD, täglich.
+5. **Admin-Interfaces veröffentlichen** — Portainer, Netdata, NPM-Admin gehören nicht ins öffentliche Internet.
+6. **Updates ignorieren** — Veraltete Images sind Sicherheitsrisiken. Watchtower oder manuelle Routinen sind Pflicht, kein Luxus.
+
+---
+
+## Häufige Fragen
+
+**Welche Synology-Modelle eignen sich für Docker?**
+Modelle mit Intel-CPU (x86-64) sind die erste Wahl – sie unterstützen alle Images und Hardware-Transcoding. ARM-Modelle (ältere Plus-Reihe) funktionieren, schränken die Image-Auswahl aber ein.
+
+**Brauche ich eine eigene Domain?**
+Für Let's Encrypt-Zertifikate ja. Alternativ kannst du intern auch mit selbst-signierten Certs oder einer `.local`-Domain arbeiten. Ich nutze eine günstige `.de`-Domain (~6 €/Jahr).
+
+**Was passiert bei Stromausfall?**
+`restart: unless-stopped` in jeder `docker-compose.yml` sorgt dafür, dass Container nach dem Neustart der NAS automatisch wieder hochkommen.
+
+**Wie viel RAM wird gebraucht?**
+NPM + Portainer + Uptime Kuma + Vaultwarden: ca. 1,5 GB. Mit Jellyfin + n8n + Immich: 6–8 GB für komfortables Arbeiten empfohlen.
+
+---
+
+## Fazit
+
+Mein Homelab ist kein Bastelprojekt, das mich nervt – es ist ein Netz aus Diensten, das meinen Alltag vereinfacht. Fotos werden automatisch gesichert, Medien sind überall verfügbar, Workflows laufen automatisch, Passwörter sind kontrolliert gespeichert.
+
+Der Aufwand für die initiale Einrichtung war etwa 15–20 Stunden. Die laufende Wartung: kaum messbar. Das Verhältnis passt.
+
+Wenn du Fragen zu meinem Setup hast oder selbst ein Homelab aufbauen möchtest, [schreib mir gern](#kontakt).
+
+---
+*Zuletzt aktualisiert: April 2025. Prüfe immer die aktuellen Changelogs der eingesetzten Projekte vor dem Update.*
