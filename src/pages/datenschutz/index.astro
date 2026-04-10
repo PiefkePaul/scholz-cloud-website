@@ -1,0 +1,128 @@
+---
+import Footer from '../../components/Footer.astro';
+import Navigation from '../../components/Navigation.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  lang="de"
+  title="Paul Scholz | Datenschutzerklärung"
+  description="Datenschutzerklärung der Website von Paul Scholz."
+  noindex={true}
+  alternateLinks={false}
+>
+  <Navigation lang="de" />
+  <main class="bg-white pt-32">
+    <section class="mx-auto max-w-4xl px-6 py-24 md:px-10 lg:px-12" aria-labelledby="privacy-heading">
+      <p class="text-sm font-semibold uppercase tracking-[0.24em] text-teal">Rechtliches</p>
+      <h1 id="privacy-heading" class="mt-4 text-4xl font-semibold tracking-tight text-navy">
+        Datenschutzerklärung
+      </h1>
+
+      <div class="prose prose-slate mt-10 max-w-none prose-headings:text-navy prose-a:text-teal prose-a:no-underline hover:prose-a:text-navy">
+        <h2>1. Verantwortlicher</h2>
+        <p>
+          Verantwortlich für die Datenverarbeitung auf dieser Website ist:
+          <br />
+          Paul Scholz
+          <br />
+          Deutschland
+          <br />
+          E-Mail:{' '}
+          <a href="mailto:p.scholz@scholz-cloud.de">p.scholz@scholz-cloud.de</a>
+        </p>
+
+        <h2>2. Hosting über GitHub Pages</h2>
+        <p>
+          Diese Website wird über GitHub Pages bereitgestellt. Anbieter ist GitHub, Inc., 88 Colin
+          P. Kelly Jr. St., San Francisco, CA 94107, USA. Beim Aufruf der Website können technisch
+          erforderliche Verbindungsdaten wie IP-Adresse, Datum und Uhrzeit des Abrufs, aufgerufene
+          URL, Browsertyp, Betriebssystem sowie Referrer verarbeitet werden, um die Website
+          auszuliefern und die Sicherheit und Stabilität des Dienstes zu gewährleisten.
+        </p>
+        <p>
+          Die Verarbeitung erfolgt auf Grundlage von Art. 6 Abs. 1 lit. f DSGVO. Mein berechtigtes
+          Interesse liegt in der sicheren, stabilen und wirtschaftlichen Bereitstellung dieser
+          Website.
+        </p>
+        <p>
+          Eine Verarbeitung in den USA kann nicht ausgeschlossen werden. GitHub beschreibt die
+          Verarbeitung personenbezogener Daten in seiner Datenschutzerklärung.
+        </p>
+
+        <h2>3. Kontaktformular über Formspree</h2>
+        <p>
+          Für das Kontaktformular nutze ich den Dienst Formspree. Anbieter ist Formspree, Inc., USA.
+          Wenn Sie das Formular absenden, werden die von Ihnen eingegebenen Daten - insbesondere
+          Name, E-Mail-Adresse, Betreff und Nachricht - an Formspree übermittelt und dort in meinem
+          Auftrag verarbeitet, damit ich Ihre Anfrage beantworten kann.
+        </p>
+        <p>
+          Die Verarbeitung erfolgt zur Durchführung vorvertraglicher Maßnahmen bzw. zur Bearbeitung
+          Ihrer Anfrage auf Grundlage von Art. 6 Abs. 1 lit. b DSGVO sowie hilfsweise auf Grundlage
+          von Art. 6 Abs. 1 lit. f DSGVO.
+        </p>
+        <p>
+          Formspree verarbeitet Daten in den USA. Nach Angaben von Formspree werden für
+          Drittlandtransfers Standardvertragsklauseln genutzt. Weitere Informationen finden Sie in
+          den Datenschutzhinweisen und Sicherheitshinweisen von Formspree.
+        </p>
+
+        <h2>4. Keine Cookies und kein Tracking</h2>
+        <p>
+          Auf dieser Website werden keine Analyse- oder Marketingtools wie Google Analytics
+          eingesetzt. Es werden von mir keine eigenen Cookies zu Tracking- oder Werbezwecken
+          gesetzt.
+        </p>
+        <p>
+          Technisch notwendige Verarbeitungen durch die eingesetzten Plattformen und
+          Infrastruktur-Anbieter bleiben hiervon unberührt.
+        </p>
+
+        <h2>5. Empfänger und Drittlandübermittlung</h2>
+        <p>
+          Empfänger personenbezogener Daten können insbesondere folgende Dienstleister sein:
+        </p>
+        <ul>
+          <li>GitHub, Inc. als Hosting-Anbieter für GitHub Pages</li>
+          <li>Formspree, Inc. als Dienstleister für Formularübermittlungen</li>
+        </ul>
+        <p>
+          Beide Anbieter sitzen in den USA. Bei einer Übermittlung in ein Drittland erfolgt diese
+          nur unter Beachtung der gesetzlichen Vorgaben der Art. 44 ff. DSGVO.
+        </p>
+
+        <h2>6. Speicherdauer</h2>
+        <p>
+          Ich speichere personenbezogene Daten nur so lange, wie es für die Bearbeitung Ihrer
+          Anfrage, zur Erfüllung gesetzlicher Pflichten oder zur Abwehr bzw. Durchsetzung von
+          Rechtsansprüchen erforderlich ist.
+        </p>
+
+        <h2>7. Ihre Rechte nach DSGVO</h2>
+        <p>Sie haben nach Maßgabe der gesetzlichen Vorschriften insbesondere folgende Rechte:</p>
+        <ul>
+          <li>Recht auf Auskunft gemäß Art. 15 DSGVO</li>
+          <li>Recht auf Berichtigung gemäß Art. 16 DSGVO</li>
+          <li>Recht auf Löschung gemäß Art. 17 DSGVO</li>
+          <li>Recht auf Einschränkung der Verarbeitung gemäß Art. 18 DSGVO</li>
+          <li>Recht auf Datenübertragbarkeit gemäß Art. 20 DSGVO</li>
+          <li>Recht auf Widerspruch gemäß Art. 21 DSGVO</li>
+          <li>Recht auf Beschwerde bei einer Datenschutz-Aufsichtsbehörde gemäß Art. 77 DSGVO</li>
+        </ul>
+
+        <h2>8. Kontakt bei Datenschutzfragen</h2>
+        <p>
+          Wenn Sie Fragen zur Verarbeitung Ihrer personenbezogenen Daten haben oder Ihre Rechte
+          geltend machen möchten, wenden Sie sich bitte an:
+          <br />
+          <a href="mailto:p.scholz@scholz-cloud.de">p.scholz@scholz-cloud.de</a>
+        </p>
+
+        <h2>9. Stand</h2>
+        <p>Stand: 10. April 2026</p>
+      </div>
+    </section>
+  </main>
+  <Footer lang="de" />
+</BaseLayout>

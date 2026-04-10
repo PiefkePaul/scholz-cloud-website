@@ -1,0 +1,94 @@
+---
+interface Props {
+  lang?: 'de' | 'en';
+}
+
+const { lang = 'de' } = Astro.props;
+const isEnglish = lang === 'en';
+
+const services = isEnglish
+  ? [
+      {
+        title: 'SEO & Digital Visibility',
+        description:
+          'Local and national SEO analysis, keyword research, on-page optimization and AI-driven content strategies for more organic traffic.',
+        icon: 'M4 18h16M6.5 15.5l3.5-3.5 3 3L19 8.5'
+      },
+      {
+        title: 'IT Infrastructure & Automation',
+        description:
+          'Consulting and implementation in enterprise IT: PowerShell scripts, process automation, virtualization and Windows Server management.',
+        icon: 'M12 3v4M12 17v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M3 12h4m10 0h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83M12 8.5A3.5 3.5 0 1 1 8.5 12 3.5 3.5 0 0 1 12 8.5Z'
+      },
+      {
+        title: 'Small Projects & Freelance Support',
+        description:
+          'From small websites to Docker setups: I support individuals and businesses with technical projects of any size.',
+        icon: 'M12 3 8.5 9h3L10 21l5.5-8.5h-3L14 3Z'
+      }
+    ]
+  : [
+      {
+        title: 'SEO & Digitale Sichtbarkeit',
+        description:
+          'Lokale und überregionale SEO-Analyse, Keyword-Recherche, On-Page-Optimierung und KI-gestützte Content-Strategien für mehr organischen Traffic.',
+        icon: 'M4 18h16M6.5 15.5l3.5-3.5 3 3L19 8.5'
+      },
+      {
+        title: 'IT-Infrastruktur & Automatisierung',
+        description:
+          'Beratung und Umsetzung in Enterprise-IT: PowerShell-Skripte, Prozessautomatisierung, Virtualisierung und Windows Server Management.',
+        icon: 'M12 3v4M12 17v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M3 12h4m10 0h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83M12 8.5A3.5 3.5 0 1 1 8.5 12 3.5 3.5 0 0 1 12 8.5Z'
+      },
+      {
+        title: 'Kleinprojekte & Freelance',
+        description:
+          'Von der kleinen Website bis zum Docker-Setup: Ich unterstütze Privatpersonen und Unternehmen bei technischen Projekten jeder Größe.',
+        icon: 'M12 3 8.5 9h3L10 21l5.5-8.5h-3L14 3Z'
+      }
+    ];
+---
+
+<section
+  id={isEnglish ? 'services' : 'leistungen'}
+  class="bg-slate-50 py-24 sm:py-28"
+  aria-labelledby="services-heading"
+>
+  <div class="mx-auto max-w-6xl px-6 md:px-10 lg:px-12">
+    <p class="text-sm font-semibold uppercase tracking-[0.24em] text-teal">
+      {isEnglish ? 'Services' : 'Leistungen'}
+    </p>
+    <h2 id="services-heading" class="mt-4 text-3xl font-semibold tracking-tight text-navy sm:text-4xl">
+      {isEnglish ? 'Pragmatic support for modern digital projects' : 'Pragmatische Unterstützung für moderne Digitalprojekte'}
+    </h2>
+
+    <div class="mt-12 grid gap-6 lg:grid-cols-3">
+      {services.map((service, index) => (
+        <article
+          class="group rounded-[2rem] bg-white p-8 shadow-lg shadow-slate-200/60 ring-1 ring-slate-200 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-slate-300/40"
+        >
+          <div class="flex h-14 w-14 items-center justify-center rounded-2xl bg-teal/10 text-teal">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" class="h-7 w-7">
+              <path stroke-linecap="round" stroke-linejoin="round" d={service.icon}></path>
+            </svg>
+          </div>
+          <h3 class="mt-6 text-xl font-semibold text-navy">
+            {service.title}
+          </h3>
+          <p class="mt-4 text-sm leading-7 text-slate-600">
+            {service.description}
+          </p>
+          <p class="mt-6 text-xs font-semibold uppercase tracking-[0.18em] text-slate-400">
+            0{index + 1}
+          </p>
+        </article>
+      ))}
+    </div>
+
+    <p class="mt-10 text-sm font-medium text-slate-600">
+      {isEnglish
+        ? 'All services on request. I create individual proposals.'
+        : 'Alle Leistungen auf Anfrage. Ich erstelle individuelle Angebote.'}
+    </p>
+  </div>
+</section>

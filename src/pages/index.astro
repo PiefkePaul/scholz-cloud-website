@@ -1,0 +1,28 @@
+---
+import About from '../components/About.astro';
+import Contact from '../components/Contact.astro';
+import Footer from '../components/Footer.astro';
+import Hero from '../components/Hero.astro';
+import Navigation from '../components/Navigation.astro';
+import Portfolio from '../components/Portfolio.astro';
+import Services from '../components/Services.astro';
+import TechStack from '../components/TechStack.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  lang="de"
+  title="Paul Scholz | IT-Experte, SEO-Berater und Infrastruktur-Spezialist"
+  description="Paul Scholz unterstützt Unternehmen mit Enterprise-IT, Automatisierung, SEO und moderner digitaler Infrastruktur."
+>
+  <Navigation lang="de" />
+  <main>
+    <Hero lang="de" />
+    <About lang="de" />
+    <Services lang="de" />
+    <TechStack lang="de" />
+    <Portfolio lang="de" />
+    <Contact lang="de" />
+  </main>
+  <Footer lang="de" />
+</BaseLayout>

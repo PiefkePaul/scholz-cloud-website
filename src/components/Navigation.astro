@@ -1,0 +1,262 @@
+---
+interface Props {
+  lang?: 'de' | 'en';
+}
+
+const { lang = 'de' } = Astro.props;
+const isEnglish = lang === 'en';
+const homePath = isEnglish ? '/en/' : '/';
+const blogPath = isEnglish ? '/en/blog/' : '/blog/';
+const currentPath = Astro.url.pathname.endsWith('/') ? Astro.url.pathname : `${Astro.url.pathname}/`;
+
+const sectionIds = {
+  about: isEnglish ? 'about' : 'ueber-mich',
+  services: isEnglish ? 'services' : 'leistungen',
+  tech: 'tech-stack',
+  contact: isEnglish ? 'contact' : 'kontakt'
+};
+
+const links = [
+  {
+    label: isEnglish ? 'About Me' : 'Über mich',
+    href: `${homePath}#${sectionIds.about}`,
+    section: sectionIds.about
+  },
+  {
+    label: isEnglish ? 'Services' : 'Leistungen',
+    href: `${homePath}#${sectionIds.services}`,
+    section: sectionIds.services
+  },
+  {
+    label: 'Tech Stack',
+    href: `${homePath}#${sectionIds.tech}`,
+    section: sectionIds.tech
+  },
+  {
+    label: 'Blog',
+    href: blogPath
+  },
+  {
+    label: isEnglish ? 'Contact' : 'Kontakt',
+    href: `${homePath}#${sectionIds.contact}`,
+    section: sectionIds.contact
+  }
+];
+---
+
+<nav
+  id="site-nav"
+  data-home-path={homePath}
+  data-scrolled="false"
+  data-hidden="false"
+  class="fixed inset-x-0 top-0 z-50 border-b border-white/10 text-white transition-transform duration-300"
+  aria-label={isEnglish ? 'Primary navigation' : 'Hauptnavigation'}
+>
+  <div class="mx-auto max-w-6xl px-6 md:px-10 lg:px-12">
+    <input id="nav-toggle" type="checkbox" class="peer sr-only" aria-hidden="true" />
+    <div class="flex h-20 items-center justify-between gap-4">
+      <a href={homePath} class="text-lg font-bold tracking-tight text-white">
+        Paul Scholz
+      </a>
+
+      <div class="hidden items-center gap-8 md:flex">
+        <div class="flex items-center gap-6">
+          {links.map((link) => (
+            <a
+              href={link.href}
+              class="nav-link text-sm font-medium text-slate-300 transition-colors duration-200 hover:text-white"
+              data-nav-link
+              data-section-link={link.section}
+              data-active={currentPath === blogPath && link.href === blogPath ? 'true' : 'false'}
+              aria-current={currentPath === blogPath && link.href === blogPath ? 'page' : undefined}
+            >
+              {link.label}
+            </a>
+          ))}
+        </div>
+
+        <div class="flex items-center rounded-full border border-white/10 bg-white/5 p-1">
+          <a
+            href="/"
+            class={`rounded-full px-3 py-1.5 text-xs font-semibold transition-colors ${
+              !isEnglish ? 'bg-teal text-white' : 'text-slate-300 hover:text-white'
+            }`}
+            aria-label="Zur deutschen Version wechseln"
+          >
+            DE
+          </a>
+          <a
+            href="/en/"
+            class={`rounded-full px-3 py-1.5 text-xs font-semibold transition-colors ${
+              isEnglish ? 'bg-teal text-white' : 'text-slate-300 hover:text-white'
+            }`}
+            aria-label="Switch to the English version"
+          >
+            EN
+          </a>
+        </div>
+      </div>
+
+      <label
+        for="nav-toggle"
+        class="grid h-11 w-11 place-items-center rounded-full border border-white/10 bg-white/5 text-white md:hidden"
+        aria-label={isEnglish ? 'Open navigation menu' : 'Navigationsmenü öffnen'}
+      >
+        <span class="relative block h-4 w-5">
+          <span class="absolute left-0 top-0 h-0.5 w-5 rounded-full bg-current transition-transform duration-300 peer-checked:translate-y-[7px] peer-checked:rotate-45"></span>
+          <span class="absolute left-0 top-[7px] h-0.5 w-5 rounded-full bg-current transition-opacity duration-300 peer-checked:opacity-0"></span>
+          <span class="absolute left-0 top-[14px] h-0.5 w-5 rounded-full bg-current transition-transform duration-300 peer-checked:-translate-y-[7px] peer-checked:-rotate-45"></span>
+        </span>
+      </label>
+    </div>
+
+    <div class="max-h-0 overflow-hidden opacity-0 transition-all duration-300 peer-checked:max-h-[32rem] peer-checked:pb-6 peer-checked:opacity-100 md:hidden">
+      <div class="space-y-3 rounded-3xl border border-white/10 bg-white/5 p-5 shadow-2xl shadow-navy/20 backdrop-blur">
+        {links.map((link) => (
+          <a
+            href={link.href}
+            class="nav-link block text-base font-medium text-slate-200 transition-colors hover:text-white"
+            data-nav-link
+            data-section-link={link.section}
+            data-active={currentPath === blogPath && link.href === blogPath ? 'true' : 'false'}
+            aria-current={currentPath === blogPath && link.href === blogPath ? 'page' : undefined}
+          >
+            {link.label}
+          </a>
+        ))}
+
+        <div class="flex items-center gap-2 border-t border-white/10 pt-4">
+          <a
+            href="/"
+            class={`rounded-full px-3 py-2 text-xs font-semibold transition-colors ${
+              !isEnglish ? 'bg-teal text-white' : 'bg-white/5 text-slate-300 hover:text-white'
+            }`}
+            aria-label="Zur deutschen Version wechseln"
+          >
+            DE
+          </a>
+          <a
+            href="/en/"
+            class={`rounded-full px-3 py-2 text-xs font-semibold transition-colors ${
+              isEnglish ? 'bg-teal text-white' : 'bg-white/5 text-slate-300 hover:text-white'
+            }`}
+            aria-label="Switch to the English version"
+          >
+            EN
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<style>
+  #site-nav {
+    background: rgba(15, 23, 42, 0.78);
+    backdrop-filter: blur(14px);
+  }
+
+  #site-nav[data-scrolled='true'] {
+    background: rgba(15, 23, 42, 0.96);
+    box-shadow: 0 20px 45px -32px rgba(15, 23, 42, 0.85);
+  }
+
+  #site-nav[data-hidden='true'] {
+    transform: translateY(-112%);
+  }
+
+  .nav-link {
+    position: relative;
+  }
+
+  .nav-link::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -0.45rem;
+    width: 100%;
+    height: 2px;
+    border-radius: 999px;
+    background: #0ea5e9;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 180ms ease;
+  }
+
+  .nav-link[data-active='true'] {
+    color: white;
+  }
+
+  .nav-link[data-active='true']::after {
+    transform: scaleX(1);
+  }
+</style>
+
+<script is:inline>
+  const nav = document.getElementById('site-nav');
+  const navToggle = document.getElementById('nav-toggle');
+
+  if (nav) {
+    const normalizePath = (value) => (value.endsWith('/') ? value : `${value}/`);
+    const currentPath = normalizePath(window.location.pathname);
+    const homePath = normalizePath(nav.dataset.homePath || '/');
+    const links = Array.from(nav.querySelectorAll('[data-nav-link]'));
+
+    const sectionPairs =
+      currentPath === homePath
+        ? links
+            .map((link) => ({
+              link,
+              section: document.getElementById(link.dataset.sectionLink || '')
+            }))
+            .filter((entry) => entry.section)
+        : [];
+
+    const setActiveLink = () => {
+      if (!sectionPairs.length) return;
+
+      const marker = window.scrollY + window.innerHeight * 0.35;
+      let activeLink = sectionPairs[0].link;
+
+      sectionPairs.forEach(({ link, section }) => {
+        if (section && marker >= section.offsetTop) {
+          activeLink = link;
+        }
+      });
+
+      links.forEach((link) => {
+        if (link.dataset.sectionLink) {
+          link.dataset.active = link === activeLink ? 'true' : 'false';
+        }
+      });
+    };
+
+    let lastY = window.scrollY;
+
+    const onScroll = () => {
+      const currentY = window.scrollY;
+
+      nav.dataset.scrolled = currentY > 24 ? 'true' : 'false';
+      nav.dataset.hidden = currentY > lastY && currentY > 180 ? 'true' : 'false';
+
+      if (currentY < 80) {
+        nav.dataset.hidden = 'false';
+      }
+
+      lastY = currentY;
+      setActiveLink();
+    };
+
+    links.forEach((link) => {
+      link.addEventListener('click', () => {
+        if (navToggle instanceof HTMLInputElement) {
+          navToggle.checked = false;
+        }
+      });
+    });
+
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('hashchange', setActiveLink);
+  }
+</script>

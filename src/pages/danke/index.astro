@@ -1,0 +1,36 @@
+---
+import Footer from '../../components/Footer.astro';
+import Navigation from '../../components/Navigation.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  lang="de"
+  title="Paul Scholz | Vielen Dank"
+  description="Vielen Dank für Ihre Nachricht an Paul Scholz."
+  noindex={true}
+>
+  <Fragment slot="head">
+    <meta http-equiv="refresh" content="5;url=/" />
+  </Fragment>
+  <Navigation lang="de" />
+  <main class="bg-white pt-32">
+    <section class="mx-auto max-w-4xl px-6 py-24 md:px-10 lg:px-12" aria-labelledby="thanks-heading">
+      <p class="text-sm font-semibold uppercase tracking-[0.24em] text-teal">Kontakt</p>
+      <h1 id="thanks-heading" class="mt-4 text-4xl font-semibold tracking-tight text-navy">
+        Vielen Dank!
+      </h1>
+      <p class="mt-6 max-w-2xl text-base leading-8 text-slate-600">
+        Vielen Dank! Ich melde mich so schnell wie möglich.
+      </p>
+      <p class="mt-4 text-sm text-slate-500">Sie werden in 5 Sekunden zur Startseite weitergeleitet.</p>
+      <a
+        href="/"
+        class="mt-10 inline-flex items-center rounded-full bg-navy px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-slate-800"
+      >
+        Zur Startseite
+      </a>
+    </section>
+  </main>
+  <Footer lang="de" />
+</BaseLayout>

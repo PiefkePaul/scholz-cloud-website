@@ -1,0 +1,192 @@
+---
+interface Props {
+  lang?: 'de' | 'en';
+}
+
+const { lang = 'de' } = Astro.props;
+const isEnglish = lang === 'en';
+
+const content = isEnglish
+  ? {
+      id: 'contact',
+      title: 'Get in Touch',
+      subtitle:
+        'I am happy to hear from you about projects, collaborations or simply for an exchange.',
+      name: 'Name',
+      email: 'E-Mail',
+      subject: 'Subject',
+      message: 'Message',
+      submit: 'Send Request',
+      success:
+        'Your message is being sent. After a successful submission you will be redirected automatically.',
+      error: 'Please check the required fields before sending the form.',
+      direct: 'Direct contact'
+    }
+  : {
+      id: 'kontakt',
+      title: 'Kontakt aufnehmen',
+      subtitle:
+        'Ich freue mich über Anfragen zu Projekten, Kooperationen oder einfach zum Austausch.',
+      name: 'Name',
+      email: 'E-Mail',
+      subject: 'Betreff',
+      message: 'Nachricht',
+      submit: 'Anfrage senden',
+      success:
+        'Ihre Nachricht wird gesendet. Nach erfolgreicher Übermittlung erfolgt die Weiterleitung automatisch.',
+      error: 'Bitte prüfen Sie die Pflichtfelder, bevor Sie das Formular absenden.',
+      direct: 'Direkter Kontakt'
+    };
+---
+
+<section
+  id={content.id}
+  class="relative isolate overflow-hidden bg-navy py-24 text-white sm:py-28"
+  aria-labelledby={`${content.id}-heading`}
+>
+  <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(14,165,233,0.18),_transparent_30%),radial-gradient(circle_at_bottom_right,_rgba(15,23,42,0.08),_transparent_30%)]"></div>
+  <div class="mx-auto grid max-w-6xl gap-10 px-6 md:px-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-start lg:px-12">
+    <div>
+      <p class="text-sm font-semibold uppercase tracking-[0.24em] text-teal">
+        {isEnglish ? 'Contact' : 'Kontakt'}
+      </p>
+      <h2 id={`${content.id}-heading`} class="mt-4 text-3xl font-semibold tracking-tight sm:text-4xl">
+        {content.title}
+      </h2>
+      <p class="mt-5 max-w-xl text-base leading-8 text-slate-300">
+        {content.subtitle}
+      </p>
+
+      <div class="mt-10 rounded-[2rem] border border-white/10 bg-white/5 p-6 backdrop-blur">
+        <h3 class="text-lg font-semibold text-white">{content.direct}</h3>
+        <dl class="mt-5 space-y-4 text-sm text-slate-300">
+          <div>
+            <dt class="font-semibold text-white">E-Mail</dt>
+            <dd class="mt-1">
+              <a href="mailto:p.scholz@scholz-cloud.de" class="hover:text-teal">
+                p.scholz@scholz-cloud.de
+              </a>
+            </dd>
+          </div>
+          <div>
+            <dt class="font-semibold text-white">GitHub</dt>
+            <dd class="mt-1">
+              <a
+                href="https://github.com/PiefkePaul"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="hover:text-teal"
+              >
+                github.com/PiefkePaul
+              </a>
+            </dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+
+    <form
+      action="https://formspree.io/f/FORMSPREE_ID_PLACEHOLDER"
+      method="POST"
+      class="contact-form rounded-[2rem] bg-white p-8 text-slate-900 shadow-2xl shadow-black/20 ring-1 ring-slate-200"
+      data-contact-form
+      aria-label={isEnglish ? 'Contact form' : 'Kontaktformular'}
+    >
+      <input type="hidden" name="_subject" value="Neue Anfrage von paulscholz.de" />
+      <input type="hidden" name="_next" value="https://www.scholz-cloud.de/danke" />
+
+      <div class="grid gap-5 sm:grid-cols-2">
+        <label class="block">
+          <span class="mb-2 block text-sm font-medium text-slate-700">{content.name}</span>
+          <input
+            type="text"
+            name="name"
+            required
+            class="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-teal focus:ring-2 focus:ring-teal/30"
+          />
+        </label>
+        <label class="block">
+          <span class="mb-2 block text-sm font-medium text-slate-700">{content.email}</span>
+          <input
+            type="email"
+            name="email"
+            required
+            class="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-teal focus:ring-2 focus:ring-teal/30"
+          />
+        </label>
+      </div>
+
+      <label class="mt-5 block">
+        <span class="mb-2 block text-sm font-medium text-slate-700">{content.subject}</span>
+        <input
+          type="text"
+          name="subject"
+          required
+          class="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-teal focus:ring-2 focus:ring-teal/30"
+        />
+      </label>
+
+      <label class="mt-5 block">
+        <span class="mb-2 block text-sm font-medium text-slate-700">{content.message}</span>
+        <textarea
+          name="message"
+          rows="6"
+          required
+          class="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-teal focus:ring-2 focus:ring-teal/30"
+        ></textarea>
+      </label>
+
+      <p class="form-feedback-success mt-5 hidden rounded-2xl bg-emerald-50 px-4 py-3 text-sm font-medium text-emerald-700">
+        {content.success}
+      </p>
+      <p class="form-feedback-error mt-5 hidden rounded-2xl bg-rose-50 px-4 py-3 text-sm font-medium text-rose-700">
+        {content.error}
+      </p>
+
+      <button
+        type="submit"
+        class="mt-6 inline-flex items-center justify-center rounded-full bg-navy px-6 py-3 text-sm font-semibold text-white transition-transform duration-200 hover:-translate-y-0.5 hover:bg-slate-800"
+      >
+        {content.submit}
+      </button>
+    </form>
+  </div>
+</section>
+
+<style>
+  .contact-form.success .form-feedback-success {
+    display: block;
+  }
+
+  .contact-form.has-error .form-feedback-error {
+    display: block;
+  }
+</style>
+
+<script is:inline>
+  const contactForm = document.querySelector('[data-contact-form]');
+
+  if (contactForm instanceof HTMLFormElement) {
+    contactForm.addEventListener(
+      'invalid',
+      () => {
+        contactForm.classList.add('has-error');
+        contactForm.classList.remove('success');
+      },
+      true
+    );
+
+    contactForm.addEventListener('input', () => {
+      if (contactForm.checkValidity()) {
+        contactForm.classList.remove('has-error');
+      }
+    });
+
+    contactForm.addEventListener('submit', () => {
+      if (contactForm.checkValidity()) {
+        contactForm.classList.add('success');
+        contactForm.classList.remove('has-error');
+      }
+    });
+  }
+</script>

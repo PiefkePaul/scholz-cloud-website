@@ -1,0 +1,70 @@
+---
+interface Props {
+  lang?: 'de' | 'en';
+}
+
+const { lang = 'de' } = Astro.props;
+const isEnglish = lang === 'en';
+
+const categories = [
+  {
+    name: isEnglish ? 'Infrastructure' : 'Infrastruktur',
+    className: 'bg-sky-100 text-sky-800 ring-sky-200',
+    items: ['Hyper-V', 'SCVMM', 'Windows Server', 'Azure Arc']
+  },
+  {
+    name: isEnglish ? 'Automation' : 'Automatisierung',
+    className: 'bg-emerald-100 text-emerald-800 ring-emerald-200',
+    items: ['PowerShell', 'Python', 'n8n', 'Automic']
+  },
+  {
+    name: 'Container & DevOps',
+    className: 'bg-amber-100 text-amber-800 ring-amber-200',
+    items: ['Docker', 'Portainer', 'GitHub Actions', 'Nginx']
+  },
+  {
+    name: 'SEO & Web',
+    className: 'bg-cyan-100 text-cyan-800 ring-cyan-200',
+    items: ['Google Search Console', 'Screaming Frog', 'Ahrefs', 'Astro']
+  },
+  {
+    name: 'KI & AI',
+    className: 'bg-violet-100 text-violet-800 ring-violet-200',
+    items: ['Claude AI', 'ChatGPT', 'MCP Servers', 'Ollama']
+  },
+  {
+    name: isEnglish ? 'Other' : 'Sonstiges',
+    className: 'bg-rose-100 text-rose-800 ring-rose-200',
+    items: ['Plex', 'Synology', 'Linux', 'VS Code']
+  }
+];
+---
+
+<section id="tech-stack" class="bg-white py-24 sm:py-28" aria-labelledby="tech-stack-heading">
+  <div class="mx-auto max-w-6xl px-6 md:px-10 lg:px-12">
+    <p class="text-sm font-semibold uppercase tracking-[0.24em] text-teal">
+      {isEnglish ? 'Daily Toolkit' : 'Täglicher Werkzeugkasten'}
+    </p>
+    <h2 id="tech-stack-heading" class="mt-4 text-3xl font-semibold tracking-tight text-navy sm:text-4xl">
+      Tech Stack &amp; Tools
+    </h2>
+    <p class="mt-4 max-w-2xl text-base leading-7 text-slate-600">
+      {isEnglish ? 'Tools I work with daily' : 'Werkzeuge, mit denen ich täglich arbeite'}
+    </p>
+
+    <div class="mt-12 grid gap-6 lg:grid-cols-2">
+      {categories.map((category) => (
+        <section class="rounded-[2rem] border border-slate-200 bg-slate-50/60 p-8" aria-label={category.name}>
+          <h3 class="text-lg font-semibold text-navy">{category.name}</h3>
+          <div class="mt-5 flex flex-wrap gap-3">
+            {category.items.map((item) => (
+              <span class={`rounded-full px-4 py-2 text-sm font-medium ring-1 ${category.className}`}>
+                {item}
+              </span>
+            ))}
+          </div>
+        </section>
+      ))}
+    </div>
+  </div>
+</section>

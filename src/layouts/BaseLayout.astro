@@ -1,0 +1,122 @@
+---
+interface Props {
+  lang?: 'de' | 'en';
+  title: string;
+  description: string;
+  ogImage?: string;
+  ogType?: 'website' | 'article';
+  personName?: string;
+  personRole?: string;
+}
+
+const {
+  lang = 'de',
+  title,
+  description,
+  ogImage = '/images/paul-scholz.jpg',
+  ogType = 'website',
+  personName = 'Paul Scholz',
+  personRole = lang === 'de'
+    ? 'IT-Systemadministrator und SEO-Berater'
+    : 'IT systems administrator and SEO consultant'
+} = Astro.props;
+
+const site = Astro.site ?? new URL('https://www.scholz-cloud.de');
+const canonical = new URL(Astro.url.pathname, site).toString();
+const socialImage = new URL(ogImage, site).toString();
+
+const personSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: personName,
+  description,
+  jobTitle: personRole,
+  url: site.toString(),
+  image: socialImage,
+  email: 'mailto:p.scholz@scholz-cloud.de',
+  address: {
+    '@type': 'PostalAddress',
+    addressCountry: 'DE'
+  },
+  sameAs: [
+    'https://github.com/PiefkePaul',
+    'https://hub.docker.com/r/piefkepaul/',
+    'https://www.instagram.com/lowfuel.dad/'
+  ],
+  knowsAbout: [
+    'Enterprise IT',
+    'Hyper-V',
+    'SCVMM',
+    'PowerShell',
+    'SEO',
+    'AI automation',
+    'Docker',
+    'Python',
+    'n8n',
+    'Cloud infrastructure'
+  ]
+};
+---
+
+<!doctype html>
+<html lang={lang} class="bg-white text-slate-900">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={socialImage} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:type" content={ogType} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script type="application/ld+json" set:html={JSON.stringify(personSchema)} />
+    <style is:global>
+      @tailwind base;
+      @tailwind components;
+      @tailwind utilities;
+
+      @layer base {
+        html {
+          scroll-behavior: smooth;
+        }
+
+        body {
+          @apply bg-white font-sans text-slate-900 antialiased;
+        }
+
+        ::selection {
+          @apply bg-teal/20 text-navy;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+
+        *,
+        *::before,
+        *::after {
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          scroll-behavior: auto !important;
+          transition-duration: 0.01ms !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Analytics placeholder: add Plausible, Umami or Google Analytics here -->
+    <slot />
+  </body>
+</html>

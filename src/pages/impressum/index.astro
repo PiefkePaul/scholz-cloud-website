@@ -1,0 +1,42 @@
+---
+import Footer from '../../components/Footer.astro';
+import Navigation from '../../components/Navigation.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  lang="de"
+  title="Paul Scholz | Impressum"
+  description="Impressum der Website von Paul Scholz."
+  noindex={true}
+  alternateLinks={false}
+>
+  <Navigation lang="de" />
+  <main class="bg-white pt-32">
+    <section class="mx-auto max-w-4xl px-6 py-24 md:px-10 lg:px-12" aria-labelledby="impressum-heading">
+      <p class="text-sm font-semibold uppercase tracking-[0.24em] text-teal">Rechtliches</p>
+      <h1 id="impressum-heading" class="mt-4 text-4xl font-semibold tracking-tight text-navy">
+        Impressum
+      </h1>
+
+      <div class="mt-8 rounded-3xl border border-amber-200 bg-amber-50 px-5 py-4 text-sm font-medium text-amber-900">
+        // TODO: Vollständige Adresse eintragen
+      </div>
+
+      <div class="mt-10 space-y-4 text-base leading-8 text-slate-700">
+        <p>Angaben gemäß § 5 TMG</p>
+        <p>
+          Paul Scholz
+          <br />
+          Deutschland
+          <br />
+          E-Mail:{' '}
+          <a href="mailto:p.scholz@scholz-cloud.de" class="text-teal hover:text-navy">
+            p.scholz@scholz-cloud.de
+          </a>
+        </p>
+      </div>
+    </section>
+  </main>
+  <Footer lang="de" />
+</BaseLayout>

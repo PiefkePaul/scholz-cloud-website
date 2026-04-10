@@ -1,0 +1,36 @@
+---
+import Footer from '../../../components/Footer.astro';
+import Navigation from '../../../components/Navigation.astro';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  lang="en"
+  title="Paul Scholz | Thank You"
+  description="Thank you for your message to Paul Scholz."
+  noindex={true}
+>
+  <Fragment slot="head">
+    <meta http-equiv="refresh" content="5;url=/en/" />
+  </Fragment>
+  <Navigation lang="en" />
+  <main class="bg-white pt-32">
+    <section class="mx-auto max-w-4xl px-6 py-24 md:px-10 lg:px-12" aria-labelledby="thanks-heading">
+      <p class="text-sm font-semibold uppercase tracking-[0.24em] text-teal">Contact</p>
+      <h1 id="thanks-heading" class="mt-4 text-4xl font-semibold tracking-tight text-navy">
+        Thank you!
+      </h1>
+      <p class="mt-6 max-w-2xl text-base leading-8 text-slate-600">
+        Thank you! I'll get back to you as soon as possible.
+      </p>
+      <p class="mt-4 text-sm text-slate-500">You will be redirected to the homepage in 5 seconds.</p>
+      <a
+        href="/en/"
+        class="mt-10 inline-flex items-center rounded-full bg-navy px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-slate-800"
+      >
+        Back to homepage
+      </a>
+    </section>
+  </main>
+  <Footer lang="en" />
+</BaseLayout>
