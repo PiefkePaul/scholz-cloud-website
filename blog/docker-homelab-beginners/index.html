@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="de" class="bg-white text-slate-900"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Docker Homelab 2025: Mein Setup mit Synology, Nginx Proxy Manager und 15+ Containern | Paul Scholz</title><meta name="description" content="Mein komplettes Docker-Homelab-Setup mit echten docker-compose Dateien, Nginx Proxy Manager, SSL und 15+ Diensten auf einer Synology NAS – aus der Praxis eines Enterprise-IT-Admins."><meta property="og:title" content="Docker Homelab 2025: Mein Setup mit Synology, Nginx Proxy Manager und 15+ Containern | Paul Scholz"><meta property="og:description" content="Mein komplettes Docker-Homelab-Setup mit echten docker-compose Dateien, Nginx Proxy Manager, SSL und 15+ Diensten auf einer Synology NAS – aus der Praxis eines Enterprise-IT-Admins."><meta property="og:image" content="https://www.scholz-cloud.de/images/paul-scholz.jpg"><meta property="og:url" content="https://www.scholz-cloud.de/blog/docker-homelab-beginners/"><meta property="og:type" content="article"><meta name="twitter:card" content="summary_large_image"><link rel="canonical" href="https://www.scholz-cloud.de/blog/docker-homelab-beginners/"><link rel="alternate" hreflang="de" href="https://www.scholz-cloud.de/blog/docker-homelab-beginners/"><link rel="alternate" hreflang="en" href="https://www.scholz-cloud.de/en/blog/docker-homelab-beginners/"><link rel="alternate" hreflang="x-default" href="https://www.scholz-cloud.de/blog/docker-homelab-beginners/"><meta name="theme-color" content="#0f172a"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Paul Scholz","description":"Mein komplettes Docker-Homelab-Setup mit echten docker-compose Dateien, Nginx Proxy Manager, SSL und 15+ Diensten auf einer Synology NAS – aus der Praxis eines Enterprise-IT-Admins.","jobTitle":"IT-Systemadministrator und SEO-Berater","url":"https://www.scholz-cloud.de/","image":"https://www.scholz-cloud.de/images/paul-scholz.jpg","email":"mailto:p.scholz@scholz-cloud.de","address":{"@type":"PostalAddress","addressCountry":"DE"},"sameAs":["https://github.com/PiefkePaul","https://hub.docker.com/r/piefkepaul/","https://www.instagram.com/lowfuel.dad/"],"knowsAbout":["Enterprise IT","Hyper-V","SCVMM","PowerShell","SEO","AI automation","Docker","Python","n8n","Cloud infrastructure"]}</script><link rel="stylesheet" href="/_astro/_slug_.CLpeKO1q.css"></head> <body> <!-- Analytics placeholder: add Plausible, Umami or Google Analytics here -->  <nav id="site-nav" data-home-path="/" data-scrolled="false" data-hidden="false" class="fixed inset-x-0 top-0 z-50 border-b border-white/10 text-white transition-transform duration-300" aria-label="Hauptnavigation" data-astro-cid-pux6a34n> <div class="mx-auto max-w-6xl px-6 md:px-10 lg:px-12" data-astro-cid-pux6a34n> <input id="nav-toggle" type="checkbox" class="peer sr-only" aria-hidden="true" data-astro-cid-pux6a34n> <div class="flex h-20 items-center justify-between gap-4" data-astro-cid-pux6a34n> <a href="/" class="text-lg font-bold tracking-tight text-white" data-astro-cid-pux6a34n>
+<!DOCTYPE html><html lang="de" class="bg-white text-slate-900"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Docker On-Premises 2025: Mein Setup mit Nginx Proxy Manager und 12+ Self-Hosted Diensten | Paul Scholz</title><meta name="description" content="Wie ich Docker auf einem dedizierten Homeserver betreibe – mit echten docker-compose Dateien, Nginx Proxy Manager, Let's Encrypt SSL und der Erfahrung aus dem Enterprise-Umfeld."><meta property="og:title" content="Docker On-Premises 2025: Mein Setup mit Nginx Proxy Manager und 12+ Self-Hosted Diensten | Paul Scholz"><meta property="og:description" content="Wie ich Docker auf einem dedizierten Homeserver betreibe – mit echten docker-compose Dateien, Nginx Proxy Manager, Let's Encrypt SSL und der Erfahrung aus dem Enterprise-Umfeld."><meta property="og:image" content="https://www.scholz-cloud.de/images/paul-scholz.jpg"><meta property="og:url" content="https://www.scholz-cloud.de/blog/docker-homelab-beginners/"><meta property="og:type" content="article"><meta name="twitter:card" content="summary_large_image"><link rel="canonical" href="https://www.scholz-cloud.de/blog/docker-homelab-beginners/"><link rel="alternate" hreflang="de" href="https://www.scholz-cloud.de/blog/docker-homelab-beginners/"><link rel="alternate" hreflang="en" href="https://www.scholz-cloud.de/en/blog/docker-homelab-beginners/"><link rel="alternate" hreflang="x-default" href="https://www.scholz-cloud.de/blog/docker-homelab-beginners/"><meta name="theme-color" content="#0f172a"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Paul Scholz","description":"Wie ich Docker auf einem dedizierten Homeserver betreibe – mit echten docker-compose Dateien, Nginx Proxy Manager, Let's Encrypt SSL und der Erfahrung aus dem Enterprise-Umfeld.","jobTitle":"IT-Systemadministrator und SEO-Berater","url":"https://www.scholz-cloud.de/","image":"https://www.scholz-cloud.de/images/paul-scholz.jpg","email":"mailto:p.scholz@scholz-cloud.de","address":{"@type":"PostalAddress","addressCountry":"DE"},"sameAs":["https://github.com/PiefkePaul","https://hub.docker.com/r/piefkepaul/","https://www.instagram.com/lowfuel.dad/"],"knowsAbout":["Enterprise IT","Hyper-V","SCVMM","PowerShell","SEO","AI automation","Docker","Python","n8n","Cloud infrastructure"]}</script><link rel="stylesheet" href="/_astro/_slug_.CLpeKO1q.css"></head> <body> <!-- Analytics placeholder: add Plausible, Umami or Google Analytics here -->  <nav id="site-nav" data-home-path="/" data-scrolled="false" data-hidden="false" class="fixed inset-x-0 top-0 z-50 border-b border-white/10 text-white transition-transform duration-300" aria-label="Hauptnavigation" data-astro-cid-pux6a34n> <div class="mx-auto max-w-6xl px-6 md:px-10 lg:px-12" data-astro-cid-pux6a34n> <input id="nav-toggle" type="checkbox" class="peer sr-only" aria-hidden="true" data-astro-cid-pux6a34n> <div class="flex h-20 items-center justify-between gap-4" data-astro-cid-pux6a34n> <a href="/" class="text-lg font-bold tracking-tight text-white" data-astro-cid-pux6a34n>
 Paul Scholz
 </a> <div class="hidden items-center gap-8 md:flex" data-astro-cid-pux6a34n> <div class="flex items-center gap-6" data-astro-cid-pux6a34n> <a href="/#ueber-mich" class="nav-link text-sm font-medium text-slate-300 transition-colors duration-200 hover:text-white" data-nav-link data-section-link="ueber-mich" data-active="false" data-astro-cid-pux6a34n> Über mich </a><a href="/#leistungen" class="nav-link text-sm font-medium text-slate-300 transition-colors duration-200 hover:text-white" data-nav-link data-section-link="leistungen" data-active="false" data-astro-cid-pux6a34n> Leistungen </a><a href="/#tech-stack" class="nav-link text-sm font-medium text-slate-300 transition-colors duration-200 hover:text-white" data-nav-link data-section-link="tech-stack" data-active="false" data-astro-cid-pux6a34n> Tech Stack </a><a href="/blog/" class="nav-link text-sm font-medium text-slate-300 transition-colors duration-200 hover:text-white" data-nav-link data-active="false" data-astro-cid-pux6a34n> Blog </a><a href="/#kontakt" class="nav-link text-sm font-medium text-slate-300 transition-colors duration-200 hover:text-white" data-nav-link data-section-link="kontakt" data-active="false" data-astro-cid-pux6a34n> Kontakt </a> </div> <div class="flex items-center rounded-full border border-white/10 bg-white/5 p-1" data-astro-cid-pux6a34n> <a href="/" class="rounded-full px-3 py-1.5 text-xs font-semibold transition-colors bg-teal text-white" aria-label="Zur deutschen Version wechseln" data-astro-cid-pux6a34n>
 DE
@@ -77,13 +77,13 @@ EN
   }
 </script> <main class="bg-slate-50 pt-32"> <section class="mx-auto max-w-5xl px-6 py-16 md:px-10 lg:px-12"> <a href="/blog/" class="inline-flex items-center text-sm font-semibold text-teal transition-colors hover:text-navy">
 Zurück zum Blog
-</a> <article class="mt-8 overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-sm"> <header class="border-b border-slate-200 px-6 py-10 md:px-10"> <div class="flex flex-wrap items-center gap-3 text-sm text-slate-500"> <time datetime="2025-03-15T00:00:00.000Z"> 15. März 2025 </time> <span class="h-1 w-1 rounded-full bg-slate-300"></span> <span>6 Min. Lesezeit</span>  <span class="h-1 w-1 rounded-full bg-slate-300"></span> <span>Aktualisiert am 10. April 2025</span>  </div> <h1 class="mt-6 text-4xl font-semibold tracking-tight text-navy md:text-5xl"> Docker Homelab 2025: Mein Setup mit Synology, Nginx Proxy Manager und 15+ Containern </h1> <p class="mt-5 max-w-3xl text-lg leading-8 text-slate-600">Mein komplettes Docker-Homelab-Setup mit echten docker-compose Dateien, Nginx Proxy Manager, SSL und 15+ Diensten auf einer Synology NAS – aus der Praxis eines Enterprise-IT-Admins.</p> <div class="mt-6 flex flex-wrap gap-2"> <span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-600">
+</a> <article class="mt-8 overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-sm"> <header class="border-b border-slate-200 px-6 py-10 md:px-10"> <div class="flex flex-wrap items-center gap-3 text-sm text-slate-500"> <time datetime="2025-03-15T00:00:00.000Z"> 15. März 2025 </time> <span class="h-1 w-1 rounded-full bg-slate-300"></span> <span>7 Min. Lesezeit</span>  <span class="h-1 w-1 rounded-full bg-slate-300"></span> <span>Aktualisiert am 10. April 2025</span>  </div> <h1 class="mt-6 text-4xl font-semibold tracking-tight text-navy md:text-5xl"> Docker On-Premises 2025: Mein Setup mit Nginx Proxy Manager und 12+ Self-Hosted Diensten </h1> <p class="mt-5 max-w-3xl text-lg leading-8 text-slate-600">Wie ich Docker auf einem dedizierten Homeserver betreibe – mit echten docker-compose Dateien, Nginx Proxy Manager, Let&#39;s Encrypt SSL und der Erfahrung aus dem Enterprise-Umfeld.</p> <div class="mt-6 flex flex-wrap gap-2"> <span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-600">
 #Docker </span><span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-600">
-#Homelab </span><span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-600">
-#Synology </span><span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-600">
 #Self-Hosting </span><span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-600">
 #Nginx Proxy Manager </span><span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-600">
-#docker-compose </span> </div> </header> <div class="px-6 py-10 md:px-10 md:py-12"> <div class="prose prose-slate max-w-none
+#docker-compose </span><span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-600">
+#On-Premises </span><span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-600">
+#Homelab </span> </div> </header> <div class="px-6 py-10 md:px-10 md:py-12"> <div class="prose prose-slate max-w-none
             prose-headings:text-navy prose-headings:font-semibold prose-headings:tracking-tight
             prose-h2:text-2xl prose-h2:mt-12 prose-h2:mb-4 prose-h2:pb-3 prose-h2:border-b prose-h2:border-slate-200
             prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-3
@@ -99,39 +99,34 @@ Zurück zum Blog
             prose-blockquote:before:content-none prose-blockquote:after:content-none
             prose-table:text-sm prose-th:bg-slate-100 prose-th:text-navy prose-th:font-semibold
             prose-td:text-slate-700
-            prose-hr:border-slate-200 prose-hr:my-10"> <p>Ich verwalte beruflich hunderte von Hyper-V-Hosts und tausende virtuelle Maschinen. Abends läuft mein Homelab. Der Unterschied ist kleiner als die meisten denken – und genau das ist das Interessante daran.</p>
+            prose-hr:border-slate-200 prose-hr:my-10"> <p>Ich verwalte beruflich hunderte von Hyper-V-Hosts und tausende virtuelle Maschinen. Abends läuft mein privater Docker-Stack. Der Unterschied zwischen Enterprise und Homelab ist kleiner als die meisten denken – und genau das macht es interessant.</p>
 <p>Dieser Beitrag ist keine Theorie. Es ist das Setup, das bei mir gerade wirklich läuft: mit konkreten <code>docker-compose</code>-Dateien, echten Fehlern die ich auf dem Weg gemacht habe, und ehrlichen Einschätzungen was sich lohnt und was nicht.</p>
 <h2 id="warum-docker-statt-klassischer-virtualisierung">Warum Docker statt klassischer Virtualisierung?</h2>
 <p>Als ich mein Homelab aufgebaut habe, war mein erster Gedanke Proxmox und VMs – ich kenne Virtualisierung schließlich aus dem Berufsalltag. Für zuhause hat sich Docker aber aus einem konkreten Grund durchgesetzt: <strong>Verhältnis von Aufwand zu Nutzen</strong>.</p>
 <p>Eine VM für Jellyfin bedeutet volles Betriebssystem, Updates, Snapshot-Management, Speicherplatz. Ein Docker-Container für Jellyfin bedeutet eine <code>docker-compose.yml</code> – und wenn er kaputtgeht, sind es zwei Befehle bis er wieder läuft:</p>
 <pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#B392F0">docker</span><span style="color:#9ECBFF"> compose</span><span style="color:#9ECBFF"> down</span><span style="color:#E1E4E8"> &#x26;&#x26; </span><span style="color:#B392F0">docker</span><span style="color:#9ECBFF"> compose</span><span style="color:#9ECBFF"> up</span><span style="color:#79B8FF"> -d</span></span>
 <span class="line"></span></code></pre>
-<p>Für ein Homelab, das nebenher funktionieren soll und nicht zum zweiten Job werden soll, ist das der entscheidende Vorteil.</p>
+<p>Für einen Stack, der nebenher laufen soll und nicht zum zweiten Job werden soll, ist das der entscheidende Vorteil.</p>
 <blockquote>
 <p><strong>Meine Faustregel:</strong> Docker für Services die regelmäßig aktualisiert werden. VMs für Dinge die stateful, komplex sind oder Windows brauchen.</p>
 </blockquote>
 <hr>
-<h2 id="hardware-synology-nas-als-docker-plattform">Hardware: Synology NAS als Docker-Plattform</h2>
-<p>Mein primärer Docker-Host ist eine Synology NAS mit genug RAM und einer SSD als System-Drive. Keine Hochleistungsmaschine – aber sie läuft 24/7, zieht wenig Strom, hat einen RAID-Verbund für die Daten und unterstützt Docker nativ über den „Container Manager”.</p>
-<p><strong>Vorteile:</strong></p>
+<h2 id="hardware-dedizierter-homeserver-als-docker-plattform">Hardware: Dedizierter Homeserver als Docker-Plattform</h2>
+<p>Mein primärer Docker-Host ist ein kompakter Homeserver mit Intel N100 CPU, 16 GB RAM und einer schnellen SSD als System-Drive – ergänzt durch eine HDD für Mediendaten. Keine Hochleistungsmaschine – aber sie läuft 24/7, zieht unter Last weniger als 15 Watt und unterstützt Intel Quick Sync für Hardware-Transcoding.</p>
+<p>Die Hardware-Wahl ist dabei weniger wichtig als das Prinzip dahinter: <strong>Ein dediziertes Gerät mit Linux, SSH-Zugang und Docker CE.</strong> Ob das ein gebrauchter Mini-PC, ein NAS mit Docker-Support oder ein alter Laptop ist, spielt für das grundlegende Setup keine Rolle.</p>
+<p><strong>Wichtige Eigenschaften eines guten Docker-Hosts:</strong></p>
 <ul>
-<li>Nativer Docker-Support in DSM (kein separater Hypervisor)</li>
-<li>SSH-Zugang für <code>docker compose</code>-Befehle</li>
-<li>Integriertes NFS/SMB für Media-Shares</li>
-<li>Energiesparmodi und Wake-on-LAN</li>
+<li>x86-64 Architektur (maximale Image-Kompatibilität)</li>
+<li>Mindestens 8 GB RAM für einen komfortablen Stack</li>
+<li>SSD für System und Konfigurationsdaten (Performance bei DB-Zugriffen)</li>
+<li>Separate HDD/NAS-Share für Mediendaten</li>
+<li>UPS (Unterbrechungsfreie Stromversorgung) empfohlen – ein harter Stromausfall kann Docker-Volumes beschädigen</li>
 </ul>
-<p><strong>Ehrliche Einschränkungen:</strong></p>
-<ul>
-<li>Docker-Updates kommen zeitverzögert gegenüber Docker CE</li>
-<li>ARM-Architektur (ältere Modelle) schließt manche Images aus</li>
-<li>Transcoding-Performance begrenzt ohne Hardware-Beschleunigung</li>
-</ul>
-<p>Für Transcoding-intensive Workloads läuft bei mir parallel ein Intel-Mini-PC mit Quick-Sync-Support. Das Grundprinzip bleibt aber gleich.</p>
 <hr>
 <h2 id="ordnerstruktur-das-fundament-zuerst">Ordnerstruktur: Das Fundament zuerst</h2>
 <p>Bevor der erste Container läuft, ist die Ordnerstruktur entscheidend. Mein früher Fehler: alles wild in <code>/docker</code> geworfen. Das rächt sich nach drei Monaten brutal.</p>
 <p>Heute arbeite ich nach diesem Schema:</p>
-<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>/volume1/docker/</span></span>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>/opt/docker/</span></span>
 <span class="line"><span>├── nginx-proxy-manager/</span></span>
 <span class="line"><span>│   ├── docker-compose.yml</span></span>
 <span class="line"><span>│   ├── data/</span></span>
@@ -147,9 +142,9 @@ Zurück zum Blog
 <span class="line"><span>    ├── docker-compose.yml</span></span>
 <span class="line"><span>    └── data/</span></span>
 <span class="line"><span></span></span></code></pre>
-<p>Jeder Dienst bekommt seinen eigenen Ordner. Daten und Konfiguration liegen <strong>immer</strong> außerhalb des Containers auf der NAS. Der Container ist austauschbar – die Daten nicht.</p>
+<p>Jeder Dienst bekommt seinen eigenen Ordner. Daten und Konfiguration liegen <strong>immer</strong> außerhalb des Containers – direkt auf dem Host-Dateisystem. Der Container ist austauschbar – die Daten nicht.</p>
 <hr>
-<h2 id="nginx-proxy-manager-das-wichtigste-tool-im-homelab">Nginx Proxy Manager: Das wichtigste Tool im Homelab</h2>
+<h2 id="nginx-proxy-manager-das-wichtigste-tool-im-stack">Nginx Proxy Manager: Das wichtigste Tool im Stack</h2>
 <p>Wenn du nur einen Container aus diesem Artikel mitnimmst, nimm Nginx Proxy Manager. Er hat mein Setup von einem Port-Chaos (<code>192.168.1.100:8096</code>, <code>:9090</code>, <code>:3000</code>) in etwas Wartbares und Professionelles verwandelt.</p>
 <h3 id="was-npm-konkret-macht">Was NPM konkret macht</h3>
 <ul>
@@ -174,22 +169,22 @@ Zurück zum Blog
 <span class="line"><span style="color:#85E89D">    environment</span><span style="color:#E1E4E8">:</span></span>
 <span class="line"><span style="color:#E1E4E8">      - </span><span style="color:#9ECBFF">TZ=Europe/Berlin</span></span>
 <span class="line"></span></code></pre>
-<p>Nach dem Start: Admin-Interface unter <code>http://deine-nas-ip:81</code>. Standard-Login <code>admin@example.com</code> / <code>changeme</code> – <strong>sofort ändern</strong>.</p>
+<p>Nach dem Start: Admin-Interface unter <code>http://server-ip:81</code>. Standard-Login <code>admin@example.com</code> / <code>changeme</code> – <strong>sofort ändern</strong>.</p>
 <h3 id="subdomain-in-60-sekunden-einrichten">Subdomain in 60 Sekunden einrichten</h3>
 <ol>
 <li><strong>Proxy Hosts → Add Proxy Host</strong></li>
 <li>Domain: <code>jellyfin.deinedomain.de</code></li>
-<li>Forward Hostname: <code>jellyfin</code> (Container-Name) oder die lokale IP</li>
+<li>Forward Hostname: <code>jellyfin</code> (Container-Name im gleichen Docker-Netzwerk)</li>
 <li>Forward Port: <code>8096</code></li>
 <li>Reiter SSL → Let’s Encrypt → Force SSL aktivieren</li>
 </ol>
-<p>Jellyfin ist danach unter <code>https://jellyfin.deinedomain.de</code> erreichbar.</p>
+<p>Jellyfin ist danach unter <code>https://jellyfin.deinedomain.de</code> erreichbar – mit gültigem Zertifikat, ohne Port im Browser.</p>
 <blockquote>
-<p><strong>Sicherheitshinweis:</strong> NPM ist kein Sicherheitskonzept. Ich veröffentliche nur Dienste ins Internet, die ich wirklich öffentlich brauche. Monitoring-Tools, Portainer und Admin-Interfaces bleiben intern oder hinter zusätzlicher Authentifizierung (NPM unterstützt auch HTTP Basic Auth).</p>
+<p><strong>Sicherheitshinweis:</strong> NPM ist kein Sicherheitskonzept – nur ein Reverse Proxy. Ich veröffentliche nur Dienste ins Internet, die ich wirklich öffentlich brauche. Monitoring-Tools, Portainer und Admin-Interfaces bleiben intern oder hinter zusätzlicher Authentifizierung (NPM unterstützt auch HTTP Basic Auth).</p>
 </blockquote>
 <hr>
 <h2 id="meine-laufenden-container--die-ehrliche-liste">Meine laufenden Container – die ehrliche Liste</h2>
-<p>Keine Demo-Liste: Das sind die Dienste, die bei mir täglich wirklich laufen.</p>
+<p>Keine Demo-Liste. Das sind die Dienste, die bei mir täglich wirklich laufen.</p>
 
 
 
@@ -260,7 +255,7 @@ Zurück zum Blog
 
 
 
-<table><thead><tr><th>Dienst</th><th>Zweck</th><th>Öffentlich</th></tr></thead><tbody><tr><td><strong>Nginx Proxy Manager</strong></td><td>Reverse Proxy &#x26; SSL</td><td>Ports 80/443</td></tr><tr><td><strong>Portainer</strong></td><td>Container-Verwaltung</td><td>Nein (intern)</td></tr><tr><td><strong>Jellyfin</strong></td><td>Medienserver</td><td>Ja (mit SSL)</td></tr><tr><td><strong>Plex</strong></td><td>Alternativer Medienserver</td><td>Ja (mit SSL)</td></tr><tr><td><strong>n8n</strong></td><td>Workflow-Automatisierung</td><td>Ja (mit Auth)</td></tr><tr><td><strong>Vaultwarden</strong></td><td>Passwort-Manager</td><td>Ja (mit SSL)</td></tr><tr><td><strong>Immich</strong></td><td>Foto-Backup</td><td>Ja (mit SSL)</td></tr><tr><td><strong>Uptime Kuma</strong></td><td>Monitoring &#x26; Alerts</td><td>Nein (intern)</td></tr><tr><td><strong>Prowlarr</strong></td><td>Indexer-Management</td><td>Nein (intern)</td></tr><tr><td><strong>Tautulli</strong></td><td>Plex-Statistiken</td><td>Nein (intern)</td></tr><tr><td><strong>Watchtower</strong></td><td>Auto-Updates</td><td>—</td></tr><tr><td><strong>Netdata</strong></td><td>System-Monitoring</td><td>Nein (intern)</td></tr></tbody></table>
+<table><thead><tr><th>Dienst</th><th>Zweck</th><th>Öffentlich erreichbar</th></tr></thead><tbody><tr><td><strong>Nginx Proxy Manager</strong></td><td>Reverse Proxy &#x26; SSL</td><td>Ports 80/443</td></tr><tr><td><strong>Portainer</strong></td><td>Container-Verwaltung</td><td>Nein (intern)</td></tr><tr><td><strong>Jellyfin</strong></td><td>Medienserver</td><td>Ja (mit SSL)</td></tr><tr><td><strong>n8n</strong></td><td>Workflow-Automatisierung</td><td>Ja (mit Auth)</td></tr><tr><td><strong>Vaultwarden</strong></td><td>Passwort-Manager (Bitwarden-kompatibel)</td><td>Ja (mit SSL)</td></tr><tr><td><strong>Immich</strong></td><td>Foto-Backup &#x26; -Verwaltung</td><td>Ja (mit SSL)</td></tr><tr><td><strong>Uptime Kuma</strong></td><td>Monitoring &#x26; Alerting</td><td>Nein (intern)</td></tr><tr><td><strong>Watchtower</strong></td><td>Automatische Image-Updates</td><td>—</td></tr><tr><td><strong>Netdata</strong></td><td>System-Monitoring</td><td>Nein (intern)</td></tr><tr><td><strong>Gotify</strong></td><td>Push-Benachrichtigungen</td><td>Ja (mit SSL)</td></tr><tr><td><strong>Homepage</strong></td><td>Persönliches Dashboard</td><td>Nein (intern)</td></tr><tr><td><strong>Stirling PDF</strong></td><td>PDF-Werkzeuge</td><td>Nein (intern)</td></tr></tbody></table>
 <h3 id="beispiel-jellyfin-docker-composeyml">Beispiel: Jellyfin docker-compose.yml</h3>
 <pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#85E89D">services</span><span style="color:#E1E4E8">:</span></span>
 <span class="line"><span style="color:#85E89D">  jellyfin</span><span style="color:#E1E4E8">:</span></span>
@@ -271,12 +266,12 @@ Zurück zum Blog
 <span class="line"><span style="color:#85E89D">    volumes</span><span style="color:#E1E4E8">:</span></span>
 <span class="line"><span style="color:#E1E4E8">      - </span><span style="color:#9ECBFF">./config:/config</span></span>
 <span class="line"><span style="color:#E1E4E8">      - </span><span style="color:#9ECBFF">./cache:/cache</span></span>
-<span class="line"><span style="color:#E1E4E8">      - </span><span style="color:#9ECBFF">/volume1/Media:/media:ro</span></span>
+<span class="line"><span style="color:#E1E4E8">      - </span><span style="color:#9ECBFF">/mnt/media:/media:ro</span></span>
 <span class="line"><span style="color:#85E89D">    environment</span><span style="color:#E1E4E8">:</span></span>
 <span class="line"><span style="color:#E1E4E8">      - </span><span style="color:#9ECBFF">TZ=Europe/Berlin</span></span>
 <span class="line"><span style="color:#E1E4E8">      - </span><span style="color:#9ECBFF">JELLYFIN_PublishedServerUrl=https://jellyfin.deinedomain.de</span></span>
 <span class="line"><span style="color:#85E89D">    devices</span><span style="color:#E1E4E8">:</span></span>
-<span class="line"><span style="color:#E1E4E8">      - </span><span style="color:#9ECBFF">/dev/dri:/dev/dri</span></span>
+<span class="line"><span style="color:#E1E4E8">      - </span><span style="color:#9ECBFF">/dev/dri:/dev/dri</span><span style="color:#6A737D">   # Intel Quick Sync / iGPU Transcoding</span></span>
 <span class="line"></span></code></pre>
 <h3 id="beispiel-n8n-docker-composeyml">Beispiel: n8n docker-compose.yml</h3>
 <pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#85E89D">services</span><span style="color:#E1E4E8">:</span></span>
@@ -299,11 +294,11 @@ Zurück zum Blog
 <span class="line"></span></code></pre>
 <hr>
 <h2 id="vaultwarden-eigener-passwort-manager--lohnt-es-sich">Vaultwarden: Eigener Passwort-Manager – lohnt es sich?</h2>
-<p>Das ist einer der Container, über den ich am meisten nachgedacht habe. Ein Passwort-Manager ist kritisch – wenn er ausfällt, ist das ein ernstes Problem.</p>
+<p>Das ist einer der Container, über den ich am meisten nachgedacht habe. Ein Passwort-Manager ist kritisch – wenn er ausfällt oder Daten verliert, ist das ein ernstes Problem.</p>
 <p><strong>Warum ich es trotzdem self-hoste:</strong></p>
 <ul>
-<li>Keine Subscription (Bitwarden Premium kostet 10 $/Jahr, Vaultwarden kostet RAM)</li>
-<li>Meine Passwörter liegen auf meinem Server, nicht bei einem US-Unternehmen</li>
+<li>Keine Subscription (Bitwarden Premium kostet ~10 $/Jahr, Vaultwarden kostet Strom)</li>
+<li>Passwörter liegen auf meinem Server, nicht bei einem externen Anbieter</li>
 <li>Volle Kontrolle über Backups und Verfügbarkeit</li>
 </ul>
 <pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#85E89D">services</span><span style="color:#E1E4E8">:</span></span>
@@ -324,7 +319,7 @@ Zurück zum Blog
 </blockquote>
 <hr>
 <h2 id="watchtower-automatische-updates-richtig-konfigurieren">Watchtower: Automatische Updates richtig konfigurieren</h2>
-<p>Watchtower hält Container-Images automatisch aktuell. Die Grundkonfiguration ist simpel:</p>
+<p>Watchtower hält Container-Images automatisch aktuell. Die Grundkonfiguration:</p>
 <pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#85E89D">services</span><span style="color:#E1E4E8">:</span></span>
 <span class="line"><span style="color:#85E89D">  watchtower</span><span style="color:#E1E4E8">:</span></span>
 <span class="line"><span style="color:#85E89D">    image</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">containrrr/watchtower:latest</span></span>
@@ -333,41 +328,46 @@ Zurück zum Blog
 <span class="line"><span style="color:#85E89D">    volumes</span><span style="color:#E1E4E8">:</span></span>
 <span class="line"><span style="color:#E1E4E8">      - </span><span style="color:#9ECBFF">/var/run/docker.sock:/var/run/docker.sock</span></span>
 <span class="line"><span style="color:#85E89D">    environment</span><span style="color:#E1E4E8">:</span></span>
-<span class="line"><span style="color:#E1E4E8">      - </span><span style="color:#9ECBFF">WATCHTOWER_SCHEDULE=0 0 4 * * *</span></span>
+<span class="line"><span style="color:#E1E4E8">      - </span><span style="color:#9ECBFF">WATCHTOWER_SCHEDULE=0 0 4 * * *</span><span style="color:#6A737D">   # Täglich um 4 Uhr</span></span>
 <span class="line"><span style="color:#E1E4E8">      - </span><span style="color:#9ECBFF">WATCHTOWER_CLEANUP=true</span></span>
+<span class="line"><span style="color:#E1E4E8">      - </span><span style="color:#9ECBFF">WATCHTOWER_NOTIFICATIONS=gotify</span></span>
+<span class="line"><span style="color:#E1E4E8">      - </span><span style="color:#9ECBFF">WATCHTOWER_NOTIFICATION_GOTIFY_URL=https://gotify.deinedomain.de</span></span>
+<span class="line"><span style="color:#E1E4E8">      - </span><span style="color:#9ECBFF">WATCHTOWER_NOTIFICATION_GOTIFY_TOKEN=deinToken</span></span>
 <span class="line"><span style="color:#E1E4E8">      - </span><span style="color:#9ECBFF">TZ=Europe/Berlin</span></span>
 <span class="line"></span></code></pre>
 <p><strong>Was ich bei Watchtower beachte:</strong></p>
 <ul>
-<li>Updates nur nachts (niemand schaut Jellyfin um 4 Uhr)</li>
+<li>Updates nur nachts – niemand streamt Jellyfin um 4 Uhr</li>
 <li>Kritische Container (<code>vaultwarden</code>, n8n mit aktiven Workflows) pinne ich auf spezifische Image-Tags und update sie manuell nach Changelog-Check</li>
-<li>Benachrichtigungen via Gotify oder Apprise aktiviert</li>
+<li>Benachrichtigungen immer aktivieren – sonst weiß man nicht, ob Updates durchlaufen sind</li>
 </ul>
 <hr>
 <h2 id="die-6-fehler-die-ich-als-einsteiger-gemacht-habe">Die 6 Fehler, die ich als Einsteiger gemacht habe</h2>
 <p>Diese Fehler kosten Zeit. Spare dir die Erfahrung:</p>
 <ol>
 <li><strong>Volumes vergessen</strong> — Container ohne explizite Volumes verlieren beim Neustart alle Daten. Passiert einmal, dann nie wieder.</li>
-<li><strong>Alle Dienste auf eigenen Ports</strong> — Ohne Reverse Proxy wird die Port-Verwaltung zum Chaos.</li>
-<li><strong>Root-User in Containern</strong> — Viele Images laufen standardmäßig als Root. Ein dedizierter Docker-User mit UID/GID ist besser.</li>
-<li><strong>Kein Backup-Konzept</strong> — Die erste Frage vor dem ersten Container: Wie sichere ich <code>/config</code> und <code>/data</code>? Meine Antwort: Synology Hyper Backup auf externe HDD, täglich.</li>
+<li><strong>Alle Dienste auf eigenen Ports</strong> — Ohne Reverse Proxy wird die Port-Verwaltung zum Chaos. NPM löst das elegant.</li>
+<li><strong>Root-User in Containern</strong> — Viele Images laufen standardmäßig als Root. Ein dedizierter Docker-User mit UID/GID ist besser für die Sicherheit.</li>
+<li><strong>Kein Backup-Konzept</strong> — Die erste Frage vor dem ersten Container: Wie sichere ich <code>/data</code> und <code>/config</code>? Meine Antwort: tägliches rsync auf ein NAS, wöchentliches Offsite-Backup.</li>
 <li><strong>Admin-Interfaces veröffentlichen</strong> — Portainer, Netdata, NPM-Admin gehören nicht ins öffentliche Internet.</li>
 <li><strong>Updates ignorieren</strong> — Veraltete Images sind Sicherheitsrisiken. Watchtower oder manuelle Routinen sind Pflicht, kein Luxus.</li>
 </ol>
 <hr>
 <h2 id="häufige-fragen">Häufige Fragen</h2>
-<p><strong>Welche Synology-Modelle eignen sich für Docker?</strong>
-Modelle mit Intel-CPU (x86-64) sind die erste Wahl – sie unterstützen alle Images und Hardware-Transcoding. ARM-Modelle (ältere Plus-Reihe) funktionieren, schränken die Image-Auswahl aber ein.</p>
+<p><strong>Welche Hardware eignet sich am besten für einen Docker-Host?</strong>
+Für den Einstieg reicht jede x86-64 Maschine mit 8+ GB RAM und Linux. Intel N100/N305-Mini-PCs bieten 2025 das beste Verhältnis aus Stromverbrauch, Leistung und Quick-Sync-Support für unter 200 €. Alternativ: jeder günstige NAS mit Docker-Unterstützung (QNAP, Ugreen, Synology) funktioniert für leichte bis mittlere Workloads.</p>
 <p><strong>Brauche ich eine eigene Domain?</strong>
-Für Let’s Encrypt-Zertifikate ja. Alternativ kannst du intern auch mit selbst-signierten Certs oder einer <code>.local</code>-Domain arbeiten. Ich nutze eine günstige <code>.de</code>-Domain (~6 €/Jahr).</p>
+Für Let’s Encrypt-Zertifikate ja. Alternativ kannst du intern mit selbst-signierten Certs oder einer <code>.local</code>-Domain arbeiten. Eine günstige <code>.de</code>-Domain kostet ca. 5–8 €/Jahr und ist eine sinnvolle Investition.</p>
 <p><strong>Was passiert bei Stromausfall?</strong>
-<code>restart: unless-stopped</code> in jeder <code>docker-compose.yml</code> sorgt dafür, dass Container nach dem Neustart der NAS automatisch wieder hochkommen.</p>
+<code>restart: unless-stopped</code> in jeder <code>docker-compose.yml</code> sorgt dafür, dass Container nach dem Neustart automatisch wieder hochkommen. Eine USV schützt vor korrupten Volumes bei hartem Abschalten.</p>
 <p><strong>Wie viel RAM wird gebraucht?</strong>
-NPM + Portainer + Uptime Kuma + Vaultwarden: ca. 1,5 GB. Mit Jellyfin + n8n + Immich: 6–8 GB für komfortables Arbeiten empfohlen.</p>
+NPM + Portainer + Uptime Kuma + Vaultwarden: ca. 1,5 GB. Mit Jellyfin + n8n + Immich: 6–8 GB für komfortables Arbeiten empfohlen. 16 GB sind für einen vollständigen Stack mit Reserve ideal.</p>
+<p><strong>Ist das sicher, wenn ich Dienste ins Internet exponiere?</strong>
+Mit NPM + Let’s Encrypt, regelmäßigen Updates, keinen offenen Admin-Interfaces und optionaler Cloudflare-Vorschaltung: ja, auf einem vertretbaren Sicherheitsniveau. Für sensible Dienste (Vaultwarden, Immich) empfehle ich zusätzlich Fail2Ban oder Cloudflare Access.</p>
 <hr>
 <h2 id="fazit">Fazit</h2>
-<p>Mein Homelab ist kein Bastelprojekt, das mich nervt – es ist ein Netz aus Diensten, das meinen Alltag vereinfacht. Fotos werden automatisch gesichert, Medien sind überall verfügbar, Workflows laufen automatisch, Passwörter sind kontrolliert gespeichert.</p>
-<p>Der Aufwand für die initiale Einrichtung war etwa 15–20 Stunden. Die laufende Wartung: kaum messbar. Das Verhältnis passt.</p>
-<p>Wenn du Fragen zu meinem Setup hast oder selbst ein Homelab aufbauen möchtest, <a href="#kontakt">schreib mir gern</a>.</p>
+<p>Mein Docker-Stack ist kein Bastelprojekt, das mich nervt – es ist ein Netz aus Diensten, das meinen Alltag vereinfacht. Fotos werden automatisch gesichert, Medien sind überall verfügbar, Workflows laufen automatisch, Passwörter sind kontrolliert gespeichert.</p>
+<p>Der Aufwand für die initiale Einrichtung war etwa 15–20 Stunden verteilt über mehrere Wochenenden. Die laufende Wartung: kaum messbar. Das Verhältnis passt.</p>
+<p>Wenn du Fragen zu meinem Setup hast oder selbst einen Stack aufbauen möchtest, <a href="#kontakt">schreib mir gern</a>.</p>
 <hr>
 <p><em>Zuletzt aktualisiert: April 2025. Prüfe immer die aktuellen Changelogs der eingesetzten Projekte vor dem Update.</em></p> </div> </div> <div class="border-t border-slate-200 bg-slate-50 px-6 py-8 md:px-10"> <div class="flex flex-col items-center gap-4 text-center sm:flex-row sm:text-left"> <img src="/images/paul-scholz.jpg" alt="Paul Scholz" width="56" height="56" class="h-14 w-14 rounded-full object-cover ring-2 ring-teal/30 shrink-0"> <div> <p class="font-semibold text-navy">Paul Scholz</p> <p class="text-sm text-slate-600 mt-0.5">IT-Administrator &amp; SEO-Berater · Enterprise Hyper-V/SCVMM · Docker Homelab · Lokale SEO</p> </div> </div> </div> </article> <nav class="mt-10 grid gap-4 md:grid-cols-2" aria-label="Beitragsnavigation"> <div></div> <a href="/blog/ki-seo-2025/" class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm transition-colors hover:border-teal/50"> <p class="text-sm font-semibold text-teal">Älterer Beitrag</p> <p class="mt-3 text-xl font-semibold tracking-tight text-navy">KI und SEO 2025: Mein ehrlicher Workflow für lokale Unternehmen</p> </a> </nav> </section> </main> <footer class="bg-slate-950 py-10 text-slate-300" aria-label="Fußbereich"> <div class="mx-auto flex max-w-6xl flex-col gap-6 px-6 md:flex-row md:items-center md:justify-between md:px-10 lg:px-12"> <div> <p class="text-sm font-semibold text-white">Paul Scholz © 2025</p> <p class="mt-2 text-sm text-slate-400"> Gebaut mit Astro &amp; Tailwind CSS. Gehostet auf GitHub Pages. </p> </div> <div class="flex flex-col gap-5 md:items-end"> <div class="flex flex-wrap items-center gap-4 text-sm"> <a href="/impressum/" class="hover:text-white"> Impressum </a> <a href="/datenschutz/" class="hover:text-white"> Datenschutz </a> </div> <div class="flex items-center gap-3"> <a href="https://github.com/PiefkePaul" target="_blank" rel="noopener noreferrer" aria-label="GitHub" class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-slate-200 transition-colors hover:border-teal hover:text-teal"> <svg viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5"> <path d="M12 2C6.48 2 2 6.59 2 12.24c0 4.52 2.87 8.36 6.84 9.72.5.09.68-.22.68-.48 0-.24-.01-1.03-.01-1.87-2.78.62-3.37-1.2-3.37-1.2-.46-1.19-1.11-1.5-1.11-1.5-.91-.64.07-.63.07-.63 1 .07 1.54 1.05 1.54 1.05.9 1.57 2.35 1.12 2.92.86.09-.67.35-1.12.63-1.37-2.22-.26-4.56-1.14-4.56-5.09 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.31.1-2.73 0 0 .84-.28 2.75 1.05A9.36 9.36 0 0 1 12 6.84c.85 0 1.7.12 2.49.35 1.91-1.33 2.74-1.05 2.74-1.05.55 1.42.2 2.47.1 2.73.64.72 1.03 1.63 1.03 2.75 0 3.96-2.34 4.82-4.57 5.08.36.32.67.95.67 1.92 0 1.39-.01 2.5-.01 2.84 0 .27.18.58.69.48A10.28 10.28 0 0 0 22 12.24C22 6.59 17.52 2 12 2Z"></path> </svg> </a><a href="https://hub.docker.com/r/piefkepaul/" target="_blank" rel="noopener noreferrer" aria-label="Docker Hub" class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-slate-200 transition-colors hover:border-teal hover:text-teal"> <svg viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5"> <path d="M4 13.5h2.4v2.3H4v-2.3Zm2.9 0h2.4v2.3H6.9v-2.3Zm2.9 0h2.4v2.3H9.8v-2.3Zm2.9 0h2.4v2.3h-2.4v-2.3Zm-5.8-2.9h2.4v2.3H7.8v-2.3Zm2.9 0h2.4v2.3h-2.4v-2.3Zm2.9 0h2.4v2.3h-2.4v-2.3Zm-5.8-2.9h2.4V10H7.8V7.7Zm2.9 0h2.4V10h-2.4V7.7Zm7.7 4.7c-.3 2.4-1.9 4.4-4.2 5.3-1 .4-2.2.6-3.5.5-2.9-.2-5.4-2.2-6.1-5 .7.5 1.7.7 2.7.7h.5c.4 0 .8-.3.8-.8v-5c0-.4.3-.8.8-.8h.6v-1c0-.8.7-1.5 1.5-1.5h1V8h.9V6.4c0-.8.7-1.5 1.5-1.5h1v2.4h.9v5.1h.8c.9 0 1.8-.2 2.6-.7Z"></path> </svg> </a><a href="https://www.instagram.com/lowfuel.dad/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-slate-200 transition-colors hover:border-teal hover:text-teal"> <svg viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5"> <path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5Zm0 2.2A2.8 2.8 0 0 0 4.2 7v10A2.8 2.8 0 0 0 7 19.8h10a2.8 2.8 0 0 0 2.8-2.8V7A2.8 2.8 0 0 0 17 4.2H7Zm10.25 1.45a1.2 1.2 0 1 1-1.2 1.2 1.2 1.2 0 0 1 1.2-1.2ZM12 7a5 5 0 1 1-5 5 5 5 0 0 1 5-5Zm0 2.2a2.8 2.8 0 1 0 2.8 2.8A2.8 2.8 0 0 0 12 9.2Z"></path> </svg> </a> </div> </div> </div> </footer>  </body></html>
