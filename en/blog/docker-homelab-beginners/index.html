@@ -1,0 +1,130 @@
+<!DOCTYPE html><html lang="en" class="bg-white text-slate-900"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Docker for Beginners: My Homelab Setup Explained | Paul Scholz</title><meta name="description" content="How I built a professional homelab using Docker, a Synology NAS, and Nginx Proxy Manager – explained step by step."><meta property="og:title" content="Docker for Beginners: My Homelab Setup Explained | Paul Scholz"><meta property="og:description" content="How I built a professional homelab using Docker, a Synology NAS, and Nginx Proxy Manager – explained step by step."><meta property="og:image" content="https://www.scholz-cloud.de/images/paul-scholz.jpg"><meta property="og:url" content="https://www.scholz-cloud.de/en/blog/docker-homelab-beginners/"><meta property="og:type" content="article"><meta name="twitter:card" content="summary_large_image"><link rel="canonical" href="https://www.scholz-cloud.de/en/blog/docker-homelab-beginners/"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Paul Scholz","description":"How I built a professional homelab using Docker, a Synology NAS, and Nginx Proxy Manager – explained step by step.","jobTitle":"IT systems administrator and SEO consultant","url":"https://www.scholz-cloud.de/","image":"https://www.scholz-cloud.de/images/paul-scholz.jpg","email":"mailto:p.scholz@scholz-cloud.de","address":{"@type":"PostalAddress","addressCountry":"DE"},"sameAs":["https://github.com/PiefkePaul","https://hub.docker.com/r/piefkepaul/","https://www.instagram.com/lowfuel.dad/"],"knowsAbout":["Enterprise IT","Hyper-V","SCVMM","PowerShell","SEO","AI automation","Docker","Python","n8n","Cloud infrastructure"]}</script><link rel="stylesheet" href="/_astro/_slug_.yVCZw-_U.css"></head> <body> <!-- Analytics placeholder: add Plausible, Umami or Google Analytics here -->  <nav id="site-nav" data-home-path="/en/" data-scrolled="false" data-hidden="false" class="fixed inset-x-0 top-0 z-50 border-b border-white/10 text-white transition-transform duration-300" aria-label="Primary navigation" data-astro-cid-pux6a34n> <div class="mx-auto max-w-6xl px-6 md:px-10 lg:px-12" data-astro-cid-pux6a34n> <input id="nav-toggle" type="checkbox" class="peer sr-only" aria-hidden="true" data-astro-cid-pux6a34n> <div class="flex h-20 items-center justify-between gap-4" data-astro-cid-pux6a34n> <a href="/en/" class="text-lg font-bold tracking-tight text-white" data-astro-cid-pux6a34n>
+Paul Scholz
+</a> <div class="hidden items-center gap-8 md:flex" data-astro-cid-pux6a34n> <div class="flex items-center gap-6" data-astro-cid-pux6a34n> <a href="/en/#about" class="nav-link text-sm font-medium text-slate-300 transition-colors duration-200 hover:text-white" data-nav-link data-section-link="about" data-active="false" data-astro-cid-pux6a34n> About Me </a><a href="/en/#services" class="nav-link text-sm font-medium text-slate-300 transition-colors duration-200 hover:text-white" data-nav-link data-section-link="services" data-active="false" data-astro-cid-pux6a34n> Services </a><a href="/en/#tech-stack" class="nav-link text-sm font-medium text-slate-300 transition-colors duration-200 hover:text-white" data-nav-link data-section-link="tech-stack" data-active="false" data-astro-cid-pux6a34n> Tech Stack </a><a href="/en/blog/" class="nav-link text-sm font-medium text-slate-300 transition-colors duration-200 hover:text-white" data-nav-link data-active="false" data-astro-cid-pux6a34n> Blog </a><a href="/en/#contact" class="nav-link text-sm font-medium text-slate-300 transition-colors duration-200 hover:text-white" data-nav-link data-section-link="contact" data-active="false" data-astro-cid-pux6a34n> Contact </a> </div> <div class="flex items-center rounded-full border border-white/10 bg-white/5 p-1" data-astro-cid-pux6a34n> <a href="/" class="rounded-full px-3 py-1.5 text-xs font-semibold transition-colors text-slate-300 hover:text-white" aria-label="Zur deutschen Version wechseln" data-astro-cid-pux6a34n>
+DE
+</a> <a href="/en/" class="rounded-full px-3 py-1.5 text-xs font-semibold transition-colors bg-teal text-white" aria-label="Switch to the English version" data-astro-cid-pux6a34n>
+EN
+</a> </div> </div> <label for="nav-toggle" class="grid h-11 w-11 place-items-center rounded-full border border-white/10 bg-white/5 text-white md:hidden" aria-label="Open navigation menu" data-astro-cid-pux6a34n> <span class="relative block h-4 w-5" data-astro-cid-pux6a34n> <span class="absolute left-0 top-0 h-0.5 w-5 rounded-full bg-current transition-transform duration-300 peer-checked:translate-y-[7px] peer-checked:rotate-45" data-astro-cid-pux6a34n></span> <span class="absolute left-0 top-[7px] h-0.5 w-5 rounded-full bg-current transition-opacity duration-300 peer-checked:opacity-0" data-astro-cid-pux6a34n></span> <span class="absolute left-0 top-[14px] h-0.5 w-5 rounded-full bg-current transition-transform duration-300 peer-checked:-translate-y-[7px] peer-checked:-rotate-45" data-astro-cid-pux6a34n></span> </span> </label> </div> <div class="max-h-0 overflow-hidden opacity-0 transition-all duration-300 peer-checked:max-h-[32rem] peer-checked:pb-6 peer-checked:opacity-100 md:hidden" data-astro-cid-pux6a34n> <div class="space-y-3 rounded-3xl border border-white/10 bg-white/5 p-5 shadow-2xl shadow-navy/20 backdrop-blur" data-astro-cid-pux6a34n> <a href="/en/#about" class="nav-link block text-base font-medium text-slate-200 transition-colors hover:text-white" data-nav-link data-section-link="about" data-active="false" data-astro-cid-pux6a34n> About Me </a><a href="/en/#services" class="nav-link block text-base font-medium text-slate-200 transition-colors hover:text-white" data-nav-link data-section-link="services" data-active="false" data-astro-cid-pux6a34n> Services </a><a href="/en/#tech-stack" class="nav-link block text-base font-medium text-slate-200 transition-colors hover:text-white" data-nav-link data-section-link="tech-stack" data-active="false" data-astro-cid-pux6a34n> Tech Stack </a><a href="/en/blog/" class="nav-link block text-base font-medium text-slate-200 transition-colors hover:text-white" data-nav-link data-active="false" data-astro-cid-pux6a34n> Blog </a><a href="/en/#contact" class="nav-link block text-base font-medium text-slate-200 transition-colors hover:text-white" data-nav-link data-section-link="contact" data-active="false" data-astro-cid-pux6a34n> Contact </a> <div class="flex items-center gap-2 border-t border-white/10 pt-4" data-astro-cid-pux6a34n> <a href="/" class="rounded-full px-3 py-2 text-xs font-semibold transition-colors bg-white/5 text-slate-300 hover:text-white" aria-label="Zur deutschen Version wechseln" data-astro-cid-pux6a34n>
+DE
+</a> <a href="/en/" class="rounded-full px-3 py-2 text-xs font-semibold transition-colors bg-teal text-white" aria-label="Switch to the English version" data-astro-cid-pux6a34n>
+EN
+</a> </div> </div> </div> </div> </nav>  <script>
+  const nav = document.getElementById('site-nav');
+  const navToggle = document.getElementById('nav-toggle');
+
+  if (nav) {
+    const normalizePath = (value) => (value.endsWith('/') ? value : `${value}/`);
+    const currentPath = normalizePath(window.location.pathname);
+    const homePath = normalizePath(nav.dataset.homePath || '/');
+    const links = Array.from(nav.querySelectorAll('[data-nav-link]'));
+
+    const sectionPairs =
+      currentPath === homePath
+        ? links
+            .map((link) => ({
+              link,
+              section: document.getElementById(link.dataset.sectionLink || '')
+            }))
+            .filter((entry) => entry.section)
+        : [];
+
+    const setActiveLink = () => {
+      if (!sectionPairs.length) return;
+
+      const marker = window.scrollY + window.innerHeight * 0.35;
+      let activeLink = sectionPairs[0].link;
+
+      sectionPairs.forEach(({ link, section }) => {
+        if (section && marker >= section.offsetTop) {
+          activeLink = link;
+        }
+      });
+
+      links.forEach((link) => {
+        if (link.dataset.sectionLink) {
+          link.dataset.active = link === activeLink ? 'true' : 'false';
+        }
+      });
+    };
+
+    let lastY = window.scrollY;
+
+    const onScroll = () => {
+      const currentY = window.scrollY;
+
+      nav.dataset.scrolled = currentY > 24 ? 'true' : 'false';
+      nav.dataset.hidden = currentY > lastY && currentY > 180 ? 'true' : 'false';
+
+      if (currentY < 80) {
+        nav.dataset.hidden = 'false';
+      }
+
+      lastY = currentY;
+      setActiveLink();
+    };
+
+    links.forEach((link) => {
+      link.addEventListener('click', () => {
+        if (navToggle instanceof HTMLInputElement) {
+          navToggle.checked = false;
+        }
+      });
+    });
+
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('hashchange', setActiveLink);
+  }
+</script> <main class="bg-slate-50 pt-32"> <section class="mx-auto max-w-5xl px-6 py-16 md:px-10 lg:px-12"> <a href="/en/blog/" class="inline-flex items-center text-sm font-semibold text-teal transition-colors hover:text-navy">
+Back to blog
+</a> <article class="mt-8 overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-sm"> <header class="border-b border-slate-200 px-6 py-10 md:px-10"> <div class="flex flex-wrap items-center gap-3 text-sm text-slate-500"> <time datetime="2025-03-15T00:00:00.000Z"> March 15, 2025 </time> <span class="h-1 w-1 rounded-full bg-slate-300"></span> <span>6 min read</span>  </div> <h1 class="mt-6 text-4xl font-semibold tracking-tight text-navy md:text-5xl">Docker for Beginners: My Homelab Setup Explained</h1> <p class="mt-5 max-w-3xl text-lg leading-8 text-slate-600">How I built a professional homelab using Docker, a Synology NAS, and Nginx Proxy Manager – explained step by step.</p> <div class="mt-6 flex flex-wrap gap-2"> <span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-600">
+#Docker </span><span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-600">
+#Homelab </span><span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-600">
+#Synology </span><span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-600">
+#Self-Hosting </span><span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-600">
+#NAS </span> </div> </header> <div class="px-6 py-10 md:px-10 md:py-12"> <div class="prose prose-slate max-w-none prose-headings:text-navy prose-a:text-teal prose-a:no-underline hover:prose-a:text-navy prose-strong:text-navy prose-code:text-sky-700 prose-code:before:content-none prose-code:after:content-none prose-pre:overflow-x-auto prose-pre:rounded-2xl prose-pre:border prose-pre:border-slate-800 prose-pre:bg-slate-950 prose-pre:text-slate-100 prose-img:rounded-2xl prose-blockquote:border-teal prose-blockquote:text-slate-700"> <h2 id="warum-docker-für-mich-der-sinnvollste-einstieg-war">Warum Docker für mich der sinnvollste Einstieg war</h2>
+<p>Als ich mein Homelab aufgebaut habe, wollte ich zuerst eigentlich nur ein paar Dienste sauber zuhause betreiben. Medienserver, Monitoring, kleine Automatisierungen, vielleicht noch ein Reverse Proxy. Mein erster Gedanke war klassisch: einzelne VMs aufsetzen, Software manuell installieren und dann schon irgendwie dokumentieren. Das hat kurzfristig funktioniert, aber es war schnell unübersichtlich. Updates waren nervig, Tests riskant und jeder neue Dienst fühlte sich an wie ein kleiner Sonderfall.</p>
+<p>Docker hat das für mich komplett verändert. Statt Anwendungen direkt auf dem Host-System zu installieren, laufen sie in klar getrennten Containern. Für mich war das der entscheidende Vorteil: ein Dienst bleibt ein Dienst. Er bringt seine Laufzeitumgebung mit, kollidiert weniger mit anderen Anwendungen und lässt sich viel leichter neu aufsetzen oder verschieben.</p>
+<p>Gerade Einsteiger fragen oft: “Warum soll ich Docker überhaupt benutzen?” Meine ehrliche Antwort ist: weil man damit schneller zu reproduzierbaren Ergebnissen kommt. Wenn ein Container kaputtgeht, baue ich ihn sauber neu. Wenn ich einen Dienst auf ein anderes System umziehen will, nehme ich meine Compose-Datei und die persistenten Daten mit. Wenn ich ein Update testen will, mache ich das kontrolliert statt auf gut Glück. Genau diese Mischung aus Ordnung und Flexibilität macht Docker für ein Homelab so stark.</p>
+<h2 id="mein-setup-synology-nas-plus-docker-als-stabile-basis">Mein Setup: Synology NAS plus Docker als stabile Basis</h2>
+<p>Mein Homelab läuft auf einer Synology NAS. Für meinen Alltag ist das eine sehr praktische Plattform, weil sie wenig Strom zieht, zuverlässig läuft und sich trotzdem gut erweitern lässt. Die NAS ist bei mir nicht nur Datenspeicher, sondern auch die zentrale Laufzeitumgebung für mehrere Services.</p>
+<p>Was ich an einer Synology in Verbindung mit Docker mag: Der Einstieg ist angenehm niedrig, aber man kann trotzdem technisch sauber arbeiten. Viele starten dort mit der Paket-Oberfläche und merken später, dass sich mit Docker Compose deutlich strukturierter arbeiten lässt. Genau diesen Weg bin ich auch gegangen.</p>
+<p>Ich halte mein Setup bewusst einfach. Für jeden Stack gibt es einen eigenen Ordner mit:</p>
+<ul>
+<li>einer <code>docker-compose.yml</code>,</li>
+<li>optional einer <code>.env</code>,</li>
+<li>klar benannten Datenverzeichnissen,</li>
+<li>einer kleinen Notiz, wofür der Stack gedacht ist.</li>
+</ul>
+<p>Das klingt banal, ist aber extrem wichtig. Ein Homelab wird schneller unübersichtlich, als man denkt. Wer nach drei Monaten nicht mehr weiß, wo Volumes liegen, welche Ports belegt sind oder welcher Container zu welchem Dienst gehört, verliert den größten Vorteil von Docker direkt wieder.</p>
+<p>Außerdem trenne ich konsequent zwischen Container und Daten. Die eigentliche Anwendung darf austauschbar sein, die Daten nicht. Medien, Konfigurationen, Datenbanken und Uploads liegen deshalb sauber auf der NAS. So kann ich Container neu erstellen, ohne jedes Mal Angst um Inhalte oder Einstellungen haben zu müssen.</p>
+<h2 id="nginx-proxy-manager-für-ssl-und-reverse-proxy">Nginx Proxy Manager für SSL und Reverse Proxy</h2>
+<p>Ein Werkzeug, das ich fast jedem Einsteiger empfehlen würde, ist Nginx Proxy Manager. Anfangs sind viele Homelabs ein Sammelsurium aus Ports: <code>:8096</code>, <code>:9443</code>, <code>:5678</code>, <code>:3000</code>. Intern funktioniert das, aber auf Dauer ist es weder schön noch wartbar.</p>
+<p>Mit Nginx Proxy Manager habe ich meine Dienste hinter saubere Subdomains gelegt. Aus kryptischen Ports wurden erreichbare Adressen wie <code>jellyfin.meinedomain.de</code> oder <code>n8n.meinedomain.de</code>. Der zweite große Vorteil ist SSL. Let’s-Encrypt-Zertifikate lassen sich sehr bequem einrichten und automatisch erneuern. Gerade wenn man mehrere Dienste betreibt, spart das enorm Zeit.</p>
+<p>Für mich war Nginx Proxy Manager deshalb mehr als nur ein Komfort-Tool. Er hat mein Homelab deutlich professioneller gemacht. Ich habe eine zentrale Stelle für Routing, Zertifikate und Weiterleitungen, statt das Thema für jeden Dienst neu zu lösen.</p>
+<p>Wichtig ist aber auch hier: Ein Reverse Proxy ist kein Sicherheitskonzept. Ich veröffentliche nicht jeden Container stumpf ins Internet. Einige Dienste bleiben intern, andere laufen nur mit zusätzlicher Authentifizierung. Genau diese Entscheidung sollte man bewusst treffen und nicht erst dann, wenn der erste Scan aus dem Internet auftaucht.</p>
+<h2 id="welche-container-bei-mir-wirklich-mehrwert-bringen">Welche Container bei mir wirklich Mehrwert bringen</h2>
+<p>Ich betreibe mein Homelab nicht nach dem Motto “je mehr Container, desto besser”. Jeder Dienst muss für mich einen echten Nutzen haben. Ein paar Container haben sich dabei besonders bewährt.</p>
+<h3 id="portainer">Portainer</h3>
+<p>Portainer ist für mich die Verwaltungsebene. Ja, ich arbeite gern mit Compose-Dateien, aber Portainer ist praktisch, um Logs, Container-Zustände, Netzwerke und Volumes schnell im Blick zu haben. Besonders für Einsteiger ist das hilfreich, weil man ein besseres Gefühl dafür bekommt, was auf dem Host gerade wirklich passiert.</p>
+<h3 id="jellyfin-und-plex">Jellyfin und Plex</h3>
+<p>Beide laufen bei mir, aber aus unterschiedlichen Gründen. Plex ist bei Clients und Komfort immer noch stark. Jellyfin gefällt mir wegen der Offenheit und weil ich mich nicht in ein kommerzielles Modell drängen lasse. Ich teste beide bewusst parallel, weil sie unterschiedliche Stärken haben und man dadurch viel über Anforderungen, Transcoding und Nutzerkomfort lernt.</p>
+<h3 id="n8n">n8n</h3>
+<p>n8n ist einer meiner Lieblingscontainer, weil er die Brücke zwischen Infrastruktur und Automatisierung schlägt. Ich nutze ihn für kleine Workflows, Benachrichtigungen, API-Abfragen und teilweise auch für KI-gestützte Prozesse. Gerade wenn man repetitive Aufgaben reduzieren will, ist n8n im Homelab ein sehr dankbarer Dienst.</p>
+<h3 id="portainer-uptime-kuma-und-kleine-helfer">Portainer, Uptime Kuma und kleine Helfer</h3>
+<p>Neben den “großen” Diensten laufen bei mir immer auch ein paar Helfer. Uptime Kuma überwacht Erreichbarkeit und Ausfälle. Kleine DNS- oder Netzwerktools helfen beim Testen. Manchmal starte ich temporäre Container, um etwas auszuprobieren und danach wieder zu entfernen. Genau für solche Experimente ist Docker ideal, weil das Basissystem sauber bleibt.</p>
+<h2 id="meine-wichtigsten-tipps-für-einsteiger">Meine wichtigsten Tipps für Einsteiger</h2>
+<p>Wenn ich heute noch einmal von vorn anfangen würde, würde ich ein paar Dinge bewusst früher richtig machen:</p>
+<ol>
+<li>Nicht mit zehn Diensten gleichzeitig starten. Zwei oder drei Container reichen, um die Grundlagen wirklich zu verstehen.</li>
+<li>Docker Compose früh lernen. Wer nur über Oberflächen klickt, verliert schnell die Nachvollziehbarkeit.</li>
+<li>Daten immer persistent und getrennt speichern. Sonst wird der erste Neuaufbau unnötig schmerzhaft.</li>
+<li>Logs lesen. Sehr viele Probleme sind keine Docker-Probleme, sondern Konfigurations- oder Berechtigungsprobleme.</li>
+<li>Backups von Anfang an mitdenken. Ein Homelab ist keine Ausrede, Datensicherung auf später zu verschieben.</li>
+<li>Dienste nicht unüberlegt veröffentlichen. Nicht alles, was praktisch erreichbar wäre, sollte auch öffentlich erreichbar sein.</li>
+</ol>
+<p>Außerdem hilft sauberes Benennen enorm. Ein Container namens <code>app1</code> ist nach kurzer Zeit wertlos. Ein Stack wie <code>n8n-prod</code>, <code>jellyfin-media</code> oder <code>npm-proxy</code> spart später sehr viel Sucherei.</p>
+<h2 id="fazit-und-ausblick">Fazit und Ausblick</h2>
+<p>Für mich war Docker der Schritt vom gelegentlichen Basteln hin zu einem Homelab, das sich strukturiert und zuverlässig anfühlt. Die Kombination aus Synology NAS, Docker und Nginx Proxy Manager hat sich im Alltag bewährt, weil sie genug Komfort für schnelles Arbeiten bietet und gleichzeitig technisch sauber genug ist, um daraus wirklich etwas zu lernen.</p>
+<p>Ich betreibe mein Homelab nicht nur aus Spaß. Es ist für mich auch eine Lern- und Testumgebung für Themen, die später produktiv relevant werden: saubere Service-Trennung, Reverse Proxies, Zertifikate, Monitoring und Automatisierung. Genau deshalb finde ich Docker so wertvoll. Man lernt nicht nur, wie man einen Container startet, sondern wie man Infrastruktur systematischer denkt.</p>
+<p>Wenn du gerade anfängst, musst du kein perfektes Setup bauen. Viel wichtiger ist eine saubere Basis, die du später erweitern kannst. Genau dabei hilft Docker enorm. In einem nächsten Beitrag möchte ich tiefer auf Compose-Strukturen, Backup-Strategien und Sicherheitsmaßnahmen im Homelab eingehen, denn dort trennt sich die nette Demo von einem Setup, das langfristig wirklich Freude macht.</p> </div> </div> </article> <nav class="mt-10 grid gap-4 md:grid-cols-2" aria-label="Post navigation"> <div></div> <a href="/en/blog/ki-seo-2025/" class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm transition-colors hover:border-teal/50"> <p class="text-sm font-semibold text-teal">Older post</p> <p class="mt-3 text-xl font-semibold tracking-tight text-navy"> AI-Powered SEO: How I Make Local Businesses More Visible </p> </a> </nav> </section> </main> <footer class="bg-slate-950 py-10 text-slate-300" aria-label="Footer"> <div class="mx-auto flex max-w-6xl flex-col gap-6 px-6 md:flex-row md:items-center md:justify-between md:px-10 lg:px-12"> <div> <p class="text-sm font-semibold text-white">Paul Scholz © 2025</p> <p class="mt-2 text-sm text-slate-400"> Built with Astro &amp; Tailwind CSS. Hosted on GitHub Pages. </p> </div> <div class="flex flex-col gap-5 md:items-end"> <div class="flex flex-wrap items-center gap-4 text-sm"> <a href="/impressum/" class="hover:text-white">Impressum</a> <a href="/datenschutz/" class="hover:text-white">Datenschutz</a> </div> <div class="flex items-center gap-3"> <a href="https://github.com/PiefkePaul" target="_blank" rel="noopener noreferrer" aria-label="GitHub" class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-slate-200 transition-colors hover:border-teal hover:text-teal"> <svg viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5"> <path d="M12 2C6.48 2 2 6.59 2 12.24c0 4.52 2.87 8.36 6.84 9.72.5.09.68-.22.68-.48 0-.24-.01-1.03-.01-1.87-2.78.62-3.37-1.2-3.37-1.2-.46-1.19-1.11-1.5-1.11-1.5-.91-.64.07-.63.07-.63 1 .07 1.54 1.05 1.54 1.05.9 1.57 2.35 1.12 2.92.86.09-.67.35-1.12.63-1.37-2.22-.26-4.56-1.14-4.56-5.09 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.31.1-2.73 0 0 .84-.28 2.75 1.05A9.36 9.36 0 0 1 12 6.84c.85 0 1.7.12 2.49.35 1.91-1.33 2.74-1.05 2.74-1.05.55 1.42.2 2.47.1 2.73.64.72 1.03 1.63 1.03 2.75 0 3.96-2.34 4.82-4.57 5.08.36.32.67.95.67 1.92 0 1.39-.01 2.5-.01 2.84 0 .27.18.58.69.48A10.28 10.28 0 0 0 22 12.24C22 6.59 17.52 2 12 2Z"></path> </svg> </a><a href="https://hub.docker.com/r/piefkepaul/" target="_blank" rel="noopener noreferrer" aria-label="Docker Hub" class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-slate-200 transition-colors hover:border-teal hover:text-teal"> <svg viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5"> <path d="M4 13.5h2.4v2.3H4v-2.3Zm2.9 0h2.4v2.3H6.9v-2.3Zm2.9 0h2.4v2.3H9.8v-2.3Zm2.9 0h2.4v2.3h-2.4v-2.3Zm-5.8-2.9h2.4v2.3H7.8v-2.3Zm2.9 0h2.4v2.3h-2.4v-2.3Zm2.9 0h2.4v2.3h-2.4v-2.3Zm-5.8-2.9h2.4V10H7.8V7.7Zm2.9 0h2.4V10h-2.4V7.7Zm7.7 4.7c-.3 2.4-1.9 4.4-4.2 5.3-1 .4-2.2.6-3.5.5-2.9-.2-5.4-2.2-6.1-5 .7.5 1.7.7 2.7.7h.5c.4 0 .8-.3.8-.8v-5c0-.4.3-.8.8-.8h.6v-1c0-.8.7-1.5 1.5-1.5h1V8h.9V6.4c0-.8.7-1.5 1.5-1.5h1v2.4h.9v5.1h.8c.9 0 1.8-.2 2.6-.7Z"></path> </svg> </a><a href="https://www.instagram.com/lowfuel.dad/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-slate-200 transition-colors hover:border-teal hover:text-teal"> <svg viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5"> <path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5Zm0 2.2A2.8 2.8 0 0 0 4.2 7v10A2.8 2.8 0 0 0 7 19.8h10a2.8 2.8 0 0 0 2.8-2.8V7A2.8 2.8 0 0 0 17 4.2H7Zm10.25 1.45a1.2 1.2 0 1 1-1.2 1.2 1.2 1.2 0 0 1 1.2-1.2ZM12 7a5 5 0 1 1-5 5 5 5 0 0 1 5-5Zm0 2.2a2.8 2.8 0 1 0 2.8 2.8A2.8 2.8 0 0 0 12 9.2Z"></path> </svg> </a> </div> </div> </div> </footer>  </body></html>

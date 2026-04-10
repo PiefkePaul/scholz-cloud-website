@@ -1,0 +1,173 @@
+<!DOCTYPE html><html lang="en" class="bg-white text-slate-900"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>PowerShell Automation in Enterprise Environments: My Experience | Paul Scholz</title><meta name="description" content="From practice: How I manage hundreds of Hyper-V hosts and thousands of VMs with PowerShell automation – including real code examples."><meta property="og:title" content="PowerShell Automation in Enterprise Environments: My Experience | Paul Scholz"><meta property="og:description" content="From practice: How I manage hundreds of Hyper-V hosts and thousands of VMs with PowerShell automation – including real code examples."><meta property="og:image" content="https://www.scholz-cloud.de/images/paul-scholz.jpg"><meta property="og:url" content="https://www.scholz-cloud.de/en/blog/powershell-automatisierung/"><meta property="og:type" content="article"><meta name="twitter:card" content="summary_large_image"><link rel="canonical" href="https://www.scholz-cloud.de/en/blog/powershell-automatisierung/"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Paul Scholz","description":"From practice: How I manage hundreds of Hyper-V hosts and thousands of VMs with PowerShell automation – including real code examples.","jobTitle":"IT systems administrator and SEO consultant","url":"https://www.scholz-cloud.de/","image":"https://www.scholz-cloud.de/images/paul-scholz.jpg","email":"mailto:p.scholz@scholz-cloud.de","address":{"@type":"PostalAddress","addressCountry":"DE"},"sameAs":["https://github.com/PiefkePaul","https://hub.docker.com/r/piefkepaul/","https://www.instagram.com/lowfuel.dad/"],"knowsAbout":["Enterprise IT","Hyper-V","SCVMM","PowerShell","SEO","AI automation","Docker","Python","n8n","Cloud infrastructure"]}</script><link rel="stylesheet" href="/_astro/_slug_.yVCZw-_U.css"></head> <body> <!-- Analytics placeholder: add Plausible, Umami or Google Analytics here -->  <nav id="site-nav" data-home-path="/en/" data-scrolled="false" data-hidden="false" class="fixed inset-x-0 top-0 z-50 border-b border-white/10 text-white transition-transform duration-300" aria-label="Primary navigation" data-astro-cid-pux6a34n> <div class="mx-auto max-w-6xl px-6 md:px-10 lg:px-12" data-astro-cid-pux6a34n> <input id="nav-toggle" type="checkbox" class="peer sr-only" aria-hidden="true" data-astro-cid-pux6a34n> <div class="flex h-20 items-center justify-between gap-4" data-astro-cid-pux6a34n> <a href="/en/" class="text-lg font-bold tracking-tight text-white" data-astro-cid-pux6a34n>
+Paul Scholz
+</a> <div class="hidden items-center gap-8 md:flex" data-astro-cid-pux6a34n> <div class="flex items-center gap-6" data-astro-cid-pux6a34n> <a href="/en/#about" class="nav-link text-sm font-medium text-slate-300 transition-colors duration-200 hover:text-white" data-nav-link data-section-link="about" data-active="false" data-astro-cid-pux6a34n> About Me </a><a href="/en/#services" class="nav-link text-sm font-medium text-slate-300 transition-colors duration-200 hover:text-white" data-nav-link data-section-link="services" data-active="false" data-astro-cid-pux6a34n> Services </a><a href="/en/#tech-stack" class="nav-link text-sm font-medium text-slate-300 transition-colors duration-200 hover:text-white" data-nav-link data-section-link="tech-stack" data-active="false" data-astro-cid-pux6a34n> Tech Stack </a><a href="/en/blog/" class="nav-link text-sm font-medium text-slate-300 transition-colors duration-200 hover:text-white" data-nav-link data-active="false" data-astro-cid-pux6a34n> Blog </a><a href="/en/#contact" class="nav-link text-sm font-medium text-slate-300 transition-colors duration-200 hover:text-white" data-nav-link data-section-link="contact" data-active="false" data-astro-cid-pux6a34n> Contact </a> </div> <div class="flex items-center rounded-full border border-white/10 bg-white/5 p-1" data-astro-cid-pux6a34n> <a href="/" class="rounded-full px-3 py-1.5 text-xs font-semibold transition-colors text-slate-300 hover:text-white" aria-label="Zur deutschen Version wechseln" data-astro-cid-pux6a34n>
+DE
+</a> <a href="/en/" class="rounded-full px-3 py-1.5 text-xs font-semibold transition-colors bg-teal text-white" aria-label="Switch to the English version" data-astro-cid-pux6a34n>
+EN
+</a> </div> </div> <label for="nav-toggle" class="grid h-11 w-11 place-items-center rounded-full border border-white/10 bg-white/5 text-white md:hidden" aria-label="Open navigation menu" data-astro-cid-pux6a34n> <span class="relative block h-4 w-5" data-astro-cid-pux6a34n> <span class="absolute left-0 top-0 h-0.5 w-5 rounded-full bg-current transition-transform duration-300 peer-checked:translate-y-[7px] peer-checked:rotate-45" data-astro-cid-pux6a34n></span> <span class="absolute left-0 top-[7px] h-0.5 w-5 rounded-full bg-current transition-opacity duration-300 peer-checked:opacity-0" data-astro-cid-pux6a34n></span> <span class="absolute left-0 top-[14px] h-0.5 w-5 rounded-full bg-current transition-transform duration-300 peer-checked:-translate-y-[7px] peer-checked:-rotate-45" data-astro-cid-pux6a34n></span> </span> </label> </div> <div class="max-h-0 overflow-hidden opacity-0 transition-all duration-300 peer-checked:max-h-[32rem] peer-checked:pb-6 peer-checked:opacity-100 md:hidden" data-astro-cid-pux6a34n> <div class="space-y-3 rounded-3xl border border-white/10 bg-white/5 p-5 shadow-2xl shadow-navy/20 backdrop-blur" data-astro-cid-pux6a34n> <a href="/en/#about" class="nav-link block text-base font-medium text-slate-200 transition-colors hover:text-white" data-nav-link data-section-link="about" data-active="false" data-astro-cid-pux6a34n> About Me </a><a href="/en/#services" class="nav-link block text-base font-medium text-slate-200 transition-colors hover:text-white" data-nav-link data-section-link="services" data-active="false" data-astro-cid-pux6a34n> Services </a><a href="/en/#tech-stack" class="nav-link block text-base font-medium text-slate-200 transition-colors hover:text-white" data-nav-link data-section-link="tech-stack" data-active="false" data-astro-cid-pux6a34n> Tech Stack </a><a href="/en/blog/" class="nav-link block text-base font-medium text-slate-200 transition-colors hover:text-white" data-nav-link data-active="false" data-astro-cid-pux6a34n> Blog </a><a href="/en/#contact" class="nav-link block text-base font-medium text-slate-200 transition-colors hover:text-white" data-nav-link data-section-link="contact" data-active="false" data-astro-cid-pux6a34n> Contact </a> <div class="flex items-center gap-2 border-t border-white/10 pt-4" data-astro-cid-pux6a34n> <a href="/" class="rounded-full px-3 py-2 text-xs font-semibold transition-colors bg-white/5 text-slate-300 hover:text-white" aria-label="Zur deutschen Version wechseln" data-astro-cid-pux6a34n>
+DE
+</a> <a href="/en/" class="rounded-full px-3 py-2 text-xs font-semibold transition-colors bg-teal text-white" aria-label="Switch to the English version" data-astro-cid-pux6a34n>
+EN
+</a> </div> </div> </div> </div> </nav>  <script>
+  const nav = document.getElementById('site-nav');
+  const navToggle = document.getElementById('nav-toggle');
+
+  if (nav) {
+    const normalizePath = (value) => (value.endsWith('/') ? value : `${value}/`);
+    const currentPath = normalizePath(window.location.pathname);
+    const homePath = normalizePath(nav.dataset.homePath || '/');
+    const links = Array.from(nav.querySelectorAll('[data-nav-link]'));
+
+    const sectionPairs =
+      currentPath === homePath
+        ? links
+            .map((link) => ({
+              link,
+              section: document.getElementById(link.dataset.sectionLink || '')
+            }))
+            .filter((entry) => entry.section)
+        : [];
+
+    const setActiveLink = () => {
+      if (!sectionPairs.length) return;
+
+      const marker = window.scrollY + window.innerHeight * 0.35;
+      let activeLink = sectionPairs[0].link;
+
+      sectionPairs.forEach(({ link, section }) => {
+        if (section && marker >= section.offsetTop) {
+          activeLink = link;
+        }
+      });
+
+      links.forEach((link) => {
+        if (link.dataset.sectionLink) {
+          link.dataset.active = link === activeLink ? 'true' : 'false';
+        }
+      });
+    };
+
+    let lastY = window.scrollY;
+
+    const onScroll = () => {
+      const currentY = window.scrollY;
+
+      nav.dataset.scrolled = currentY > 24 ? 'true' : 'false';
+      nav.dataset.hidden = currentY > lastY && currentY > 180 ? 'true' : 'false';
+
+      if (currentY < 80) {
+        nav.dataset.hidden = 'false';
+      }
+
+      lastY = currentY;
+      setActiveLink();
+    };
+
+    links.forEach((link) => {
+      link.addEventListener('click', () => {
+        if (navToggle instanceof HTMLInputElement) {
+          navToggle.checked = false;
+        }
+      });
+    });
+
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('hashchange', setActiveLink);
+  }
+</script> <main class="bg-slate-50 pt-32"> <section class="mx-auto max-w-5xl px-6 py-16 md:px-10 lg:px-12"> <a href="/en/blog/" class="inline-flex items-center text-sm font-semibold text-teal transition-colors hover:text-navy">
+Back to blog
+</a> <article class="mt-8 overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-sm"> <header class="border-b border-slate-200 px-6 py-10 md:px-10"> <div class="flex flex-wrap items-center gap-3 text-sm text-slate-500"> <time datetime="2025-01-10T00:00:00.000Z"> January 10, 2025 </time> <span class="h-1 w-1 rounded-full bg-slate-300"></span> <span>5 min read</span>  </div> <h1 class="mt-6 text-4xl font-semibold tracking-tight text-navy md:text-5xl">PowerShell Automation in Enterprise Environments: My Experience</h1> <p class="mt-5 max-w-3xl text-lg leading-8 text-slate-600">From practice: How I manage hundreds of Hyper-V hosts and thousands of VMs with PowerShell automation – including real code examples.</p> <div class="mt-6 flex flex-wrap gap-2"> <span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-600">
+#PowerShell </span><span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-600">
+#Hyper-V </span><span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-600">
+#Automatisierung </span><span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-600">
+#Windows Server </span><span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-600">
+#SCVMM </span> </div> </header> <div class="px-6 py-10 md:px-10 md:py-12"> <div class="prose prose-slate max-w-none prose-headings:text-navy prose-a:text-teal prose-a:no-underline hover:prose-a:text-navy prose-strong:text-navy prose-code:text-sky-700 prose-code:before:content-none prose-code:after:content-none prose-pre:overflow-x-auto prose-pre:rounded-2xl prose-pre:border prose-pre:border-slate-800 prose-pre:bg-slate-950 prose-pre:text-slate-100 prose-img:rounded-2xl prose-blockquote:border-teal prose-blockquote:text-slate-700"> <h2 id="mein-arbeitsumfeld-bewusst-anonym-gehalten">Mein Arbeitsumfeld, bewusst anonym gehalten</h2>
+<p>Ich arbeite in einer Enterprise-Umgebung, in der Hyper-V, SCVMM und klassische Windows-Server-Infrastruktur eine zentrale Rolle spielen. Die exakten Zahlen und internen Abläufe halte ich bewusst allgemein, aber die Größenordnung ist eindeutig: viele Hosts, sehr viele virtuelle Maschinen und ein Betriebsmodell, in dem man repetitive Aufgaben nicht mehr ernsthaft per Hand lösen kann.</p>
+<p>Genau dort zeigt sich, wie wertvoll PowerShell in der Praxis ist. Sobald es nicht mehr um ein paar einzelne Server geht, sondern um standardisierte Plattformen, Cluster, Wartungsfenster, Storage, Netzwerke und wiederkehrende Changes, wird manuelles Arbeiten nicht nur langsam, sondern riskant. Jeder Klick in einer Oberfläche ist dann ein potenzieller Unterschied zum eigentlichen Soll-Zustand.</p>
+<p>Ich sehe PowerShell deshalb nicht als nette Admin-Skriptsprache, sondern als Betriebsschnittstelle. Sie hilft mir, Abläufe reproduzierbar, nachvollziehbar und kontrollierbar zu machen. In Enterprise-IT zählt nicht nur, dass etwas funktioniert, sondern dass es auf dieselbe Weise auch morgen und im nächsten Wartungsfenster wieder funktioniert.</p>
+<h2 id="warum-powershell-in-enterprise-it-unverzichtbar-ist">Warum PowerShell in Enterprise-IT unverzichtbar ist</h2>
+<p>Der größte Vorteil von PowerShell ist für mich die Kombination aus Tiefe und Standardisierung. Mit denselben Grundprinzipien kann ich einzelne Hosts prüfen, ganze Cluster auswerten, SCVMM-Objekte steuern, Reports erzeugen und Wartungsprozesse definieren.</p>
+<p>Besonders wichtig ist das in drei Bereichen:</p>
+<ol>
+<li><strong>Skalierung</strong>: Was einmal funktioniert, muss für 50 oder 200 Systeme genauso sauber funktionieren.</li>
+<li><strong>Nachvollziehbarkeit</strong>: Ich will verstehen können, warum ein Prozess etwas getan oder eben nicht getan hat.</li>
+<li><strong>Fehlertoleranz</strong>: Ein guter Ablauf bricht kontrolliert ab oder arbeitet kontrolliert weiter, statt still zu scheitern.</li>
+</ol>
+<p>Eine GUI ist für Einzelfälle praktisch. Ein Skript kann dagegen Logging, Vorbedingungen, Sonderfälle und Ergebnisse in eine Form bringen, mit der man im Betrieb wirklich arbeiten kann. Genau deshalb ist PowerShell für mich nicht nur schneller, sondern oft auch sicherer.</p>
+<h2 id="typische-automatisierungsaufgaben-in-meinem-alltag">Typische Automatisierungsaufgaben in meinem Alltag</h2>
+<h3 id="vm-migrationen-sauber-standardisieren">VM-Migrationen sauber standardisieren</h3>
+<p>Migrationen sind ein klassisches Beispiel. Anfangs verschiebt man VMs vielleicht noch manuell. In großen Umgebungen ist das aber keine ernsthafte Option mehr. Sobald Hosts in Wartung gehen, Kapazitäten neu verteilt werden oder Storage umgezogen wird, braucht man einen reproduzierbaren Ablauf.</p>
+<p>Ich arbeite dabei nie nach dem Motto: “Einfach alles verschieben.” Zuerst kommen Vorprüfungen. Ist der Zielhost gesund? Gibt es Ausschlusslisten? Sind Cluster und Netzwerkpfade stabil? Genau diese Schutzschicht wird von Einsteigern oft unterschätzt.</p>
+<p>Ein vereinfachtes Beispiel für eine kontrollierte Migration sieht so aus:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="powershell"><code><span class="line"><span style="color:#E1E4E8">$sourceHost </span><span style="color:#F97583">=</span><span style="color:#9ECBFF"> "HV-NODE-07"</span></span>
+<span class="line"><span style="color:#E1E4E8">$targetHost </span><span style="color:#F97583">=</span><span style="color:#9ECBFF"> "HV-NODE-12"</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">$vms </span><span style="color:#F97583">=</span><span style="color:#79B8FF"> Get-SCVirtualMachine</span><span style="color:#F97583"> |</span><span style="color:#79B8FF"> Where-Object</span><span style="color:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#79B8FF">    $_</span><span style="color:#E1E4E8">.VMHost.Name </span><span style="color:#F97583">-eq</span><span style="color:#E1E4E8"> $sourceHost </span><span style="color:#F97583">-and</span></span>
+<span class="line"><span style="color:#79B8FF">    $_</span><span style="color:#E1E4E8">.StatusString </span><span style="color:#F97583">-eq</span><span style="color:#9ECBFF"> "Running"</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">foreach</span><span style="color:#E1E4E8"> ($vm </span><span style="color:#F97583">in</span><span style="color:#E1E4E8"> $vms) {</span></span>
+<span class="line"><span style="color:#F97583">    try</span><span style="color:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#79B8FF">        Write-Host</span><span style="color:#9ECBFF"> "Migriere </span><span style="color:#F97583">$</span><span style="color:#9ECBFF">(</span><span style="color:#E1E4E8">$vm.Name</span><span style="color:#9ECBFF">)</span><span style="color:#9ECBFF"> nach </span><span style="color:#E1E4E8">$targetHost</span><span style="color:#9ECBFF">..."</span></span>
+<span class="line"><span style="color:#79B8FF">        Move-SCVirtualMachine</span><span style="color:#F97583"> -</span><span style="color:#E1E4E8">VM $vm </span><span style="color:#F97583">-</span><span style="color:#E1E4E8">VMHost $targetHost </span><span style="color:#F97583">-</span><span style="color:#E1E4E8">RunAsynchronously</span></span>
+<span class="line"><span style="color:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#F97583">    catch</span><span style="color:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#79B8FF">        Write-Warning</span><span style="color:#9ECBFF"> "Migration für </span><span style="color:#F97583">$</span><span style="color:#9ECBFF">(</span><span style="color:#E1E4E8">$vm.Name</span><span style="color:#9ECBFF">)</span><span style="color:#9ECBFF"> fehlgeschlagen: </span><span style="color:#F97583">$</span><span style="color:#9ECBFF">(</span><span style="color:#79B8FF">$_</span><span style="color:#E1E4E8">.Exception.Message</span><span style="color:#9ECBFF">)</span><span style="color:#9ECBFF">"</span></span>
+<span class="line"><span style="color:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span>
+<span class="line"></span></code></pre>
+<p>Das ist bewusst kompakt gehalten. Im produktiven Umfeld kommen bei mir noch Validierungen, Warteschlangen, Logging und Freigabe-Logik dazu. Aber das Grundprinzip bleibt gleich: filtern, ausführen, Fehler sauber sichtbar machen.</p>
+<h3 id="host-wartung-vorbereiten">Host-Wartung vorbereiten</h3>
+<p>Ein Host geht für mich nicht erst in Wartung, wenn ich irgendwo einen Haken setze. Vorher muss klar sein, welche VMs dort laufen, welche Ausnahmen es gibt und ob der Host überhaupt in einem guten Zustand ist. Genau dafür baue ich mir kleine PowerShell-Routinen.</p>
+<p>Ein reduziertes Beispiel:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="powershell"><code><span class="line"><span style="color:#E1E4E8">$hostName </span><span style="color:#F97583">=</span><span style="color:#9ECBFF"> "HV-NODE-03"</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#79B8FF">$host</span><span style="color:#F97583"> =</span><span style="color:#79B8FF"> Get-SCVMHost</span><span style="color:#F97583"> -</span><span style="color:#E1E4E8">ComputerName $hostName</span></span>
+<span class="line"><span style="color:#E1E4E8">$residentVMs </span><span style="color:#F97583">=</span><span style="color:#79B8FF"> Get-SCVirtualMachine</span><span style="color:#F97583"> |</span><span style="color:#79B8FF"> Where-Object</span><span style="color:#E1E4E8"> { </span><span style="color:#79B8FF">$_</span><span style="color:#E1E4E8">.VMHost.ID </span><span style="color:#F97583">-eq</span><span style="color:#79B8FF"> $host</span><span style="color:#E1E4E8">.ID }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">if</span><span style="color:#E1E4E8"> (</span><span style="color:#79B8FF">$host</span><span style="color:#E1E4E8">.OverallState </span><span style="color:#F97583">-ne</span><span style="color:#9ECBFF"> "OK"</span><span style="color:#E1E4E8">) {</span></span>
+<span class="line"><span style="color:#F97583">    throw</span><span style="color:#9ECBFF"> "Host </span><span style="color:#E1E4E8">$hostName</span><span style="color:#9ECBFF"> ist nicht in einem gesunden Zustand."</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">$residentVMs </span><span style="color:#F97583">|</span></span>
+<span class="line"><span style="color:#79B8FF">    Select-Object</span><span style="color:#E1E4E8"> Name</span><span style="color:#F97583">,</span><span style="color:#E1E4E8"> StatusString</span><span style="color:#F97583">,</span><span style="color:#E1E4E8"> CPUCount</span><span style="color:#F97583">,</span><span style="color:#E1E4E8"> Memory </span><span style="color:#F97583">|</span></span>
+<span class="line"><span style="color:#79B8FF">    Export-Csv</span><span style="color:#9ECBFF"> ".\wartung-</span><span style="color:#E1E4E8">$hostName</span><span style="color:#9ECBFF">.csv"</span><span style="color:#F97583"> -</span><span style="color:#E1E4E8">NoTypeInformation </span><span style="color:#F97583">-</span><span style="color:#E1E4E8">Encoding UTF8</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#79B8FF">Disable-SCVMHost</span><span style="color:#F97583"> -</span><span style="color:#E1E4E8">VMHost </span><span style="color:#79B8FF">$host</span></span>
+<span class="line"><span style="color:#79B8FF">Write-Host</span><span style="color:#9ECBFF"> "Host </span><span style="color:#E1E4E8">$hostName</span><span style="color:#9ECBFF"> für Wartung vorbereitet."</span></span>
+<span class="line"></span></code></pre>
+<p>Der eigentliche Wert steckt nicht im einen Cmdlet, sondern in der Prozesslogik. Erst wird der Ist-Zustand erfasst, dann gehandelt. Das hilft bei Dokumentation, Abstimmung und im Zweifel auch beim Rollback.</p>
+<h3 id="monitoring-und-reporting">Monitoring und Reporting</h3>
+<p>Der dritte große Block ist Monitoring. In vielen Umgebungen mangelt es nicht an Daten, sondern an verwertbaren Perspektiven auf die Daten. PowerShell ist dafür ideal, weil ich sehr gezielt Reports bauen kann, statt mich durch mehrere Oberflächen zu klicken.</p>
+<p>Ein Beispiel, das ich in ähnlicher Form oft nutze, ist ein Report über Hosts mit knappen RAM-Reserven:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="powershell"><code><span class="line"><span style="color:#E1E4E8">$report </span><span style="color:#F97583">=</span><span style="color:#79B8FF"> Get-SCVMHost</span><span style="color:#F97583"> |</span><span style="color:#79B8FF"> Select-Object</span><span style="color:#F97583"> `</span></span>
+<span class="line"><span style="color:#E1E4E8">    Name</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#F97583">    @</span><span style="color:#E1E4E8">{Name </span><span style="color:#F97583">=</span><span style="color:#9ECBFF"> "Cluster"</span><span style="color:#E1E4E8">; Expression </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> { </span><span style="color:#79B8FF">$_</span><span style="color:#E1E4E8">.HostCluster.Name } }</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#F97583">    @</span><span style="color:#E1E4E8">{Name </span><span style="color:#F97583">=</span><span style="color:#9ECBFF"> "TotalMemoryGB"</span><span style="color:#E1E4E8">; Expression </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> { [</span><span style="color:#F97583">math</span><span style="color:#E1E4E8">]::Round(</span><span style="color:#79B8FF">$_</span><span style="color:#E1E4E8">.TotalMemory </span><span style="color:#F97583">/</span><span style="color:#79B8FF"> 1</span><span style="color:#F97583">GB,</span><span style="color:#79B8FF"> 0</span><span style="color:#E1E4E8">) } }</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#F97583">    @</span><span style="color:#E1E4E8">{Name </span><span style="color:#F97583">=</span><span style="color:#9ECBFF"> "AvailableMemoryGB"</span><span style="color:#E1E4E8">; Expression </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> { [</span><span style="color:#F97583">math</span><span style="color:#E1E4E8">]::Round(</span><span style="color:#79B8FF">$_</span><span style="color:#E1E4E8">.AvailableMemory </span><span style="color:#F97583">/</span><span style="color:#79B8FF"> 1</span><span style="color:#F97583">GB,</span><span style="color:#79B8FF"> 0</span><span style="color:#E1E4E8">) } }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">$report </span><span style="color:#F97583">|</span></span>
+<span class="line"><span style="color:#79B8FF">    Where-Object</span><span style="color:#E1E4E8"> { </span><span style="color:#79B8FF">$_</span><span style="color:#E1E4E8">.AvailableMemoryGB </span><span style="color:#F97583">-lt</span><span style="color:#79B8FF"> 32</span><span style="color:#E1E4E8"> } </span><span style="color:#F97583">|</span></span>
+<span class="line"><span style="color:#79B8FF">    Sort-Object</span><span style="color:#E1E4E8"> AvailableMemoryGB </span><span style="color:#F97583">|</span></span>
+<span class="line"><span style="color:#79B8FF">    Export-Csv</span><span style="color:#9ECBFF"> ".\host-memory-alerts.csv"</span><span style="color:#F97583"> -</span><span style="color:#E1E4E8">NoTypeInformation </span><span style="color:#F97583">-</span><span style="color:#E1E4E8">Encoding UTF8</span></span>
+<span class="line"></span></code></pre>
+<p>So habe ich innerhalb weniger Sekunden eine Liste, mit der ich arbeiten kann. In der Praxis gehen solche Auswertungen bei mir häufig weiter in Dashboards, Wartungsplanungen oder interne Reports.</p>
+<h2 id="die-häufigsten-fehler-von-einsteigern">Die häufigsten Fehler von Einsteigern</h2>
+<p>Wenn ich frühe PowerShell-Skripte von Einsteigern sehe, tauchen fast immer die gleichen Probleme auf.</p>
+<p>Der erste Fehler ist fehlende Idempotenz. Das Skript funktioniert einmal, aber beim zweiten Durchlauf produziert es Fehler oder ungewollte Seiteneffekte. In Enterprise-Umgebungen ist das brandgefährlich. Gute Automatisierung prüft Zustände, statt blind Aktionen zu wiederholen.</p>
+<p>Der zweite Fehler ist unzureichende Fehlerbehandlung. Viele Skripte laufen einfach weiter, obwohl ein zentraler Schritt bereits fehlgeschlagen ist. Wer <code>try/catch</code>, sinnvolle Exit-Codes und Logging ignoriert, baut sich stille Fehler in den Betrieb.</p>
+<p>Der dritte Fehler ist zu viel Vertrauen in die Pipeline, ohne die Objekte wirklich zu verstehen. PowerShell ist stark, weil sie objektbasiert arbeitet. Genau deshalb sollte man wissen, welche Eigenschaften ein Objekt tatsächlich hat und welche Cmdlets welche Typen erwarten.</p>
+<p>Und dann gibt es noch den Klassiker: Skripte, die in der Testumgebung funktionieren, aber nie für Sonderfälle, Timing-Probleme oder produktive Randbedingungen gebaut wurden. Gerade bei Migrationen und Wartung ist “funktioniert bei mir” kein Qualitätsmerkmal.</p>
+<h2 id="ressourcen-mit-denen-ich-wirklich-lernen-würde">Ressourcen, mit denen ich wirklich lernen würde</h2>
+<p>Wer im Enterprise-Umfeld besser mit PowerShell werden will, sollte aus meiner Sicht nicht nur einzelne Befehle auswendig lernen. Entscheidend ist ein systematischer Aufbau:</p>
+<ol>
+<li>Erst die Grundlagen von Objekten, Pipelines, Variablen, Schleifen und Fehlerbehandlung wirklich verstehen.</li>
+<li>Dann kleine Werkzeuge für den Alltag schreiben, zum Beispiel Reports, Prüfskripte oder einfache Wartungsroutinen.</li>
+<li>Danach komplexere Orchestrierung angehen, also Themen wie Module, Logging, Konfigurationsdateien, Jobs und wiederverwendbare Funktionen.</li>
+</ol>
+<p>Hilfreich sind für mich bis heute die Microsoft-Dokumentation, gezielte Blogposts zu Hyper-V und SCVMM, kleine Lab-Umgebungen und vor allem die eigene Praxis. Wer nur Tutorial-Code liest, lernt Syntax. Wer echte Betriebsprobleme automatisiert, lernt Engineering.</p>
+<h2 id="mein-fazit">Mein Fazit</h2>
+<p>PowerShell ist für mich in Enterprise-Umgebungen kein “nice to have”, sondern eine Voraussetzung für stabilen Betrieb. Je größer die Plattform wird, desto wichtiger werden Standardisierung, Nachvollziehbarkeit und kontrollierte Abläufe. Genau dort spielt PowerShell ihre Stärken aus.</p>
+<p>Ich nutze sie nicht, um besonders clever zu wirken, sondern um Komplexität beherrschbar zu machen. Wenn ich Hosts, VMs, Wartung, Reports und wiederkehrende Aufgaben auf reproduzierbare Prozesse herunterbreche, gewinne ich nicht nur Zeit, sondern auch Sicherheit. Und das ist am Ende der eigentliche Maßstab für gute Automatisierung.</p> </div> </div> </article> <nav class="mt-10 grid gap-4 md:grid-cols-2" aria-label="Post navigation"> <a href="/en/blog/ki-seo-2025/" class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm transition-colors hover:border-teal/50"> <p class="text-sm font-semibold text-teal">Newer post</p> <p class="mt-3 text-xl font-semibold tracking-tight text-navy"> AI-Powered SEO: How I Make Local Businesses More Visible </p> </a>  </nav> </section> </main> <footer class="bg-slate-950 py-10 text-slate-300" aria-label="Footer"> <div class="mx-auto flex max-w-6xl flex-col gap-6 px-6 md:flex-row md:items-center md:justify-between md:px-10 lg:px-12"> <div> <p class="text-sm font-semibold text-white">Paul Scholz © 2025</p> <p class="mt-2 text-sm text-slate-400"> Built with Astro &amp; Tailwind CSS. Hosted on GitHub Pages. </p> </div> <div class="flex flex-col gap-5 md:items-end"> <div class="flex flex-wrap items-center gap-4 text-sm"> <a href="/impressum/" class="hover:text-white">Impressum</a> <a href="/datenschutz/" class="hover:text-white">Datenschutz</a> </div> <div class="flex items-center gap-3"> <a href="https://github.com/PiefkePaul" target="_blank" rel="noopener noreferrer" aria-label="GitHub" class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-slate-200 transition-colors hover:border-teal hover:text-teal"> <svg viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5"> <path d="M12 2C6.48 2 2 6.59 2 12.24c0 4.52 2.87 8.36 6.84 9.72.5.09.68-.22.68-.48 0-.24-.01-1.03-.01-1.87-2.78.62-3.37-1.2-3.37-1.2-.46-1.19-1.11-1.5-1.11-1.5-.91-.64.07-.63.07-.63 1 .07 1.54 1.05 1.54 1.05.9 1.57 2.35 1.12 2.92.86.09-.67.35-1.12.63-1.37-2.22-.26-4.56-1.14-4.56-5.09 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.31.1-2.73 0 0 .84-.28 2.75 1.05A9.36 9.36 0 0 1 12 6.84c.85 0 1.7.12 2.49.35 1.91-1.33 2.74-1.05 2.74-1.05.55 1.42.2 2.47.1 2.73.64.72 1.03 1.63 1.03 2.75 0 3.96-2.34 4.82-4.57 5.08.36.32.67.95.67 1.92 0 1.39-.01 2.5-.01 2.84 0 .27.18.58.69.48A10.28 10.28 0 0 0 22 12.24C22 6.59 17.52 2 12 2Z"></path> </svg> </a><a href="https://hub.docker.com/r/piefkepaul/" target="_blank" rel="noopener noreferrer" aria-label="Docker Hub" class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-slate-200 transition-colors hover:border-teal hover:text-teal"> <svg viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5"> <path d="M4 13.5h2.4v2.3H4v-2.3Zm2.9 0h2.4v2.3H6.9v-2.3Zm2.9 0h2.4v2.3H9.8v-2.3Zm2.9 0h2.4v2.3h-2.4v-2.3Zm-5.8-2.9h2.4v2.3H7.8v-2.3Zm2.9 0h2.4v2.3h-2.4v-2.3Zm2.9 0h2.4v2.3h-2.4v-2.3Zm-5.8-2.9h2.4V10H7.8V7.7Zm2.9 0h2.4V10h-2.4V7.7Zm7.7 4.7c-.3 2.4-1.9 4.4-4.2 5.3-1 .4-2.2.6-3.5.5-2.9-.2-5.4-2.2-6.1-5 .7.5 1.7.7 2.7.7h.5c.4 0 .8-.3.8-.8v-5c0-.4.3-.8.8-.8h.6v-1c0-.8.7-1.5 1.5-1.5h1V8h.9V6.4c0-.8.7-1.5 1.5-1.5h1v2.4h.9v5.1h.8c.9 0 1.8-.2 2.6-.7Z"></path> </svg> </a><a href="https://www.instagram.com/lowfuel.dad/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-slate-200 transition-colors hover:border-teal hover:text-teal"> <svg viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5"> <path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5Zm0 2.2A2.8 2.8 0 0 0 4.2 7v10A2.8 2.8 0 0 0 7 19.8h10a2.8 2.8 0 0 0 2.8-2.8V7A2.8 2.8 0 0 0 17 4.2H7Zm10.25 1.45a1.2 1.2 0 1 1-1.2 1.2 1.2 1.2 0 0 1 1.2-1.2ZM12 7a5 5 0 1 1-5 5 5 5 0 0 1 5-5Zm0 2.2a2.8 2.8 0 1 0 2.8 2.8A2.8 2.8 0 0 0 12 9.2Z"></path> </svg> </a> </div> </div> </div> </footer>  </body></html>
