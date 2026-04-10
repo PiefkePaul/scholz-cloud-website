@@ -6,65 +6,194 @@ interface Props {
 const { lang = 'de' } = Astro.props;
 const isEnglish = lang === 'en';
 
-const categories = [
-  {
-    name: isEnglish ? 'Infrastructure' : 'Infrastruktur',
-    className: 'bg-sky-100 text-sky-800 ring-sky-200',
-    items: ['Hyper-V', 'SCVMM', 'Windows Server', 'Azure Arc']
-  },
-  {
-    name: isEnglish ? 'Automation' : 'Automatisierung',
-    className: 'bg-emerald-100 text-emerald-800 ring-emerald-200',
-    items: ['PowerShell', 'Python', 'n8n', 'Automic']
-  },
-  {
-    name: 'Container & DevOps',
-    className: 'bg-amber-100 text-amber-800 ring-amber-200',
-    items: ['Docker', 'Portainer', 'GitHub Actions', 'Nginx']
-  },
-  {
-    name: 'SEO & Web',
-    className: 'bg-cyan-100 text-cyan-800 ring-cyan-200',
-    items: ['Google Search Console', 'Screaming Frog', 'Ahrefs', 'Astro']
-  },
-  {
-    name: 'KI & AI',
-    className: 'bg-violet-100 text-violet-800 ring-violet-200',
-    items: ['Claude AI', 'ChatGPT', 'MCP Servers', 'Ollama']
-  },
-  {
-    name: isEnglish ? 'Other' : 'Sonstiges',
-    className: 'bg-rose-100 text-rose-800 ring-rose-200',
-    items: ['Plex', 'Synology', 'Linux', 'VS Code']
-  }
-];
+const capabilities = isEnglish
+  ? [
+      {
+        id: 'virtualization',
+        label: 'Core Competency',
+        title: 'Enterprise Virtualization & Private Cloud',
+        description: 'High-availability infrastructure for hundreds of workloads – from automated VM provisioning to live migration clusters with zero downtime.',
+        color: 'sky',
+        icon: `<path stroke-linecap="round" stroke-linejoin="round" d="M21.75 17.25v-.228a4.5 4.5 0 0 0-.12-1.03l-2.268-9.64a3.375 3.375 0 0 0-3.285-2.602H7.923a3.375 3.375 0 0 0-3.285 2.602l-2.268 9.64a4.5 4.5 0 0 0-.12 1.03v.228m19.5 0a3 3 0 0 1-3 3H5.25a3 3 0 0 1-3-3m19.5 0a3 3 0 0 0-3-3H5.25a3 3 0 0 0-3 3m16.5 0h.008v.008h-.008v-.008Z" />`,
+        tags: ['Microsoft Hyper-V', 'System Center VMM', 'Failover Clustering', 'Live Migration', 'Windows Server 2022', 'VDI Management']
+      },
+      {
+        id: 'automation',
+        label: 'Infrastructure as Code',
+        title: 'Automation & Scripted Operations',
+        description: 'Reproducible processes instead of manual clicks – from VM migration pipelines to scheduled maintenance windows across hundreds of hosts.',
+        color: 'emerald',
+        icon: `<path stroke-linecap="round" stroke-linejoin="round" d="M6.75 7.5 3 12l3.75 4.5M17.25 7.5 21 12l-3.75 4.5M13.5 4.5l-3 15" />`,
+        tags: ['PowerShell', 'Automic/UC4 Workload Automation', 'Desired State Configuration', 'Python', 'REST API Integration', 'Scheduled Job Pipelines']
+      },
+      {
+        id: 'containers',
+        label: 'On-Premises Deployment',
+        title: 'Container Infrastructure & Self-Hosted Services',
+        description: 'Containerized services on your own hardware – production-grade, maintainable, and independent of cloud providers.',
+        color: 'amber',
+        icon: `<path stroke-linecap="round" stroke-linejoin="round" d="m6.75 7.5 3 2.25-3 2.25m4.5 0h3m-9 8.25h13.5A2.25 2.25 0 0 0 21 18V6a2.25 2.25 0 0 0-2.25-2.25H5.25A2.25 2.25 0 0 0 3 6v12a2.25 2.25 0 0 0 2.25 2.25Z" />`,
+        tags: ['Docker & Docker Compose', 'Nginx Reverse Proxy', 'SSL Certificate Management', 'Portainer', 'GitHub Actions CI/CD', 'Cloudflare']
+      },
+      {
+        id: 'ai-workflows',
+        label: 'Intelligent Process Design',
+        title: 'AI-Powered Workflow Automation',
+        description: 'Workflows that act autonomously – connecting APIs, processing data, making decisions, and triggering follow-up actions without manual intervention.',
+        color: 'violet',
+        icon: `<path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 0 0-2.456 2.456Z" />`,
+        tags: ['n8n Workflow Engine', 'Large Language Models (LLM)', 'Claude & OpenAI API Integration', 'Local AI (Ollama)', 'Webhook Orchestration', 'RAG Pipelines']
+      },
+      {
+        id: 'seo',
+        label: 'Data-Driven Growth',
+        title: 'SEO & Organic Digital Visibility',
+        description: 'Sustainable search engine visibility through technical precision, intent-based content architecture, and structured data – measurable, not guesswork.',
+        color: 'cyan',
+        icon: `<path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18 9 11.25l4.306 4.306a11.95 11.95 0 0 1 5.814-5.518l2.74-1.22m0 0-5.94-2.281m5.94 2.28-2.28 5.941" />`,
+        tags: ['Technical SEO Audits', 'Local SEO & Google Business', 'Core Web Vitals Optimization', 'Structured Data (Schema.org)', 'Keyword Architecture', 'AI-assisted Content Strategy']
+      },
+      {
+        id: 'security',
+        label: 'Network & Security',
+        title: 'Infrastructure Security & Network Design',
+        description: 'Secure perimeter architecture, certificate management, and network segmentation – from internal VLANs to public-facing services.',
+        color: 'rose',
+        icon: `<path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z" />`,
+        tags: ['Cloudflare WAF & DDoS Protection', 'Origin Certificate Management', 'DNS Architecture', 'Reverse Proxy Security', 'Network Segmentation', 'SSL/TLS Hardening']
+      }
+    ]
+  : [
+      {
+        id: 'virtualization',
+        label: 'Kernkompetenz',
+        title: 'Enterprise-Virtualisierung & Private Cloud',
+        description: 'Hochverfügbare Infrastruktur für hunderte Workloads – von automatisierter VM-Provisionierung bis zu Live-Migration-Clustern mit null Downtime.',
+        color: 'sky',
+        icon: `<path stroke-linecap="round" stroke-linejoin="round" d="M21.75 17.25v-.228a4.5 4.5 0 0 0-.12-1.03l-2.268-9.64a3.375 3.375 0 0 0-3.285-2.602H7.923a3.375 3.375 0 0 0-3.285 2.602l-2.268 9.64a4.5 4.5 0 0 0-.12 1.03v.228m19.5 0a3 3 0 0 1-3 3H5.25a3 3 0 0 1-3-3m19.5 0a3 3 0 0 0-3-3H5.25a3 3 0 0 0-3 3m16.5 0h.008v.008h-.008v-.008Z" />`,
+        tags: ['Microsoft Hyper-V', 'System Center VMM', 'Failover-Clustering', 'Live Migration', 'Windows Server 2022', 'VDI-Management']
+      },
+      {
+        id: 'automation',
+        label: 'Infrastructure as Code',
+        title: 'Automatisierung & Skriptbasierter Betrieb',
+        description: 'Reproduzierbare Prozesse statt manueller Klicks – von VM-Migrationspipelines bis zu geplanten Wartungsfenstern auf hunderten Hosts.',
+        color: 'emerald',
+        icon: `<path stroke-linecap="round" stroke-linejoin="round" d="M6.75 7.5 3 12l3.75 4.5M17.25 7.5 21 12l-3.75 4.5M13.5 4.5l-3 15" />`,
+        tags: ['PowerShell', 'Automic/UC4 Workload-Automation', 'Desired State Configuration', 'Python', 'REST-API-Integration', 'Geplante Job-Pipelines']
+      },
+      {
+        id: 'containers',
+        label: 'On-Premises-Deployment',
+        title: 'Container-Infrastruktur & Self-Hosted-Services',
+        description: 'Containerisierte Dienste auf eigener Hardware – produktionsstabil, wartbar und unabhängig von Cloud-Anbietern.',
+        color: 'amber',
+        icon: `<path stroke-linecap="round" stroke-linejoin="round" d="m6.75 7.5 3 2.25-3 2.25m4.5 0h3m-9 8.25h13.5A2.25 2.25 0 0 0 21 18V6a2.25 2.25 0 0 0-2.25-2.25H5.25A2.25 2.25 0 0 0 3 6v12a2.25 2.25 0 0 0 2.25 2.25Z" />`,
+        tags: ['Docker & Docker Compose', 'Nginx Reverse Proxy', 'SSL-Zertifikat-Management', 'Portainer', 'GitHub Actions CI/CD', 'Cloudflare']
+      },
+      {
+        id: 'ai-workflows',
+        label: 'Intelligente Prozessgestaltung',
+        title: 'KI-gestützte Workflow-Automatisierung',
+        description: 'Workflows die eigenständig handeln – APIs verbinden, Daten verarbeiten, Entscheidungen treffen und Folgeaktionen auslösen, ohne manuellen Eingriff.',
+        color: 'violet',
+        icon: `<path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 0 0-2.456 2.456Z" />`,
+        tags: ['n8n Workflow-Engine', 'Large Language Models (LLM)', 'Claude & OpenAI API Integration', 'Lokale KI (Ollama)', 'Webhook-Orchestrierung', 'RAG-Pipelines']
+      },
+      {
+        id: 'seo',
+        label: 'Datengesteuertes Wachstum',
+        title: 'SEO & Organische Sichtbarkeit',
+        description: 'Nachhaltige Suchmaschinenposition durch technische Präzision, intentbasierte Content-Architektur und strukturierte Daten – messbar, nicht geraten.',
+        color: 'cyan',
+        icon: `<path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18 9 11.25l4.306 4.306a11.95 11.95 0 0 1 5.814-5.518l2.74-1.22m0 0-5.94-2.281m5.94 2.28-2.28 5.941" />`,
+        tags: ['Technische SEO-Audits', 'Lokale SEO & Google Business', 'Core Web Vitals', 'Strukturierte Daten (Schema.org)', 'Keyword-Architektur', 'KI-gestützte Content-Strategie']
+      },
+      {
+        id: 'security',
+        label: 'Netzwerk & Sicherheit',
+        title: 'Infrastruktursicherheit & Netzwerkdesign',
+        description: 'Sichere Perimeter-Architektur, Zertifikatsverwaltung und Netzwerksegmentierung – von internen VLANs bis zu öffentlich erreichbaren Diensten.',
+        color: 'rose',
+        icon: `<path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z" />`,
+        tags: ['Cloudflare WAF & DDoS-Schutz', 'Origin-Zertifikat-Management', 'DNS-Architektur', 'Reverse-Proxy-Absicherung', 'Netzwerksegmentierung', 'SSL/TLS-Hardening']
+      }
+    ];
+
+const colorMap: Record<string, { bg: string; text: string; ring: string; icon: string; dot: string }> = {
+  sky:    { bg: 'bg-sky-50',    text: 'text-sky-700',    ring: 'ring-sky-200',    icon: 'text-sky-600',    dot: 'bg-sky-500' },
+  emerald:{ bg: 'bg-emerald-50',text: 'text-emerald-700',ring: 'ring-emerald-200',icon: 'text-emerald-600',dot: 'bg-emerald-500' },
+  amber:  { bg: 'bg-amber-50',  text: 'text-amber-700',  ring: 'ring-amber-200',  icon: 'text-amber-600',  dot: 'bg-amber-500' },
+  violet: { bg: 'bg-violet-50', text: 'text-violet-700', ring: 'ring-violet-200', icon: 'text-violet-600', dot: 'bg-violet-500' },
+  cyan:   { bg: 'bg-cyan-50',   text: 'text-cyan-700',   ring: 'ring-cyan-200',   icon: 'text-cyan-600',   dot: 'bg-cyan-500' },
+  rose:   { bg: 'bg-rose-50',   text: 'text-rose-700',   ring: 'ring-rose-200',   icon: 'text-rose-600',   dot: 'bg-rose-500' },
+};
 ---
 
-<section id="tech-stack" class="bg-white py-24 sm:py-28" aria-labelledby="tech-stack-heading">
+<section id="tech-stack" class="bg-slate-950 py-24 sm:py-32" aria-labelledby="tech-stack-heading">
   <div class="mx-auto max-w-6xl px-6 md:px-10 lg:px-12">
-    <p class="text-sm font-semibold uppercase tracking-[0.24em] text-teal">
-      {isEnglish ? 'Daily Toolkit' : 'Täglicher Werkzeugkasten'}
-    </p>
-    <h2 id="tech-stack-heading" class="mt-4 text-3xl font-semibold tracking-tight text-navy sm:text-4xl">
-      Tech Stack &amp; Tools
-    </h2>
-    <p class="mt-4 max-w-2xl text-base leading-7 text-slate-600">
-      {isEnglish ? 'Tools I work with daily' : 'Werkzeuge, mit denen ich täglich arbeite'}
-    </p>
 
-    <div class="mt-12 grid gap-6 lg:grid-cols-2">
-      {categories.map((category) => (
-        <section class="rounded-[2rem] border border-slate-200 bg-slate-50/60 p-8" aria-label={category.name}>
-          <h3 class="text-lg font-semibold text-navy">{category.name}</h3>
-          <div class="mt-5 flex flex-wrap gap-3">
-            {category.items.map((item) => (
-              <span class={`rounded-full px-4 py-2 text-sm font-medium ring-1 ${category.className}`}>
-                {item}
-              </span>
-            ))}
-          </div>
-        </section>
-      ))}
+    <div class="max-w-2xl">
+      <p class="text-sm font-semibold uppercase tracking-[0.24em] text-teal">
+        {isEnglish ? 'Capabilities' : 'Kompetenzen'}
+      </p>
+      <h2 id="tech-stack-heading" class="mt-4 text-3xl font-semibold tracking-tight text-white sm:text-4xl">
+        {isEnglish
+          ? 'What I bring to every project'
+          : 'Was ich in jedes Projekt einbringe'}
+      </h2>
+      <p class="mt-4 text-base leading-7 text-slate-400">
+        {isEnglish
+          ? 'Six capability areas — from enterprise infrastructure to AI-powered automation. Each backed by real production experience.'
+          : 'Sechs Kompetenzbereiche – von Enterprise-Infrastruktur bis zu KI-gestützter Automatisierung. Jeder mit echter Produktionserfahrung unterlegt.'}
+      </p>
+    </div>
+
+    <div class="mt-16 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+      {capabilities.map((cap) => {
+        const c = colorMap[cap.color];
+        return (
+          <article class="group relative flex flex-col rounded-3xl border border-white/8 bg-white/4 p-7 transition-all duration-300 hover:border-white/15 hover:bg-white/7">
+            <div class={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl ${c.bg} ${c.icon}`}>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" class="h-6 w-6" aria-hidden="true">
+                <Fragment set:html={cap.icon} />
+              </svg>
+            </div>
+
+            <div class="mt-5 flex-1">
+              <p class={`text-xs font-semibold uppercase tracking-[0.2em] ${c.icon} opacity-80`}>
+                {cap.label}
+              </p>
+              <h3 class="mt-2 text-lg font-semibold leading-snug text-white">
+                {cap.title}
+              </h3>
+              <p class="mt-3 text-sm leading-7 text-slate-400">
+                {cap.description}
+              </p>
+            </div>
+
+            <div class="mt-6 flex flex-wrap gap-2">
+              {cap.tags.map((tag) => (
+                <span class={`inline-flex items-center gap-1.5 rounded-full ${c.bg} px-3 py-1 text-xs font-medium ${c.text} ring-1 ${c.ring}`}>
+                  <span class={`h-1.5 w-1.5 rounded-full ${c.dot} shrink-0`}></span>
+                  {tag}
+                </span>
+              ))}
+            </div>
+          </article>
+        );
+      })}
+    </div>
+
+    <div class="mt-12 rounded-3xl border border-white/8 bg-white/4 px-8 py-6">
+      <p class="text-sm text-slate-400">
+        {isEnglish
+          ? 'Have a specific challenge? I work best when problems are concrete. '
+          : 'Ein konkretes Problem? Ich arbeite am besten, wenn Herausforderungen greifbar sind. '}
+        <a href={isEnglish ? '#contact' : '#kontakt'} class="font-semibold text-teal hover:text-sky-400 transition-colors">
+          {isEnglish ? 'Let\'s talk →' : 'Lass uns reden →'}
+        </a>
+      </p>
     </div>
   </div>
 </section>

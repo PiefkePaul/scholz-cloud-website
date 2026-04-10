@@ -9,42 +9,42 @@ const isEnglish = lang === 'en';
 const services = isEnglish
   ? [
       {
-        title: 'SEO & Digital Visibility',
-        description:
-          'Local and national SEO analysis, keyword research, on-page optimization and AI-driven content strategies for more organic traffic.',
-        icon: 'M4 18h16M6.5 15.5l3.5-3.5 3 3L19 8.5'
+        title: 'Organic Visibility & SEO',
+        description: 'From technical audit to content architecture: I identify where your site is losing visibility and build a measurable strategy to fix it. Local SEO, Core Web Vitals, structured data, and AI-assisted content – not guesswork, but precision work.',
+        bullets: ['Technical SEO audits & prioritized action plans', 'Local SEO & Google Business optimization', 'AI-assisted content strategy & keyword architecture'],
+        icon: 'M2.25 18 9 11.25l4.306 4.306a11.95 11.95 0 0 1 5.814-5.518l2.74-1.22m0 0-5.94-2.281m5.94 2.28-2.28 5.941'
       },
       {
         title: 'IT Infrastructure & Automation',
-        description:
-          'Consulting and implementation in enterprise IT: PowerShell scripts, process automation, virtualization and Windows Server management.',
-        icon: 'M12 3v4M12 17v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M3 12h4m10 0h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83M12 8.5A3.5 3.5 0 1 1 8.5 12 3.5 3.5 0 0 1 12 8.5Z'
+        description: 'Whether it\'s a PowerShell pipeline for 200 Hyper-V hosts, a containerized on-premises service stack, or an AI workflow that handles repetitive tasks autonomously – I design it, implement it, and document it so it actually keeps running.',
+        bullets: ['Enterprise virtualization consulting (Hyper-V/SCVMM)', 'Scripted operations & process automation', 'On-premises container infrastructure & CI/CD'],
+        icon: 'M6.75 7.5 3 12l3.75 4.5M17.25 7.5 21 12l-3.75 4.5M13.5 4.5l-3 15'
       },
       {
-        title: 'Small Projects & Freelance Support',
-        description:
-          'From small websites to Docker setups: I support individuals and businesses with technical projects of any size.',
-        icon: 'M12 3 8.5 9h3L10 21l5.5-8.5h-3L14 3Z'
+        title: 'Digital Projects & Consulting',
+        description: 'Sometimes you just need someone who knows what they\'re doing. Website, infrastructure concept, AI integration, DNS headache, or simply a technical second opinion – I\'m available for projects of any size, with clear communication and no agency overhead.',
+        bullets: ['Web projects with Astro, Tailwind & modern tooling', 'AI workflow integration (n8n, Claude, local LLMs)', 'Technical consulting & architecture review'],
+        icon: 'M8.625 9.75a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H12m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375m-13.5 3.01c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.184-4.183a1.14 1.14 0 0 1 .778-.332 48.294 48.294 0 0 0 5.83-.498c1.585-.233 2.708-1.626 2.708-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z'
       }
     ]
   : [
       {
-        title: 'SEO & Digitale Sichtbarkeit',
-        description:
-          'Lokale und überregionale SEO-Analyse, Keyword-Recherche, On-Page-Optimierung und KI-gestützte Content-Strategien für mehr organischen Traffic.',
-        icon: 'M4 18h16M6.5 15.5l3.5-3.5 3 3L19 8.5'
+        title: 'Organische Sichtbarkeit & SEO',
+        description: 'Vom technischen Audit bis zur Content-Architektur: Ich finde heraus, wo deine Website Sichtbarkeit verliert – und baue eine messbare Strategie, das zu ändern. Lokale SEO, Core Web Vitals, strukturierte Daten und KI-gestützte Content-Strategie – kein Raten, sondern Präzisionsarbeit.',
+        bullets: ['Technische SEO-Audits & priorisierte Maßnahmenpläne', 'Lokale SEO & Google Business-Optimierung', 'KI-gestützte Content-Strategie & Keyword-Architektur'],
+        icon: 'M2.25 18 9 11.25l4.306 4.306a11.95 11.95 0 0 1 5.814-5.518l2.74-1.22m0 0-5.94-2.281m5.94 2.28-2.28 5.941'
       },
       {
         title: 'IT-Infrastruktur & Automatisierung',
-        description:
-          'Beratung und Umsetzung in Enterprise-IT: PowerShell-Skripte, Prozessautomatisierung, Virtualisierung und Windows Server Management.',
-        icon: 'M12 3v4M12 17v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M3 12h4m10 0h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83M12 8.5A3.5 3.5 0 1 1 8.5 12 3.5 3.5 0 0 1 12 8.5Z'
+        description: 'Ob PowerShell-Pipeline für 200 Hyper-V-Hosts, containerisiertes On-Premises-Service-Stack oder KI-Workflow der repetitive Aufgaben eigenständig erledigt – ich konzipiere es, setze es um und dokumentiere es so, dass es auch wirklich läuft.',
+        bullets: ['Enterprise-Virtualisierungsberatung (Hyper-V/SCVMM)', 'Skriptbasierter Betrieb & Prozessautomatisierung', 'On-Premises-Container-Infrastruktur & CI/CD'],
+        icon: 'M6.75 7.5 3 12l3.75 4.5M17.25 7.5 21 12l-3.75 4.5M13.5 4.5l-3 15'
       },
       {
-        title: 'Kleinprojekte & Freelance',
-        description:
-          'Von der kleinen Website bis zum Docker-Setup: Ich unterstütze Privatpersonen und Unternehmen bei technischen Projekten jeder Größe.',
-        icon: 'M12 3 8.5 9h3L10 21l5.5-8.5h-3L14 3Z'
+        title: 'Digitalprojekte & Beratung',
+        description: 'Manchmal braucht man einfach jemanden, der weiß was er tut. Website, Infrastrukturkonzept, KI-Integration, DNS-Problem oder eine technische Zweitmeinung – ich bin für Projekte jeder Größe verfügbar, mit klarer Kommunikation und ohne Agentur-Overhead.',
+        bullets: ['Webprojekte mit Astro, Tailwind & modernem Stack', 'KI-Workflow-Integration (n8n, Claude, lokale LLMs)', 'Technische Beratung & Architektur-Review'],
+        icon: 'M8.625 9.75a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H12m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375m-13.5 3.01c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.184-4.183a1.14 1.14 0 0 1 .778-.332 48.294 48.294 0 0 0 5.83-.498c1.585-.233 2.708-1.626 2.708-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z'
       }
     ];
 ---
@@ -78,6 +78,16 @@ const services = isEnglish
           <p class="mt-4 text-sm leading-7 text-slate-600">
             {service.description}
           </p>
+          <ul class="mt-5 space-y-2">
+            {service.bullets.map((bullet) => (
+              <li class="flex items-start gap-2.5 text-sm text-slate-600">
+                <svg class="mt-0.5 h-4 w-4 shrink-0 text-teal" viewBox="0 0 16 16" fill="currentColor">
+                  <path fill-rule="evenodd" d="M12.416 3.376a.75.75 0 0 1 .208 1.04l-5 7.5a.75.75 0 0 1-1.154.114l-3-3a.75.75 0 0 1 1.06-1.06l2.353 2.353 4.493-6.74a.75.75 0 0 1 1.04-.207Z" clip-rule="evenodd" />
+                </svg>
+                <span>{bullet}</span>
+              </li>
+            ))}
+          </ul>
           <p class="mt-6 text-xs font-semibold uppercase tracking-[0.18em] text-slate-400">
             0{index + 1}
           </p>
