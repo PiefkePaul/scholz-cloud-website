@@ -1,0 +1,164 @@
+<!DOCTYPE html><html lang="en" class="bg-white text-slate-900"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>PowerShell Automation in Practice: How I Manage Hundreds of Servers at Once | Paul Scholz</title><meta name="description" content="An honest field report: how I automated repetitive processes in a large enterprise with PowerShell — concrete examples, common pitfalls, and a starter recipe for SMBs."><meta property="og:title" content="PowerShell Automation in Practice: How I Manage Hundreds of Servers at Once | Paul Scholz"><meta property="og:description" content="An honest field report: how I automated repetitive processes in a large enterprise with PowerShell — concrete examples, common pitfalls, and a starter recipe for SMBs."><meta property="og:image" content="https://www.scholz-cloud.de/images/paul-scholz.jpg"><meta property="og:url" content="https://www.scholz-cloud.de/en/blog/powershell-praxis-automatisierung/"><meta property="og:type" content="article"><meta name="twitter:card" content="summary_large_image"><link rel="canonical" href="https://www.scholz-cloud.de/en/blog/powershell-praxis-automatisierung/"><link rel="alternate" hreflang="de" href="https://www.scholz-cloud.de/blog/powershell-praxis-automatisierung/"><link rel="alternate" hreflang="en" href="https://www.scholz-cloud.de/en/blog/powershell-praxis-automatisierung/"><link rel="alternate" hreflang="x-default" href="https://www.scholz-cloud.de/blog/powershell-praxis-automatisierung/"><meta name="theme-color" content="#0f172a"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Paul Scholz","description":"An honest field report: how I automated repetitive processes in a large enterprise with PowerShell — concrete examples, common pitfalls, and a starter recipe for SMBs.","jobTitle":"IT systems administrator and SEO consultant","url":"https://www.scholz-cloud.de/","image":"https://www.scholz-cloud.de/images/paul-scholz.jpg","email":"mailto:p.scholz@scholz-cloud.de","address":{"@type":"PostalAddress","addressCountry":"DE"},"sameAs":["https://github.com/PiefkePaul","https://hub.docker.com/r/piefkepaul/","https://www.instagram.com/lowfuel.dad/"],"knowsAbout":["Enterprise IT","Hyper-V","SCVMM","PowerShell","SEO","AI automation","Docker","Python","n8n","Cloud infrastructure"]}</script><link rel="stylesheet" href="/_astro/_slug_.dNiPZ0wi.css"></head> <body> <!-- Analytics placeholder: add Plausible, Umami or Google Analytics here -->  <nav id="site-nav" data-home-path="/en/" data-scrolled="false" data-hidden="false" class="fixed inset-x-0 top-0 z-50 border-b border-white/10 text-white transition-transform duration-300" aria-label="Primary navigation" data-astro-cid-pux6a34n> <div class="mx-auto max-w-6xl px-6 md:px-10 lg:px-12" data-astro-cid-pux6a34n> <input id="nav-toggle" type="checkbox" class="peer sr-only" aria-hidden="true" data-astro-cid-pux6a34n> <div class="flex h-20 items-center justify-between gap-4" data-astro-cid-pux6a34n> <a href="/en/" class="text-lg font-bold tracking-tight text-white" data-astro-cid-pux6a34n>
+Paul Scholz
+</a> <div class="hidden items-center gap-8 md:flex" data-astro-cid-pux6a34n> <div class="flex items-center gap-6" data-astro-cid-pux6a34n> <a href="/en/#services" class="nav-link text-sm font-medium text-slate-300 transition-colors duration-200 hover:text-white" data-nav-link data-section-link="services" data-active="false" data-astro-cid-pux6a34n> Services </a><a href="/en/#process" class="nav-link text-sm font-medium text-slate-300 transition-colors duration-200 hover:text-white" data-nav-link data-section-link="process" data-active="false" data-astro-cid-pux6a34n> Process </a><a href="/en/#about" class="nav-link text-sm font-medium text-slate-300 transition-colors duration-200 hover:text-white" data-nav-link data-section-link="about" data-active="false" data-astro-cid-pux6a34n> About </a><a href="/en/blog/" class="nav-link text-sm font-medium text-slate-300 transition-colors duration-200 hover:text-white" data-nav-link data-active="false" data-astro-cid-pux6a34n> Blog </a><a href="/en/#contact" class="nav-link text-sm font-medium text-slate-300 transition-colors duration-200 hover:text-white" data-nav-link data-section-link="contact" data-active="false" data-astro-cid-pux6a34n> Contact </a> </div> <div class="flex items-center rounded-full border border-white/10 bg-white/5 p-1" data-astro-cid-pux6a34n> <a href="/" class="rounded-full px-3 py-1.5 text-xs font-semibold transition-colors text-slate-300 hover:text-white" aria-label="Zur deutschen Version wechseln" data-astro-cid-pux6a34n>
+DE
+</a> <a href="/en/" class="rounded-full px-3 py-1.5 text-xs font-semibold transition-colors bg-teal text-white" aria-label="Switch to the English version" data-astro-cid-pux6a34n>
+EN
+</a> </div> </div> <label for="nav-toggle" class="grid h-11 w-11 place-items-center rounded-full border border-white/10 bg-white/5 text-white md:hidden" aria-label="Open navigation menu" data-astro-cid-pux6a34n> <span class="relative block h-4 w-5" data-astro-cid-pux6a34n> <span class="absolute left-0 top-0 h-0.5 w-5 rounded-full bg-current transition-transform duration-300 peer-checked:translate-y-[7px] peer-checked:rotate-45" data-astro-cid-pux6a34n></span> <span class="absolute left-0 top-[7px] h-0.5 w-5 rounded-full bg-current transition-opacity duration-300 peer-checked:opacity-0" data-astro-cid-pux6a34n></span> <span class="absolute left-0 top-[14px] h-0.5 w-5 rounded-full bg-current transition-transform duration-300 peer-checked:-translate-y-[7px] peer-checked:-rotate-45" data-astro-cid-pux6a34n></span> </span> </label> </div> <div class="max-h-0 overflow-hidden opacity-0 transition-all duration-300 peer-checked:max-h-[32rem] peer-checked:pb-6 peer-checked:opacity-100 md:hidden" data-astro-cid-pux6a34n> <div class="space-y-3 rounded-3xl border border-white/10 bg-white/5 p-5 shadow-2xl shadow-navy/20 backdrop-blur" data-astro-cid-pux6a34n> <a href="/en/#services" class="nav-link block text-base font-medium text-slate-200 transition-colors hover:text-white" data-nav-link data-section-link="services" data-active="false" data-astro-cid-pux6a34n> Services </a><a href="/en/#process" class="nav-link block text-base font-medium text-slate-200 transition-colors hover:text-white" data-nav-link data-section-link="process" data-active="false" data-astro-cid-pux6a34n> Process </a><a href="/en/#about" class="nav-link block text-base font-medium text-slate-200 transition-colors hover:text-white" data-nav-link data-section-link="about" data-active="false" data-astro-cid-pux6a34n> About </a><a href="/en/blog/" class="nav-link block text-base font-medium text-slate-200 transition-colors hover:text-white" data-nav-link data-active="false" data-astro-cid-pux6a34n> Blog </a><a href="/en/#contact" class="nav-link block text-base font-medium text-slate-200 transition-colors hover:text-white" data-nav-link data-section-link="contact" data-active="false" data-astro-cid-pux6a34n> Contact </a> <div class="flex items-center gap-2 border-t border-white/10 pt-4" data-astro-cid-pux6a34n> <a href="/" class="rounded-full px-3 py-2 text-xs font-semibold transition-colors bg-white/5 text-slate-300 hover:text-white" aria-label="Zur deutschen Version wechseln" data-astro-cid-pux6a34n>
+DE
+</a> <a href="/en/" class="rounded-full px-3 py-2 text-xs font-semibold transition-colors bg-teal text-white" aria-label="Switch to the English version" data-astro-cid-pux6a34n>
+EN
+</a> </div> </div> </div> </div> </nav>  <script>
+  const nav = document.getElementById('site-nav');
+  const navToggle = document.getElementById('nav-toggle');
+
+  if (nav) {
+    const normalizePath = (value) => (value.endsWith('/') ? value : `${value}/`);
+    const currentPath = normalizePath(window.location.pathname);
+    const homePath = normalizePath(nav.dataset.homePath || '/');
+    const links = Array.from(nav.querySelectorAll('[data-nav-link]'));
+
+    const sectionPairs =
+      currentPath === homePath
+        ? links
+            .map((link) => ({
+              link,
+              section: document.getElementById(link.dataset.sectionLink || '')
+            }))
+            .filter((entry) => entry.section)
+        : [];
+
+    const setActiveLink = () => {
+      if (!sectionPairs.length) return;
+
+      const marker = window.scrollY + window.innerHeight * 0.35;
+      let activeLink = sectionPairs[0].link;
+
+      sectionPairs.forEach(({ link, section }) => {
+        if (section && marker >= section.offsetTop) {
+          activeLink = link;
+        }
+      });
+
+      links.forEach((link) => {
+        if (link.dataset.sectionLink) {
+          link.dataset.active = link === activeLink ? 'true' : 'false';
+        }
+      });
+    };
+
+    let lastY = window.scrollY;
+
+    const onScroll = () => {
+      const currentY = window.scrollY;
+
+      nav.dataset.scrolled = currentY > 24 ? 'true' : 'false';
+      nav.dataset.hidden = currentY > lastY && currentY > 180 ? 'true' : 'false';
+
+      if (currentY < 80) {
+        nav.dataset.hidden = 'false';
+      }
+
+      lastY = currentY;
+      setActiveLink();
+    };
+
+    links.forEach((link) => {
+      link.addEventListener('click', () => {
+        if (navToggle instanceof HTMLInputElement) {
+          navToggle.checked = false;
+        }
+      });
+    });
+
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('hashchange', setActiveLink);
+  }
+</script> <main class="bg-slate-50 pt-32"> <section class="mx-auto max-w-5xl px-6 py-16 md:px-10 lg:px-12"> <a href="/en/blog/" class="inline-flex items-center text-sm font-semibold text-teal transition-colors hover:text-navy">
+Back to blog
+</a> <article class="mt-8 overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-sm"> <header class="border-b border-slate-200 px-6 py-10 md:px-10"> <div class="flex flex-wrap items-center gap-3 text-sm text-slate-500"> <time datetime="2026-04-11T00:00:00.000Z"> April 11, 2026 </time> <span class="h-1 w-1 rounded-full bg-slate-300"></span> <span>3 min read</span>  </div> <h1 class="mt-6 text-4xl font-semibold tracking-tight text-navy md:text-5xl">PowerShell Automation in Practice: How I Manage Hundreds of Servers at Once</h1> <p class="mt-5 max-w-3xl text-lg leading-8 text-slate-600">An honest field report: how I automated repetitive processes in a large enterprise with PowerShell — concrete examples, common pitfalls, and a starter recipe for SMBs.</p> <div class="mt-6 flex flex-wrap gap-2"> <span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-600">
+#PowerShell </span><span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-600">
+#Automatisierung </span><span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-600">
+#Enterprise IT </span><span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-600">
+#Scripting </span><span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-600">
+#Windows </span> </div> </header> <div class="px-6 py-10 md:px-10 md:py-12"> <div class="prose prose-slate max-w-none
+            prose-headings:text-navy prose-headings:font-semibold prose-headings:tracking-tight
+            prose-h2:text-2xl prose-h2:mt-12 prose-h2:mb-4 prose-h2:pb-3 prose-h2:border-b prose-h2:border-slate-200
+            prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-3
+            prose-p:text-slate-700 prose-p:leading-8
+            prose-li:text-slate-700 prose-li:leading-8
+            prose-a:text-teal prose-a:no-underline prose-a:font-medium hover:prose-a:text-navy
+            prose-strong:text-navy prose-strong:font-semibold
+            prose-code:text-sky-700 prose-code:bg-sky-50 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-sm prose-code:font-mono prose-code:before:content-none prose-code:after:content-none
+            prose-pre:overflow-x-auto prose-pre:rounded-2xl prose-pre:border prose-pre:border-slate-800 prose-pre:bg-slate-950 prose-pre:text-slate-100 prose-pre:text-sm prose-pre:leading-7
+            [&_pre_code]:bg-transparent [&_pre_code]:text-slate-100 [&_pre_code]:p-0 [&_pre_code]:rounded-none [&_pre_code]:text-sm
+            prose-img:rounded-2xl prose-img:shadow-md
+            prose-blockquote:border-l-4 prose-blockquote:border-teal prose-blockquote:bg-teal/5 prose-blockquote:rounded-r-2xl prose-blockquote:px-6 prose-blockquote:py-4 prose-blockquote:not-italic prose-blockquote:text-slate-700
+            prose-blockquote:before:content-none prose-blockquote:after:content-none
+            prose-table:text-sm prose-th:bg-slate-100 prose-th:text-navy prose-th:font-semibold
+            prose-td:text-slate-700
+            prose-hr:border-slate-200 prose-hr:my-10"> <p>Wenn man täglich mit hunderten von Servern arbeitet, lernt man schnell: Was sich wiederholt, gehört automatisiert. Nicht irgendwann. Sofort.</p>
+<p>In diesem Post zeige ich, wie ich PowerShell-Automatisierung im Enterprise-Umfeld einsetze — und was KMU davon direkt übernehmen können.</p>
+<h2 id="warum-powershell-und-nicht-einfach-ein-klick-tool">Warum PowerShell und nicht einfach ein Klick-Tool?</h2>
+<p>PowerShell ist auf jedem Windows-System verfügbar, seit 2016 auch open-source und auf Linux lauffähig. Wer einmal die Grundlagen draufhat, kann damit:</p>
+<ul>
+<li>Massenupdates auf hunderten Servern gleichzeitig ausrollen</li>
+<li>Berichte aus Active Directory in Sekunden generieren</li>
+<li>Monitoring-Checks automatisch alle 5 Minuten ausführen</li>
+<li>Dateisystem-Aufräumjobs ohne menschliches Zutun erledigen</li>
+</ul>
+<p>Das Wichtige: PowerShell ist kein Experten-Tool. Wer <code>Get-Process</code> und <code>ForEach-Object</code> versteht, kann damit echte Probleme lösen.</p>
+<h2 id="ein-konkretes-beispiel-server-health-check-für-200-maschinen">Ein konkretes Beispiel: Server-Health-Check für 200 Maschinen</h2>
+<p><strong>Das Problem:</strong> In einer größeren IT-Umgebung will niemand 200 Server einzeln aufrufen, um zu prüfen ob Dienste laufen, ob der Speicher kritisch ist oder ob Updates ausstehen.</p>
+<p><strong>Die Lösung:</strong> Ein Skript, das das in unter 2 Minuten erledigt.</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="powershell"><code><span class="line"><span style="color:#6A737D"># server-health.ps1</span></span>
+<span class="line"><span style="color:#E1E4E8">$servers </span><span style="color:#F97583">=</span><span style="color:#79B8FF"> Get-Content</span><span style="color:#9ECBFF"> ".\servers.txt"</span></span>
+<span class="line"><span style="color:#E1E4E8">$results </span><span style="color:#F97583">=</span><span style="color:#F97583"> @</span><span style="color:#E1E4E8">()</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">foreach</span><span style="color:#E1E4E8"> ($server </span><span style="color:#F97583">in</span><span style="color:#E1E4E8"> $servers) {</span></span>
+<span class="line"><span style="color:#E1E4E8">    $status </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> [</span><span style="color:#F97583">PSCustomObject</span><span style="color:#E1E4E8">]</span><span style="color:#F97583">@</span><span style="color:#E1E4E8">{</span></span>
+<span class="line"><span style="color:#E1E4E8">        Server    </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> $server</span></span>
+<span class="line"><span style="color:#E1E4E8">        Ping      </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> (</span><span style="color:#79B8FF">Test-Connection</span><span style="color:#F97583"> -</span><span style="color:#E1E4E8">ComputerName $server </span><span style="color:#F97583">-</span><span style="color:#E1E4E8">Count </span><span style="color:#79B8FF">1</span><span style="color:#F97583"> -</span><span style="color:#E1E4E8">Quiet)</span></span>
+<span class="line"><span style="color:#E1E4E8">        DiskFree  </span><span style="color:#F97583">=</span><span style="color:#79B8FF"> $null</span></span>
+<span class="line"><span style="color:#E1E4E8">        CpuLoad   </span><span style="color:#F97583">=</span><span style="color:#79B8FF"> $null</span></span>
+<span class="line"><span style="color:#E1E4E8">        Timestamp </span><span style="color:#F97583">=</span><span style="color:#79B8FF"> Get-Date</span></span>
+<span class="line"><span style="color:#E1E4E8">    }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">    if</span><span style="color:#E1E4E8"> ($status.Ping) {</span></span>
+<span class="line"><span style="color:#E1E4E8">        $disk </span><span style="color:#F97583">=</span><span style="color:#79B8FF"> Get-WmiObject</span><span style="color:#E1E4E8"> Win32_LogicalDisk </span><span style="color:#F97583">-</span><span style="color:#E1E4E8">ComputerName $server </span><span style="color:#F97583">-</span><span style="color:#E1E4E8">Filter </span><span style="color:#9ECBFF">"DeviceID='C:'"</span></span>
+<span class="line"><span style="color:#E1E4E8">        $status.DiskFree </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> [</span><span style="color:#F97583">math</span><span style="color:#E1E4E8">]::Round($disk.FreeSpace </span><span style="color:#F97583">/</span><span style="color:#79B8FF"> 1</span><span style="color:#F97583">GB,</span><span style="color:#79B8FF"> 1</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">        $cpu </span><span style="color:#F97583">=</span><span style="color:#79B8FF"> Get-WmiObject</span><span style="color:#E1E4E8"> Win32_Processor </span><span style="color:#F97583">-</span><span style="color:#E1E4E8">ComputerName $server</span></span>
+<span class="line"><span style="color:#E1E4E8">        $status.CpuLoad </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> ($cpu </span><span style="color:#F97583">|</span><span style="color:#79B8FF"> Measure-Object</span><span style="color:#E1E4E8"> LoadPercentage </span><span style="color:#F97583">-</span><span style="color:#E1E4E8">Average).Average</span></span>
+<span class="line"><span style="color:#E1E4E8">    }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">    $results </span><span style="color:#F97583">+=</span><span style="color:#E1E4E8"> $status</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">$results </span><span style="color:#F97583">|</span><span style="color:#79B8FF"> Where-Object</span><span style="color:#E1E4E8"> { </span><span style="color:#79B8FF">$_</span><span style="color:#E1E4E8">.DiskFree </span><span style="color:#F97583">-lt</span><span style="color:#79B8FF"> 10</span><span style="color:#F97583"> -or</span><span style="color:#79B8FF"> $_</span><span style="color:#E1E4E8">.CpuLoad </span><span style="color:#F97583">-gt</span><span style="color:#79B8FF"> 85</span><span style="color:#E1E4E8"> } </span><span style="color:#F97583">|</span></span>
+<span class="line"><span style="color:#79B8FF">    Export-Csv</span><span style="color:#9ECBFF"> ".\critical-servers-</span><span style="color:#F97583">$</span><span style="color:#9ECBFF">(</span><span style="color:#79B8FF">Get-Date</span><span style="color:#F97583"> -</span><span style="color:#9ECBFF">Format </span><span style="color:#9ECBFF">'yyyyMMdd'</span><span style="color:#9ECBFF">)</span><span style="color:#9ECBFF">.csv"</span><span style="color:#F97583"> -</span><span style="color:#E1E4E8">NoTypeInformation</span></span>
+<span class="line"></span></code></pre>
+<p>Das Skript läuft täglich als geplante Aufgabe. Kritische Server landen automatisch im Report. Kein manueller Aufwand mehr.</p>
+<h2 id="was-das-für-ein-kleines-unternehmen-bedeutet">Was das für ein kleines Unternehmen bedeutet</h2>
+<p>Im Enterprise-Umfeld läuft so etwas auf hunderten Servern. Im KMU-Umfeld sind es vielleicht 5. Aber das Prinzip ist exakt gleich:</p>
+<p><strong>Typische Automatisierungen für KMU mit PowerShell:</strong></p>
+<ul>
+<li><strong>Backup-Kontrolle:</strong> Prüfen ob das Backup vom Vorabend erfolgreich war — und bei Fehler sofort eine Mail schicken</li>
+<li><strong>Benutzer-Onboarding:</strong> Neuen Mitarbeiter in Active Directory anlegen, Ordnerrechte setzen, Mailbox erstellen — alles in einem Skript</li>
+<li><strong>Daten-Export:</strong> Täglich einen Bericht aus einem System exportieren und per Mail versenden</li>
+<li><strong>Aufräumen:</strong> Temporäre Dateien, alte Logs, leere Ordner — automatisch bereinigen</li>
+</ul>
+<p><strong>Einstiegsrezept:</strong> Nimm den einen manuellen Prozess, den du oder dein Team am häufigsten wiederholt. Schreib ihn in Stichpunkten auf. Dann ist das schon der erste Schritt zum Skript.</p>
+<h2 id="die-häufigsten-fehler-beim-einstieg">Die häufigsten Fehler beim Einstieg</h2>
+<ol>
+<li><strong>Zu groß anfangen</strong> — ein Skript für alles auf einmal. Besser: eine Aufgabe, ein Skript.</li>
+<li><strong>Kein Error-Handling</strong> — wenn etwas schiefgeht, bricht das Skript still ab. Immer <code>try/catch</code> verwenden.</li>
+<li><strong>Hardcoded Pfade</strong> — <code>C:\Users\paul\Desktop\file.txt</code> funktioniert auf keinem anderen Rechner. Parameter verwenden.</li>
+<li><strong>Kein Logging</strong> — ohne Log weiß man nicht ob das Skript gestern Nacht wirklich durchgelaufen ist.</li>
+</ol>
+<h2 id="fazit">Fazit</h2>
+<p>PowerShell ist eines der unterschätztesten Werkzeuge im IT-Alltag. Es ist kostenlos, überall verfügbar und mit wenigen Stunden Einarbeitung produktiv einsetzbar.</p>
+<p>Wenn du nicht weißt wo du anfangen sollst — oder wenn du einen bestehenden Prozess automatisieren willst und dir jemanden wünschst der das umsetzt: <a href="/kontakt">Schreib mir</a>.</p>
+<hr>
+<p><em>Weitere Beiträge zu Automatisierung, KI und Infrastruktur findest du im <a href="/blog">Blog</a>. Oder schau dir meine <a href="/leistungen">Leistungen</a> an.</em></p> </div> </div> <div class="border-t border-slate-200 bg-slate-50 px-6 py-8 md:px-10"> <div class="flex flex-col items-center gap-4 text-center sm:flex-row sm:text-left"> <img src="/images/paul-scholz.jpg" alt="Paul Scholz" width="56" height="56" class="h-14 w-14 rounded-full object-cover ring-2 ring-teal/30 shrink-0"> <div> <p class="font-semibold text-navy">Paul Scholz</p> <p class="text-sm text-slate-600 mt-0.5">IT Administrator &amp; SEO Consultant · Enterprise Hyper-V/SCVMM · Docker Homelab · Local SEO</p> </div> </div> </div> </article> <nav class="mt-10 grid gap-4 md:grid-cols-2" aria-label="Post navigation"> <a href="/en/blog/ki-integration-unternehmen-2025/" class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm transition-colors hover:border-teal/50"> <p class="text-sm font-semibold text-teal">Newer post</p> <p class="mt-3 text-xl font-semibold tracking-tight text-navy"> AI in Business 2025: What Actually Works (and What Doesn&#39;t) </p> </a>  </nav> </section> </main> <footer class="bg-slate-950 py-10 text-slate-300" aria-label="Footer"> <div class="mx-auto flex max-w-6xl flex-col gap-6 px-6 md:flex-row md:items-center md:justify-between md:px-10 lg:px-12"> <div> <p class="text-sm font-semibold text-white">Paul Scholz © 2025</p> <p class="mt-2 text-sm text-slate-400"> Built with Astro &amp; Tailwind CSS. Hosted on GitHub Pages. </p> </div> <div class="flex flex-col gap-5 md:items-end"> <div class="flex flex-wrap items-center gap-4 text-sm"> <a href="/en/impressum/" class="hover:text-white"> Legal Notice </a> <a href="/en/datenschutz/" class="hover:text-white"> Privacy Policy </a> </div> <div class="flex items-center gap-3"> <a href="https://github.com/PiefkePaul" target="_blank" rel="noopener noreferrer" aria-label="GitHub" class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-slate-200 transition-colors hover:border-teal hover:text-teal"> <svg viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5"> <path d="M12 2C6.48 2 2 6.59 2 12.24c0 4.52 2.87 8.36 6.84 9.72.5.09.68-.22.68-.48 0-.24-.01-1.03-.01-1.87-2.78.62-3.37-1.2-3.37-1.2-.46-1.19-1.11-1.5-1.11-1.5-.91-.64.07-.63.07-.63 1 .07 1.54 1.05 1.54 1.05.9 1.57 2.35 1.12 2.92.86.09-.67.35-1.12.63-1.37-2.22-.26-4.56-1.14-4.56-5.09 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.31.1-2.73 0 0 .84-.28 2.75 1.05A9.36 9.36 0 0 1 12 6.84c.85 0 1.7.12 2.49.35 1.91-1.33 2.74-1.05 2.74-1.05.55 1.42.2 2.47.1 2.73.64.72 1.03 1.63 1.03 2.75 0 3.96-2.34 4.82-4.57 5.08.36.32.67.95.67 1.92 0 1.39-.01 2.5-.01 2.84 0 .27.18.58.69.48A10.28 10.28 0 0 0 22 12.24C22 6.59 17.52 2 12 2Z"></path> </svg> </a><a href="https://hub.docker.com/r/piefkepaul/" target="_blank" rel="noopener noreferrer" aria-label="Docker Hub" class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-slate-200 transition-colors hover:border-teal hover:text-teal"> <svg viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5"> <path d="M4 13.5h2.4v2.3H4v-2.3Zm2.9 0h2.4v2.3H6.9v-2.3Zm2.9 0h2.4v2.3H9.8v-2.3Zm2.9 0h2.4v2.3h-2.4v-2.3Zm-5.8-2.9h2.4v2.3H7.8v-2.3Zm2.9 0h2.4v2.3h-2.4v-2.3Zm2.9 0h2.4v2.3h-2.4v-2.3Zm-5.8-2.9h2.4V10H7.8V7.7Zm2.9 0h2.4V10h-2.4V7.7Zm7.7 4.7c-.3 2.4-1.9 4.4-4.2 5.3-1 .4-2.2.6-3.5.5-2.9-.2-5.4-2.2-6.1-5 .7.5 1.7.7 2.7.7h.5c.4 0 .8-.3.8-.8v-5c0-.4.3-.8.8-.8h.6v-1c0-.8.7-1.5 1.5-1.5h1V8h.9V6.4c0-.8.7-1.5 1.5-1.5h1v2.4h.9v5.1h.8c.9 0 1.8-.2 2.6-.7Z"></path> </svg> </a><a href="https://www.instagram.com/lowfuel.dad/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-slate-200 transition-colors hover:border-teal hover:text-teal"> <svg viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5"> <path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5Zm0 2.2A2.8 2.8 0 0 0 4.2 7v10A2.8 2.8 0 0 0 7 19.8h10a2.8 2.8 0 0 0 2.8-2.8V7A2.8 2.8 0 0 0 17 4.2H7Zm10.25 1.45a1.2 1.2 0 1 1-1.2 1.2 1.2 1.2 0 0 1 1.2-1.2ZM12 7a5 5 0 1 1-5 5 5 5 0 0 1 5-5Zm0 2.2a2.8 2.8 0 1 0 2.8 2.8A2.8 2.8 0 0 0 12 9.2Z"></path> </svg> </a> </div> </div> </div> </footer>  </body></html>
