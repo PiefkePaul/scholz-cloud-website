@@ -6,6 +6,7 @@ descriptionEn: "How I automate hundreds of Hyper-V hosts and thousands of VMs wi
 pubDate: 2025-01-10
 updatedDate: 2025-04-10
 tags: ["PowerShell", "Hyper-V", "SCVMM", "Automatisierung", "Windows Server", "Enterprise IT"]
+draft: true
 ---
 
 Es gibt einen Moment im Leben jedes IT-Admins, in dem er merkt, dass manuelles Arbeiten keine Option mehr ist. Bei mir war das der Tag, an dem ich zum dritten Mal dieselbe Aufgabe für denselben Host-Typ erledigte und dabei exakt dieselben Schritte machte wie die Male zuvor.

@@ -6,6 +6,7 @@ descriptionEn: "How I integrate ChatGPT and Claude into my local SEO workflow �
 pubDate: 2025-02-20
 updatedDate: 2025-04-10
 tags: ["SEO", "KI", "AI", "Lokales Marketing", "ChatGPT", "Content-Strategie"]
+draft: true
 ---
 
 Lokale SEO wird unterschätzt. Nicht weil die Mechanismen komplex wären, sondern weil die meisten Unternehmen weder Zeit noch Plan haben – und weil generische SEO-Agenturen oft zu teuer für das sind, was wirklich gebraucht wird.

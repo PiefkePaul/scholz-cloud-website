@@ -6,6 +6,7 @@ descriptionEn: "How I run Docker on a dedicated homeserver – with real docker-
 pubDate: 2025-03-15
 updatedDate: 2025-04-10
 tags: ["Docker", "Self-Hosting", "Nginx Proxy Manager", "docker-compose", "On-Premises", "Homelab"]
+draft: true
 ---
 
 Ich verwalte beruflich hunderte von Hyper-V-Hosts und tausende virtuelle Maschinen. Abends läuft mein privater Docker-Stack. Der Unterschied zwischen Enterprise und Homelab ist kleiner als die meisten denken – und genau das macht es interessant.
