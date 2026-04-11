@@ -20,7 +20,10 @@ const content = isEnglish
       success:
         'Thank you! Your message has been sent. I will get back to you as soon as possible.',
       error: 'Please fill in all required fields.',
-      direct: 'Direct contact'
+      direct: 'Direct contact',
+      directEmail: 'kontakt@wichtige.email',
+      responseTime: 'I usually respond within 1–2 business days.',
+      helpMe: 'Most helpful: a brief description of your situation, what you have in mind, and any timing constraints.'
     }
   : {
       id: 'kontakt',
@@ -35,7 +38,10 @@ const content = isEnglish
       success:
         'Vielen Dank! Ihre Nachricht wurde gesendet. Ich melde mich so schnell wie möglich.',
       error: 'Bitte alle Pflichtfelder ausfüllen.',
-      direct: 'Direkter Kontakt'
+      direct: 'Direkter Kontakt',
+      directEmail: 'kontakt@wichtige.email',
+      responseTime: 'Ich antworte in der Regel innerhalb von 1–2 Werktagen.',
+      helpMe: 'Am hilfreichsten: eine kurze Beschreibung deiner Situation, was du dir vorstellst, und ob es einen Zeitrahmen gibt.'
     };
 ---
 
@@ -63,9 +69,17 @@ const content = isEnglish
           <div>
             <dt class="font-semibold text-white">E-Mail</dt>
             <dd class="mt-1">
-              <a href="mailto:kontakt@wichtige.email" class="hover:text-teal">
-                kontakt@wichtige.email
+              <a
+                href={`mailto:${content.directEmail}`}
+                class="inline-flex items-center gap-2 text-sm font-medium text-teal hover:text-sky-400 transition-colors"
+              >
+                <svg aria-hidden="true" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
+                </svg>
+                {content.directEmail}
               </a>
+              <p class="mt-4 text-xs text-slate-400">{content.responseTime}</p>
+              <p class="mt-2 text-xs text-slate-400 italic">{content.helpMe}</p>
             </dd>
           </div>
           <div>
