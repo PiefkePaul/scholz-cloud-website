@@ -85,7 +85,7 @@ const scenarios = isEnglish
       {scenarios.map((s) => (
         <div class="flex flex-col rounded-[2rem] border border-slate-200 bg-slate-50 p-7 transition-all duration-200 hover:border-teal/40 hover:bg-white hover:shadow-lg hover:shadow-slate-200/60">
           <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-teal/10 text-teal">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" class="h-5 w-5">
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" class="h-5 w-5">
               <path stroke-linecap="round" stroke-linejoin="round" d={s.icon}></path>
             </svg>
           </div>
@@ -102,10 +102,10 @@ const scenarios = isEnglish
     <div class="mt-10">
       <a
         href={isEnglish ? '#contact' : '#kontakt'}
-        class="inline-flex items-center gap-2 text-sm font-semibold text-teal hover:text-sky-600 transition-colors"
+        class="inline-flex items-center gap-2 text-sm font-semibold text-teal hover:text-teal/70 transition-colors"
       >
         {isEnglish ? 'Talk about your situation' : 'Über deine Situation sprechen'}
-        <svg class="h-4 w-4" viewBox="0 0 16 16" fill="currentColor">
+        <svg aria-hidden="true" class="h-4 w-4" viewBox="0 0 16 16" fill="currentColor">
           <path fill-rule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clip-rule="evenodd" />
         </svg>
       </a>
