@@ -10,27 +10,27 @@ const blogPath = isEnglish ? '/en/blog/' : '/blog/';
 const currentPath = Astro.url.pathname.endsWith('/') ? Astro.url.pathname : `${Astro.url.pathname}/`;
 
 const sectionIds = {
-  about: isEnglish ? 'about' : 'ueber-mich',
   services: isEnglish ? 'services' : 'leistungen',
-  tech: 'tech-stack',
+  process: isEnglish ? 'process' : 'vorgehen',
+  about: isEnglish ? 'about' : 'ueber-mich',
   contact: isEnglish ? 'contact' : 'kontakt'
 };
 
 const links = [
-  {
-    label: isEnglish ? 'About Me' : 'Über mich',
-    href: `${homePath}#${sectionIds.about}`,
-    section: sectionIds.about
-  },
   {
     label: isEnglish ? 'Services' : 'Leistungen',
     href: `${homePath}#${sectionIds.services}`,
     section: sectionIds.services
   },
   {
-    label: 'Tech Stack',
-    href: `${homePath}#${sectionIds.tech}`,
-    section: sectionIds.tech
+    label: isEnglish ? 'Process' : 'Vorgehen',
+    href: `${homePath}#${sectionIds.process}`,
+    section: sectionIds.process
+  },
+  {
+    label: isEnglish ? 'About' : 'Über mich',
+    href: `${homePath}#${sectionIds.about}`,
+    section: sectionIds.about
   },
   {
     label: 'Blog',
