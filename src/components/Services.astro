@@ -63,6 +63,7 @@ const services = isEnglish
 
 <section
   id={isEnglish ? 'services' : 'leistungen'}
+  lang={lang}
   class="bg-[#0c1322] py-24 sm:py-28"
   aria-labelledby="services-heading"
 >
@@ -106,7 +107,7 @@ const services = isEnglish
           <p
             class="mt-3 flex-1 text-sm leading-7 text-white/45 [&_strong]:font-medium [&_strong]:text-white/70"
             set:html={service.description}
-          />
+          ></p>
           <div class="mt-5 flex flex-wrap gap-2 border-t border-white/[0.06] pt-5">
             {service.tags.map((tag) => (
               <span class="rounded-full border border-teal/20 bg-teal/[0.08] px-3 py-1 text-[10px] font-semibold text-teal/80">
