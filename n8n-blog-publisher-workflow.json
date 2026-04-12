@@ -14,59 +14,166 @@
     },
     {
       "parameters": {
-        "httpMethod": "POST",
-        "path": "publish-blog",
-        "options": {}
+        "method": "GET",
+        "url": "https://news.google.com/rss/search?q=KI+K%C3%BCnstliche+Intelligenz+AI+LLM+ChatGPT+Sprachmodell+Gemini+Claude&hl=de&gl=DE&ceid=DE:de",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "User-Agent", "value": "Mozilla/5.0 (compatible; RSS-Reader/1.0)" },
+            { "name": "Accept", "value": "application/rss+xml, application/xml, text/xml" }
+          ]
+        },
+        "options": {
+          "response": {
+            "response": { "responseFormat": "text" }
+          }
+        }
       },
-      "name": "Webhook (Breaking News)",
-      "type": "n8n-nodes-base.webhook",
-      "typeVersion": 1.1,
-      "position": [240, 480],
-      "webhookId": "blog-publisher"
+      "name": "Google News – KI & AI",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [480, 180]
     },
     {
       "parameters": {
-        "jsCode": "// Themen-Pool für den Scheduler\n// Beim Webhook-Trigger kommt das Thema aus dem Request-Body\nconst isWebhook = $input.first().json.body !== undefined;\n\nlet topic, language;\n\nif (isWebhook) {\n  // Webhook: { topic: 'Claude source leak', lang: 'de' }\n  topic = $input.first().json.body.topic;\n  language = $input.first().json.body.lang || 'de';\n} else {\n  // Scheduler: Thema aus aktuellem Tech-Kontext\n  const topics = [\n    'PowerShell Best Practices für Windows Server Admins 2025',\n    'Docker Security Hardening – Produktionsreife Container',\n    'Cloudflare Workers vs. traditionelle Server für Webhooks',\n    'AI in der IT-Administration – sinnvolle Anwendungsfälle',\n    'Hyper-V Cluster Performance-Optimierung',\n    'Self-Hosted Monitoring Stack mit Netdata und Gotify',\n    'DNS-Architektur für On-Premises Umgebungen',\n    'n8n für IT-Automatisierung – Praxisbeispiele'\n  ];\n  topic = topics[Math.floor(Math.random() * topics.length)];\n  language = 'de';\n}\n\nreturn [{ json: { topic, language } }];"
+        "method": "GET",
+        "url": "https://news.google.com/rss/search?q=Cybersecurity+Datenleck+Darknet+Hacker+IT-Sicherheit+Zero-Day+Datenschutz+Tech+Software&hl=de&gl=DE&ceid=DE:de",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "User-Agent", "value": "Mozilla/5.0 (compatible; RSS-Reader/1.0)" },
+            { "name": "Accept", "value": "application/rss+xml, application/xml, text/xml" }
+          ]
+        },
+        "options": {
+          "response": {
+            "response": { "responseFormat": "text" }
+          }
+        }
       },
-      "name": "Thema vorbereiten",
+      "name": "Google News – IT & Nischen",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [480, 420]
+    },
+    {
+      "parameters": {
+        "mode": "append"
+      },
+      "name": "RSS Feeds zusammenführen",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3,
+      "position": [720, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Beide RSS-Feeds parsen und zu einem strukturierten Text zusammenfassen\nconst allItems = [];\nconst inputs = $input.all();\n\ninputs.forEach((input, feedIndex) => {\n  const xml = String(input.json.data || input.json.body || '');\n  const category = feedIndex === 0 ? 'KI/AI' : 'IT/Tech/Nischen';\n\n  const getTag = (block, tag) => {\n    const open = '<' + tag + '>';\n    const close = '</' + tag + '>';\n    const s = block.indexOf(open);\n    const e = block.indexOf(close);\n    if (s === -1 || e === -1) return '';\n    let val = block.substring(s + open.length, e);\n    // CDATA entfernen\n    if (val.indexOf('CDATA[') !== -1) {\n      const cdataStart = val.indexOf('CDATA[') + 6;\n      const cdataEnd = val.lastIndexOf(']]>');\n      val = cdataEnd !== -1 ? val.substring(cdataStart, cdataEnd) : val.substring(cdataStart);\n    }\n    return val.replace(/<[^>]+>/g, '').replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').trim();\n  };\n\n  const rawItems = xml.split('<item>').slice(1, 14);\n  rawItems.forEach(block => {\n    const title = getTag(block, 'title').substring(0, 150);\n    const desc = getTag(block, 'description').substring(0, 300);\n    const link = getTag(block, 'link');\n    const date = getTag(block, 'pubDate');\n    if (title.length > 10) {\n      allItems.push({ category, title, description: desc, link, pubDate: date });\n    }\n  });\n});\n\nconst feedText = allItems.map((i, idx) =>\n  '[' + i.category + ' #' + (idx + 1) + '] ' + i.title +\n  (i.description ? '\\nInhalt: ' + i.description : '') +\n  '\\nURL: ' + i.link +\n  '\\nDatum: ' + i.pubDate\n).join('\\n\\n---\\n\\n');\n\nif (allItems.length < 3) {\n  throw new Error('Zu wenige RSS-Artikel gefunden: ' + allItems.length + '. Bitte RSS-Feeds prüfen.');\n}\n\nreturn [{ json: { feedText, itemCount: allItems.length, fetchedAt: new Date().toISOString() } }];"
+      },
+      "name": "RSS Artikel extrahieren",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
-      "position": [480, 380]
+      "position": [960, 300]
     },
     {
       "parameters": {
         "resource": "chat",
         "operation": "create",
-        "model": "claude-opus-4-6",
+        "model": "claude-haiku-4-5-20251001",
         "messages": {
           "values": [
             {
               "role": "user",
-              "content": "=Du bist Paul Scholz – IT-Administrator und SEO-Berater mit über 10 Jahren Enterprise-Erfahrung (Hyper-V, SCVMM, Docker, PowerShell). Du schreibst einen fundierten Blog-Post auf Deutsch für scholz-cloud.de.\n\nThema: {{ $json.topic }}\n\nAnforderungen:\n- Mindestens 1200 Wörter\n- Schreibe aus persönlicher Erfahrung (Ich-Perspektive), nicht theoretisch\n- Konkrete Code-Beispiele, Befehle, Konfigurationen wo sinnvoll\n- Strukturiert mit ## Überschriften, ### Unterüberschriften\n- Mind. 1 Tabelle und 1 Blockquote (> Text)\n- Ehrliche Vor- und Nachteile, keine reine Werbung\n- Vermeide Buzzwords ohne Substanz\n- Schließe mit einer kurzen FAQ-Sektion ab (3-5 Fragen)\n- E-E-A-T: zeige echte Expertise durch spezifische Details\n\nFormat – gib NUR das Markdown aus, ohne Erklärungen davor oder danach:\n\n```markdown\n---\ntitle: \"[Titel auf Deutsch]\"\ntitleEn: \"[Titel auf Englisch]\"\ndescription: \"[Meta-Beschreibung DE, 120-160 Zeichen]\"\ndescriptionEn: \"[Meta-Beschreibung EN, 120-160 Zeichen]\"\npubDate: {{ new Date().toISOString().split('T')[0] }}\ntags: [\"Tag1\", \"Tag2\", \"Tag3\", \"Tag4\"]\n---\n\n[Vollständiger Markdown-Inhalt]\n```"
+              "content": "=Du analysierst aktuelle News-Feeds und wählst die 3 besten Blog-Themen für scholz-cloud.de (IT-Automatisierung, KI, Infrastruktur – Zielgruppe: IT-Fachleute und Entscheider im deutschsprachigen Raum).\n\nAktuelle News-Artikel:\n{{ $json.feedText }}\n\nAUFGABE – Wähle exakt 3 Themen:\n- rank 0: Das HEISSESTE / aktuell brisanteste Thema (z.B. kritische Sicherheitslücke, bahnbrechende KI-News, großes Datenleck, wichtige Regulierung)\n- rank 1: Ein weiteres relevantes Thema aus IT, Cybersecurity, Tech oder Wirtschaft\n- rank 2: Ein drittes Thema – auch Nischen-Themen (Darknet, Leaks, kontroverse Tech-Trends) sind willkommen\n\nWICHTIG: Wähle NUR Themen, zu denen konkrete Fakten in den bereitgestellten News vorhanden sind. Keine Spekulation, keine veralteten Themen.\n\nAntworte AUSSCHLIESSLICH mit folgendem JSON (kein Text davor oder danach):\n{\n  \"topics\": [\n    {\n      \"rank\": 0,\n      \"topic\": \"Prägnanter Titel des Blog-Posts (DE)\",\n      \"summary\": \"Faktische Zusammenfassung in 4-5 Sätzen mit konkreten Details, Zahlen und Namen aus den News\",\n      \"sources\": [\"https://...\", \"https://...\"],\n      \"category\": \"KI|Cybersecurity|IT|Tech|Wirtschaft|Darknet\",\n      \"seo_keywords\": [\"keyword1\", \"keyword2\", \"keyword3\", \"keyword4\", \"keyword5\"]\n    },\n    { \"rank\": 1, \"topic\": \"...\", \"summary\": \"...\", \"sources\": [], \"category\": \"...\", \"seo_keywords\": [] },\n    { \"rank\": 2, \"topic\": \"...\", \"summary\": \"...\", \"sources\": [], \"category\": \"...\", \"seo_keywords\": [] }\n  ]\n}"
             }
           ]
         },
         "options": {
-          "maxTokens": 4000,
-          "temperature": 0.7
+          "maxTokens": 1500,
+          "temperature": 0.2
         }
       },
-      "name": "Claude – Blog schreiben",
+      "name": "Claude – Top 3 Themen auswählen",
       "type": "n8n-nodes-base.anthropic",
       "typeVersion": 1,
-      "position": [720, 380],
+      "position": [1200, 300],
       "credentials": {
         "anthropicApi": { "name": "Anthropic API" }
       }
     },
     {
       "parameters": {
-        "jsCode": "const raw = $input.first().json.content[0].text;\n\n// Markdown aus dem ```markdown ... ``` Block extrahieren\nlet markdown = raw;\nconst fenceMatch = raw.match(/```markdown\\n([\\s\\S]+?)\\n```/);\nif (fenceMatch) {\n  markdown = fenceMatch[1];\n}\n\n// Slug aus dem Titel generieren\nconst titleMatch = markdown.match(/^title:\\s*\"([^\"]+)\"/m);\nconst title = titleMatch ? titleMatch[1] : 'neuer-blog-post';\n\nconst slug = title\n  .toLowerCase()\n  .replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue').replace(/ß/g, 'ss')\n  .replace(/[^a-z0-9\\s-]/g, '')\n  .replace(/\\s+/g, '-')\n  .replace(/-+/g, '-')\n  .substring(0, 60);\n\nconst filename = `${slug}.md`;\n\n// Base64-kodieren für die GitHub API\nconst contentB64 = Buffer.from(markdown).toString('base64');\n\nreturn [{ json: { filename, contentB64, markdown, slug } }];"
+        "jsCode": "// Claude-Antwort parsen → 3 separate Items ausgeben\nconst raw = $input.first().json.content[0].text.trim();\n\nlet parsed;\ntry {\n  // JSON aus möglichem Markdown-Block extrahieren\n  const jsonMatch = raw.match(/```(?:json)?\\s*([\\s\\S]*?)```/) || raw.match(/(\\{[\\s\\S]*\\})/);\n  const jsonStr = jsonMatch ? jsonMatch[1].trim() : raw;\n  parsed = JSON.parse(jsonStr);\n} catch (e) {\n  throw new Error('Claude hat kein gültiges JSON geliefert. Antwort: ' + raw.substring(0, 300) + ' | Fehler: ' + e.message);\n}\n\nconst topics = parsed.topics;\nif (!Array.isArray(topics) || topics.length !== 3) {\n  throw new Error('Erwartet: 3 Themen, erhalten: ' + JSON.stringify(topics).substring(0, 200));\n}\n\n// Jedes Thema als eigenes n8n-Item zurückgeben\nreturn topics.map(t => ({\n  json: {\n    rank: t.rank,\n    topic: t.topic,\n    summary: t.summary,\n    sources: Array.isArray(t.sources) ? t.sources.join('\\n') : String(t.sources || ''),\n    category: t.category,\n    seo_keywords: Array.isArray(t.seo_keywords) ? t.seo_keywords.join(', ') : String(t.seo_keywords || ''),\n    today: new Date().toISOString().split('T')[0]\n  }\n}));"
       },
-      "name": "Markdown aufbereiten",
+      "name": "Themen in Items aufteilen",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
-      "position": [960, 380]
+      "position": [1440, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// OpenAI-Request-Body als String aufbauen (läuft 3× automatisch für jeden Topic)\nconst systemPrompt = 'Du bist ein erfahrener IT/Tech-Journalist und SEO-Spezialist. Du schreibst faktenbasierte, technisch fundierte Artikel für ein Fachpublikum (IT-Professionals, Entscheider, Administratoren).\\n\\nEISERNE REGEL: Schreibe AUSSCHLIESSLICH auf Basis der bereitgestellten Quellinformationen. Erfinde KEINE Fakten, Statistiken, Zitate oder Ereignisse. Wenn eine Information nicht aus den Quellen hervorgeht, schreibe sie NICHT. Spekuliere nicht.';\n\nconst userPrompt = 'Schreibe einen SEO-optimierten Artikel für scholz-cloud.de.\\n\\nThema: ' + $json.topic + '\\n\\nAktuelle Fakten aus News-Quellen:\\n' + $json.summary + '\\n\\nQuellenlinks:\\n' + $json.sources + '\\n\\nSEO-Keywords (organisch einbauen): ' + $json.seo_keywords + '\\n\\nFormat-Anforderungen:\\n- Länge: 900–1100 Wörter\\n- Hauptkeyword im H1-Titel und in mindestens einem H2\\n- Natürliche Keyword-Dichte (3–5×), kein Keyword-Stuffing\\n- Struktur: ## und ### Überschriften\\n- Einstieg: Was ist passiert? (aktueller Anlass, Datum wenn bekannt)\\n- Mittelteil: Kontext, technische Hintergründe, Bedeutung für IT/Tech-Leser\\n- Schluss: Fazit + konkreter Ausblick\\n- Am Ende ein Abschnitt ## Quellen mit den bereitgestellten Links\\n- Keine werblichen Formulierungen, keine Spekulation\\n- Tonalität: professionell, direkt, technisch präzise\\n\\nPublikationsdatum für Frontmatter: ' + $json.today + '\\n\\nAntworte NUR mit dem Markdown-Dokument (kein Text davor/danach):\\n\\n---\\ntitle: \"[Hauptkeyword im Titel]\"\\ntitleEn: \"[Englische Übersetzung des Titels]\"\\ndescription: \"[Meta-Description DE, 130–155 Zeichen, Hauptkeyword enthalten]\"\\ndescriptionEn: \"[Meta-Description EN, 130–155 chars]\"\\npubDate: ' + $json.today + '\\ntags: [\"tag1\", \"tag2\", \"tag3\", \"tag4\"]\\n---\\n\\n[Artikelinhalt ab hier]';\n\nconst requestBody = JSON.stringify({\n  model: 'gpt-4o-mini',\n  messages: [\n    { role: 'system', content: systemPrompt },\n    { role: 'user', content: userPrompt }\n  ],\n  temperature: 0.3,\n  max_tokens: 2200\n});\n\nreturn [{ json: { ...$json, requestBody } }];"
+      },
+      "name": "OpenAI Prompt vorbereiten",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1680, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.openai.com/v1/chat/completions",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "Content-Type", "value": "application/json" }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "raw",
+        "rawContentType": "application/json",
+        "body": "={{ $json.requestBody }}",
+        "options": {
+          "timeout": 60000
+        }
+      },
+      "name": "OpenAI – Artikel verfassen",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [1920, 300],
+      "credentials": {
+        "httpHeaderAuth": { "name": "OpenAI API Key" }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// OpenAI-Antwort parsen, Markdown aufbereiten, Slug generieren\nconst response = $input.first().json;\n\nif (!response.choices || !response.choices[0]) {\n  throw new Error('OpenAI Fehler: ' + JSON.stringify(response).substring(0, 300));\n}\n\nconst raw = response.choices[0].message.content.trim();\n\n// Markdown aus Code-Block extrahieren falls vorhanden\nlet markdown = raw;\nconst fenceMatch = raw.match(/```(?:markdown)?\\n?([\\s\\S]+?)\\n?```/);\nif (fenceMatch) markdown = fenceMatch[1].trim();\n\n// Frontmatter-Felder lesen\nconst titleMatch = markdown.match(/^title:\\s*\"([^\"]+)\"/m);\nconst title = titleMatch ? titleMatch[1] : 'tech-blog-post-' + Date.now();\n\n// SEO-freundlichen Slug generieren\nconst slug = title\n  .toLowerCase()\n  .replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue').replace(/ß/g, 'ss')\n  .replace(/[^a-z0-9\\s-]/g, '')\n  .replace(/\\s+/g, '-')\n  .replace(/-+/g, '-')\n  .replace(/^-|-$/g, '')\n  .substring(0, 65);\n\nconst filename = slug + '.md';\nconst contentB64 = Buffer.from(markdown).toString('base64');\n\n// Ursprüngliche Topic-Daten aus dem vorherigen Schritt weiterleiten\nconst prev = $('Themen in Items aufteilen').item.json;\n\nreturn [{ json: {\n  rank: prev.rank,\n  topic: prev.topic,\n  category: prev.category,\n  filename,\n  slug,\n  contentB64,\n  markdown,\n  tokensUsed: response.usage ? response.usage.total_tokens : 0\n} }];"
+      },
+      "name": "Markdown & Slug aufbereiten",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [2160, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Veröffentlichungszeitpunkt berechnen\n// rank 0 → sofort\n// rank 1 → morgen, 16–22 Uhr, zufällige Minute\n// rank 2 → übermorgen, 16–22 Uhr, zufällige Minute\nconst rank = $json.rank || 0;\nlet publishAt;\n\nif (rank === 0) {\n  // Sofort veröffentlichen\n  publishAt = new Date().toISOString();\n} else {\n  const d = new Date();\n  d.setDate(d.getDate() + rank); // Tag +1 oder +2\n  const hour = 16 + Math.floor(Math.random() * 7); // 16, 17, 18, 19, 20, 21 oder 22 Uhr\n  const minute = Math.floor(Math.random() * 60);\n  d.setHours(hour, minute, 0, 0);\n  publishAt = d.toISOString();\n}\n\nreturn [{ json: { ...$json, publishAt, publishMode: rank === 0 ? 'immediate' : 'scheduled' } }];"
+      },
+      "name": "Veröffentlichungszeitplan",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [2400, 300]
+    },
+    {
+      "parameters": {
+        "resume": "specificTime",
+        "dateTime": "={{ $json.publishAt }}"
+      },
+      "name": "Warten bis Veröffentlichung",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [2640, 300],
+      "webhookId": "blog-publish-wait"
     },
     {
       "parameters": {
@@ -85,7 +192,10 @@
         "bodyParameters": {
           "parameters": [
             { "name": "ref", "value": "main" },
-            { "name": "inputs", "value": "={{ JSON.stringify({ filename: $json.filename, content_b64: $json.contentB64 }) }}" }
+            {
+              "name": "inputs",
+              "value": "={{ JSON.stringify({ filename: $json.filename, content_b64: $json.contentB64 }) }}"
+            }
           ]
         },
         "options": {}
@@ -93,69 +203,74 @@
       "name": "GitHub – Blog veröffentlichen",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.1,
-      "position": [1200, 380],
+      "position": [2880, 300],
       "credentials": {
         "httpHeaderAuth": { "name": "GitHub PAT" }
       }
     },
     {
       "parameters": {
-        "conditions": {
-          "options": { "leftValue": "", "caseSensitive": true },
-          "conditions": [
-            {
-              "leftValue": "={{ $response.statusCode }}",
-              "rightValue": 204,
-              "operator": { "type": "number", "operation": "equals" }
-            }
-          ]
-        }
+        "jsCode": "const statusCode = $response?.statusCode || $input.first().json?.status;\nconst success = statusCode === 204 || statusCode === 200;\nconst item = $input.first().json;\n\nconst logEntry = {\n  status: success ? 'published' : 'error',\n  rank: item.rank,\n  publishMode: item.publishMode,\n  publishAt: item.publishAt,\n  filename: item.filename,\n  slug: item.slug,\n  category: item.category,\n  tokensUsed: item.tokensUsed,\n  url: 'https://www.scholz-cloud.de/blog/' + item.slug + '/'\n};\n\nif (success) {\n  console.log('[Blog Publisher] Veröffentlicht:', JSON.stringify(logEntry));\n} else {\n  console.error('[Blog Publisher] Fehler:', JSON.stringify(logEntry));\n}\n\nreturn [{ json: logEntry }];"
       },
-      "name": "Erfolgreich?",
-      "type": "n8n-nodes-base.if",
-      "typeVersion": 2,
-      "position": [1440, 380]
-    },
-    {
-      "parameters": {
-        "jsCode": "console.log('Blog veröffentlicht:', $input.first().json.filename);\nreturn [{ json: { status: 'published', filename: $input.first().json.filename, url: `https://www.scholz-cloud.de/blog/${$input.first().json.slug}/` } }];"
-      },
-      "name": "Erfolg loggen",
+      "name": "Status loggen",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
-      "position": [1680, 280]
-    },
-    {
-      "parameters": {
-        "jsCode": "console.error('Fehler beim Veröffentlichen:', JSON.stringify($input.first().json));\nreturn [{ json: { status: 'error', message: 'GitHub Workflow konnte nicht gestartet werden' } }];"
-      },
-      "name": "Fehler loggen",
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [1680, 480]
+      "position": [3120, 300]
     }
   ],
   "connections": {
-    "Alle 3 Tage": { "main": [[{ "node": "Thema vorbereiten", "type": "main", "index": 0 }]] },
-    "Webhook (Breaking News)": { "main": [[{ "node": "Thema vorbereiten", "type": "main", "index": 0 }]] },
-    "Thema vorbereiten": { "main": [[{ "node": "Claude – Blog schreiben", "type": "main", "index": 0 }]] },
-    "Claude – Blog schreiben": { "main": [[{ "node": "Markdown aufbereiten", "type": "main", "index": 0 }]] },
-    "Markdown aufbereiten": { "main": [[{ "node": "GitHub – Blog veröffentlichen", "type": "main", "index": 0 }]] },
-    "GitHub – Blog veröffentlichen": { "main": [[{ "node": "Erfolgreich?", "type": "main", "index": 0 }]] },
-    "Erfolgreich?": {
-      "main": [
-        [{ "node": "Erfolg loggen", "type": "main", "index": 0 }],
-        [{ "node": "Fehler loggen", "type": "main", "index": 0 }]
-      ]
+    "Alle 3 Tage": {
+      "main": [[
+        { "node": "Google News – KI & AI", "type": "main", "index": 0 },
+        { "node": "Google News – IT & Nischen", "type": "main", "index": 0 }
+      ]]
+    },
+    "Google News – KI & AI": {
+      "main": [[{ "node": "RSS Feeds zusammenführen", "type": "main", "index": 0 }]]
+    },
+    "Google News – IT & Nischen": {
+      "main": [[{ "node": "RSS Feeds zusammenführen", "type": "main", "index": 1 }]]
+    },
+    "RSS Feeds zusammenführen": {
+      "main": [[{ "node": "RSS Artikel extrahieren", "type": "main", "index": 0 }]]
+    },
+    "RSS Artikel extrahieren": {
+      "main": [[{ "node": "Claude – Top 3 Themen auswählen", "type": "main", "index": 0 }]]
+    },
+    "Claude – Top 3 Themen auswählen": {
+      "main": [[{ "node": "Themen in Items aufteilen", "type": "main", "index": 0 }]]
+    },
+    "Themen in Items aufteilen": {
+      "main": [[{ "node": "OpenAI Prompt vorbereiten", "type": "main", "index": 0 }]]
+    },
+    "OpenAI Prompt vorbereiten": {
+      "main": [[{ "node": "OpenAI – Artikel verfassen", "type": "main", "index": 0 }]]
+    },
+    "OpenAI – Artikel verfassen": {
+      "main": [[{ "node": "Markdown & Slug aufbereiten", "type": "main", "index": 0 }]]
+    },
+    "Markdown & Slug aufbereiten": {
+      "main": [[{ "node": "Veröffentlichungszeitplan", "type": "main", "index": 0 }]]
+    },
+    "Veröffentlichungszeitplan": {
+      "main": [[{ "node": "Warten bis Veröffentlichung", "type": "main", "index": 0 }]]
+    },
+    "Warten bis Veröffentlichung": {
+      "main": [[{ "node": "GitHub – Blog veröffentlichen", "type": "main", "index": 0 }]]
+    },
+    "GitHub – Blog veröffentlichen": {
+      "main": [[{ "node": "Status loggen", "type": "main", "index": 0 }]]
     }
   },
   "settings": {
-    "executionOrder": "v1"
+    "executionOrder": "v1",
+    "saveDataSuccessExecution": "all",
+    "saveDataErrorExecution": "all"
   },
   "staticData": null,
   "tags": [{ "name": "blog-automation" }],
   "meta": {
-    "templateId": "scholz-cloud-blog-publisher",
+    "templateId": "scholz-cloud-blog-publisher-v2",
     "instanceId": ""
   }
 }
