@@ -23,7 +23,8 @@ const content = isEnglish
       direct: 'Direct contact',
       directEmail: 'kontakt@wichtige.email',
       responseTime: 'I usually respond within 1–2 business days.',
-      helpMe: 'Most helpful: a brief description of your situation, what you have in mind, and any timing constraints.'
+      helpMe: 'Most helpful: a brief description of the situation, what is envisioned, and whether there is a timeline.',
+      linkedIn: 'https://www.linkedin.com/in/p-scholz/',
     }
   : {
       id: 'kontakt',
@@ -41,7 +42,8 @@ const content = isEnglish
       direct: 'Direkter Kontakt',
       directEmail: 'kontakt@wichtige.email',
       responseTime: 'Ich antworte in der Regel innerhalb von 1–2 Werktagen.',
-      helpMe: 'Am hilfreichsten: eine kurze Beschreibung deiner Situation, was du dir vorstellst, und ob es einen Zeitrahmen gibt.'
+      helpMe: 'Am hilfreichsten: eine kurze Beschreibung der Situation, was vorgestellt wird, und ob es einen Zeitrahmen gibt.',
+      linkedIn: 'https://www.linkedin.com/in/p-scholz/',
     };
 ---
 
@@ -92,6 +94,22 @@ const content = isEnglish
                 class="text-[#58a6ff] hover:text-[#79c0ff] transition-colors"
               >
                 github.com/piefkepaul
+              </a>
+            </dd>
+          </div>
+          <div>
+            <dt class="font-semibold text-white">LinkedIn</dt>
+            <dd class="mt-1">
+              <a
+                href={content.linkedIn}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-flex items-center gap-2 text-sm font-medium text-blue-400 hover:text-blue-300 transition-colors"
+              >
+                <svg aria-hidden="true" class="h-4 w-4 fill-current" viewBox="0 0 24 24">
+                  <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/>
+                </svg>
+                linkedin.com/in/p-scholz
               </a>
             </dd>
           </div>
