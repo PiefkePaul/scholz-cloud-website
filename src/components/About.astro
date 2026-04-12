@@ -7,7 +7,7 @@ const { lang = 'de' } = Astro.props;
 const isEnglish = lang === 'en';
 
 const techTags = [
-  'Enterprise IT', 'Hyper-V / SCVMM', 'PowerShell', 'Automic UC4',
+  'Enterprise IT', 'Hyper-V · SCVMM · VDI', 'PowerShell', 'Automic UC4',
   'Docker', 'Python', 'n8n', 'Claude AI', 'Cloudflare',
 ];
 
@@ -16,10 +16,10 @@ const content = isEnglish
       id: 'about',
       label: 'Profile',
       heading: 'One person. Directly reachable.\nWith real experience.',
-      para1: 'I\'m Paul Scholz — IT specialist, automation engineer and the person behind this website. No team, no agency, no middlemen. If you write, I read it. If I answer, it\'s my assessment.',
-      para2: 'Before that, I was COO at an IT service provider managing infrastructure and operations for law firms, medical practices, clinics, businesses, and government agencies simultaneously — broad responsibility, lean team. Since 2020, I\'ve been responsible for critical automation infrastructure at one of Germany\'s largest federal agencies: hundreds of <em>Hyper-V hosts</em>, thousands of virtual machines, pipelines with <em>Automic UC4</em> and <em>Microsoft PowerShell</em> processing tens of thousands of jobs daily. Enterprise standard, under real operational pressure.',
-      para3: 'I bring this experience to projects where it matters. <strong>Without enterprise overhead, but with enterprise quality.</strong> What I build is meant for production — not for presentation. It runs even when nobody is watching.',
-      para4: 'Privately, I run an extensive homelab: Docker stacks, local AI models via Ollama, self-hosted services. Not as a hobby — but as a development environment. Everything I recommend, I\'ve had in use myself.',
+      para1: 'I\'m Paul Scholz — IT specialist with a focus on automation, AI integration and infrastructure. No team, no agency. If you write, I read it. When I reply, it\'s my own assessment.',
+      para2: 'My background spans two distinct phases. As COO of an IT service provider, I managed infrastructure across law firms, medical practices, clinics, businesses, and government agencies ��� including network design, server operations and <em>VDI</em> rollouts. Since 2020, I\'ve been responsible for critical IT infrastructure at one of Germany\'s largest federal agencies: hundreds of <em>Hyper-V</em> hosts managed via <em>SCVMM</em>, large-scale VDI environments, and automation pipelines built on <em>Automic UC4</em> and <em>Microsoft PowerShell</em> that process tens of thousands of jobs every day.',
+      para3: '<strong>Without enterprise overhead — but with enterprise quality.</strong> I know exactly what separates infrastructure that holds under operational pressure from infrastructure that only looks good in a demo. What I build is documented, maintainable, and designed to run when nobody is watching.',
+      para4: 'Privately, I run an extensive homelab: Docker stacks, local AI models via <em>Ollama</em>, self-hosted services. Not as a hobby — as a development environment for what I recommend to clients.',
       personRole: 'IT Automation & AI Integration',
       tagsTitle: 'Toolbox',
     }
@@ -27,10 +27,10 @@ const content = isEnglish
       id: 'ueber-mich',
       label: 'Profil',
       heading: 'Eine Person. Direkt erreichbar.\nMit echter Erfahrung.',
-      para1: 'Ich bin Paul Scholz — IT-Spezialist, Automatisierungsentwickler und der Ansprechpartner hinter dieser Website. Kein Team, keine Agentur, keine Zwischenhändler. Wenn Sie schreiben, lese ich es. Wenn ich antworte, ist es meine Einschätzung.',
-      para2: 'Davor war ich COO eines IT-Systemhauses, das gleichzeitig Kanzleien, Arztpraxen, Kliniken, Unternehmen und Behörden betreute — breite Verantwortung, schlankes Team. Seit 2020 verantworte ich in einer der größten deutschen Bundesbehörden, dass kritische Automatisierungsinfrastruktur läuft: hunderte <em>Hyper-V-Hosts</em>, tausende virtuelle Maschinen, Pipelines mit <em>Automic UC4</em> und <em>Microsoft PowerShell</em>, die täglich zehntausende Jobs verarbeiten. Enterprise-Standard, unter echtem Betriebsdruck.',
-      para3: 'Diese Erfahrung bringe ich heute in Projekte, wo es darauf ankommt. <strong>Ohne Enterprise-Overhead, aber mit Enterprise-Qualität.</strong> Was ich baue, ist für den Betrieb gedacht — nicht für die Präsentation. Es läuft auch dann, wenn niemand hinschaut.',
-      para4: 'Privat betreibe ich ein umfangreiches Homelab: Docker-Stacks, lokale KI-Modelle via <em>Ollama</em>, selbst gehostete Dienste. Nicht als Hobby — sondern als Entwicklungsumgebung. Alles was ich empfehle, habe ich selbst im Einsatz gehabt.',
+      para1: 'Ich bin Paul Scholz — IT-Spezialist mit Schwerpunkt auf Automatisierung, KI-Integration und Infrastruktur. Kein Team, keine Agentur. Wenn Sie schreiben, lese ich es — und wenn ich antworte, steht meine Einschätzung dahinter.',
+      para2: 'Mein Hintergrund verbindet zwei Phasen. Als COO eines IT-Systemhauses habe ich Infrastruktur für Kanzleien, Arztpraxen, Kliniken, Unternehmen und Behörden verantwortet — von der Netzwerkplanung über den Serverbetrieb bis hin zum Rollout von <em>VDI</em>-Umgebungen. Seit 2020 verantworte ich in einer der größten deutschen Bundesbehörden kritische IT-Infrastruktur: hunderte <em>Hyper-V</em>-Hosts, verwaltet über <em>SCVMM</em>, umfangreiche VDI-Landschaften sowie Automatisierungspipelines mit <em>Automic UC4</em> und <em>Microsoft PowerShell</em>, die täglich zehntausende Jobs verarbeiten.',
+      para3: '<strong>Ohne Enterprise-Overhead — aber mit Enterprise-Qualität.</strong> Ich weiß genau, was Infrastruktur, die unter Betriebsdruck hält, von Infrastruktur unterscheidet, die nur in der Präsentation funktioniert. Was ich baue, ist dokumentiert, wartbar und dafür ausgelegt, zu laufen, wenn niemand hinschaut.',
+      para4: 'Privat betreibe ich ein umfangreiches Homelab: Docker-Stacks, lokale KI-Modelle via <em>Ollama</em>, selbst gehostete Dienste. Nicht als Spielerei — als Entwicklungsumgebung für das, was ich Kunden empfehle.',
       personRole: 'IT-Automatisierung & KI-Integration',
       tagsTitle: 'Werkzeugkasten',
     };
