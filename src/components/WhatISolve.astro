@@ -9,55 +9,55 @@ const isEnglish = lang === 'en';
 const scenarios = isEnglish
   ? [
       {
-        problem: '"My team clicks through the same 50 steps every single day."',
-        solution: 'Automated workflow — done in seconds, no more manual clicking.',
+        problem: '"Our team clicks through the same 50 steps every single day — by hand."',
+        solution: 'An automated workflow takes over completely. Done in seconds, not hours, without errors.',
         icon: 'M4.5 12a7.5 7.5 0 0 0 15 0m-15 0a7.5 7.5 0 1 1 15 0m-15 0H3m16.5 0H21m-1.5 0H12m-8.457 3.077 1.41-.513m14.095-5.13 1.41-.513M5.106 17.785l1.15-.964m11.49-9.642 1.149-.964M7.501 19.795l.75-1.3m7.5-12.99.75-1.3m-6.063 16.658.26-1.477m2.605-14.772.26-1.477m0 17.726-.26-1.477M10.698 4.614l-.26-1.477M16.5 19.794l-.75-1.299M7.5 4.205 6.75 2.906'
       },
       {
-        problem: '"My data lives in 3 different systems that never sync."',
-        solution: 'One integrated workflow — a single source of truth for all your systems.',
+        problem: '"Our data sits in three different systems that never sync."',
+        solution: 'Connected systems, one source of truth — no more manual data transfer.',
         icon: 'M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 2.625c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125m16.5 5.625c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125'
       },
       {
-        problem: '"I want to use AI but don\'t know where to start or what it costs."',
-        solution: 'Honest analysis, clear proposal, no overkill — only what actually helps.',
+        problem: '"We want to use AI but don\'t know where to start or what it will cost."',
+        solution: 'Honest feasibility analysis, clear proposal — only what actually delivers value.',
         icon: 'M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09Z'
       },
       {
-        problem: '"My server works somehow — but nobody really knows how."',
-        solution: 'Clean, documented, stable infrastructure that anyone can understand and maintain.',
+        problem: '"Our server works somehow — but nobody really knows how."',
+        solution: 'Clean, documented infrastructure that anyone can understand and maintain at any time.',
         icon: 'M5.25 14.25h13.5m-13.5 0a3 3 0 0 1-3-3m3 3a3 3 0 1 0 6 0m-6 0H3m16.5 0a3 3 0 0 0 3-3m-3 3a3 3 0 1 1-6 0m6 0h1.5m-7.5-3V5.625'
       },
       {
-        problem: '"I need a tool or app that simply doesn\'t exist yet."',
-        solution: 'Custom software built exactly for your problem — nothing more, nothing less.',
+        problem: '"We need a tool that simply doesn\'t exist yet."',
+        solution: 'Custom software — built for exactly this problem, nothing more and nothing less.',
         icon: 'M6.75 7.5 3 12l3.75 4.5M17.25 7.5 21 12l-3.75 4.5M13.5 4.5l-3 15'
       },
     ]
   : [
       {
-        problem: '„Meine Mitarbeiter klicken täglich dieselben 50 Schritte durch."',
-        solution: 'Automatisierter Workflow — in Sekunden erledigt, kein manuelles Klicken mehr.',
+        problem: '„Unsere Mitarbeiter erledigen täglich dieselben 50 Schritte — von Hand."',
+        solution: 'Ein automatisierter Workflow übernimmt das vollständig. In Sekunden statt Stunden, ohne Fehler.',
         icon: 'M4.5 12a7.5 7.5 0 0 0 15 0m-15 0a7.5 7.5 0 1 1 15 0m-15 0H3m16.5 0H21m-1.5 0H12m-8.457 3.077 1.41-.513m14.095-5.13 1.41-.513M5.106 17.785l1.15-.964m11.49-9.642 1.149-.964M7.501 19.795l.75-1.3m7.5-12.99.75-1.3m-6.063 16.658.26-1.477m2.605-14.772.26-1.477m0 17.726-.26-1.477M10.698 4.614l-.26-1.477M16.5 19.794l-.75-1.299M7.5 4.205 6.75 2.906'
       },
       {
-        problem: '„Ich habe Daten in 3 verschiedenen Systemen, die sich nie synchronisieren."',
-        solution: 'Ein integrierter Workflow — eine einzige Quelle der Wahrheit für alle Systeme.',
+        problem: '„Unsere Daten stecken in drei Systemen, die sich nie synchronisieren."',
+        solution: 'Verbundene Systeme, eine Quelle der Wahrheit — keine manuelle Datenübertragung mehr.',
         icon: 'M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 2.625c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125m16.5 5.625c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125'
       },
       {
-        problem: '„Ich will KI nutzen, weiß aber nicht wo ich anfange oder was es kostet."',
-        solution: 'Ehrliche Analyse, klarer Vorschlag, kein Overkill — nur was wirklich hilft.',
+        problem: '„Wir wollen KI einsetzen, wissen aber nicht wo und was es kostet."',
+        solution: 'Ehrliche Machbarkeitsanalyse, klarer Vorschlag — nur was wirklich Mehrwert liefert.',
         icon: 'M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09Z'
       },
       {
-        problem: '„Mein Server läuft irgendwie — aber niemand weiß eigentlich wie."',
-        solution: 'Saubere, dokumentierte, stabile Infrastruktur, die jeder versteht und warten kann.',
+        problem: '„Unser Server läuft irgendwie — aber niemand weiß wirklich wie."',
+        solution: 'Saubere, dokumentierte Infrastruktur, die jeder versteht und jederzeit warten kann.',
         icon: 'M5.25 14.25h13.5m-13.5 0a3 3 0 0 1-3-3m3 3a3 3 0 1 0 6 0m-6 0H3m16.5 0a3 3 0 0 0 3-3m-3 3a3 3 0 1 1-6 0m6 0h1.5m-7.5-3V5.625'
       },
       {
-        problem: '„Ich brauche ein Tool oder eine App, die es so noch nicht gibt."',
-        solution: 'Maßgeschneiderte Softwarelösung — genau für dein Problem, nicht mehr und nicht weniger.',
+        problem: '„Wir brauchen ein Tool, das es so noch nicht gibt."',
+        solution: 'Maßgeschneiderte Software — gebaut für genau dieses Problem, nicht für den allgemeinen Fall.',
         icon: 'M6.75 7.5 3 12l3.75 4.5M17.25 7.5 21 12l-3.75 4.5M13.5 4.5l-3 15'
       },
     ];
@@ -65,46 +65,78 @@ const scenarios = isEnglish
 
 <section
   id={isEnglish ? 'what-i-solve' : 'was-ich-loese'}
-  class="bg-white py-24 sm:py-28"
+  class="bg-navy py-24 sm:py-28"
   aria-labelledby="solve-heading"
 >
   <div class="mx-auto max-w-6xl px-6 md:px-10 lg:px-12">
-    <p class="text-sm font-semibold uppercase tracking-[0.24em] text-teal">
-      {isEnglish ? 'Problems I solve' : 'Was ich löse'}
+    <p class="text-[10px] font-bold uppercase tracking-[0.24em] text-teal" data-reveal>
+      {isEnglish ? 'Problems I solve' : 'Einsatzgebiete'}
     </p>
-    <h2 id="solve-heading" class="mt-4 text-3xl font-semibold tracking-tight text-navy sm:text-4xl">
-      {isEnglish ? 'Does any of this sound familiar?' : 'Klingt das bekannt?'}
-    </h2>
-    <p class="mt-4 max-w-2xl text-base leading-7 text-slate-600">
+    <h2
+      id="solve-heading"
+      class="mt-4 text-3xl font-black tracking-tight text-white sm:text-4xl"
+      data-reveal
+      data-reveal-delay="60"
+    >
       {isEnglish
-        ? 'These are the situations I get called for. If one of them matches your situation, we should talk.'
-        : 'Das sind die Situationen, für die man mich ruft. Wenn eine davon auf dich zutrifft, sollten wir reden.'}
+        ? 'Most know the problem.\nFew know the solution.'
+        : 'Das Problem kennen die meisten.\nDie Lösung nicht.'}
+    </h2>
+    <p
+      class="mt-4 max-w-2xl text-base leading-7 text-white/55"
+      data-reveal
+      data-reveal-delay="120"
+    >
+      {isEnglish
+        ? 'Employees click through the same workflows. Data sits scattered and won\'t connect. IT infrastructure that runs somehow — until it doesn\'t. None of these problems are unsolvable.'
+        : 'Mitarbeiter klicken sich durch dieselben Abläufe. Daten liegen verteilt und lassen sich nicht zusammenführen. IT-Infrastruktur, die irgendwie läuft — bis sie es nicht mehr tut. Keines dieser Probleme ist unlösbar.'}
     </p>
 
-    <div class="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-      {scenarios.map((s) => (
-        <div class="flex flex-col rounded-[2rem] border border-slate-200 bg-slate-50 p-7 transition-all duration-200 hover:border-teal/40 hover:bg-white hover:shadow-lg hover:shadow-slate-200/60">
-          <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-teal/10 text-teal">
+    <div class="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {scenarios.map((s, i) => (
+        <div
+          class="flex flex-col rounded-2xl border border-white/[0.07] bg-white/[0.03] p-6 transition-all duration-200 hover:border-teal/30 hover:bg-teal/[0.04]"
+          data-reveal
+          data-reveal-delay={String(i * 60)}
+        >
+          <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-teal/10 text-teal">
             <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" class="h-5 w-5">
               <path stroke-linecap="round" stroke-linejoin="round" d={s.icon}></path>
             </svg>
           </div>
-          <p class="mt-5 text-sm font-semibold leading-6 text-navy italic">
+          <p class="mt-5 text-sm font-semibold italic leading-6 text-slate-200">
             {s.problem}
           </p>
-          <p class="mt-3 text-sm leading-6 text-slate-600">
+          <p class="mt-3 text-sm leading-6 text-white/45">
             {s.solution}
           </p>
         </div>
       ))}
+
+      <!-- 6th card: CTA -->
+      <div
+        class="flex flex-col items-center justify-center rounded-2xl border border-dashed border-white/[0.1] bg-transparent p-6 text-center opacity-60 transition-opacity hover:opacity-90"
+        data-reveal
+        data-reveal-delay="300"
+      >
+        <p class="text-sm text-white/50">
+          {isEnglish ? 'Your situation is not listed?' : 'Ihre Situation ist nicht dabei?'}
+        </p>
+        <a
+          href={isEnglish ? '#contact' : '#kontakt'}
+          class="mt-3 inline-flex items-center gap-1.5 text-sm font-semibold text-teal hover:text-sky-400 transition-colors"
+        >
+          {isEnglish ? 'Get in touch →' : 'Jetzt ansprechen →'}
+        </a>
+      </div>
     </div>
 
-    <div class="mt-10">
+    <div class="mt-10" data-reveal>
       <a
         href={isEnglish ? '#contact' : '#kontakt'}
-        class="inline-flex items-center gap-2 text-sm font-semibold text-teal hover:text-teal/70 transition-colors"
+        class="inline-flex items-center gap-2 text-sm font-semibold text-teal transition-colors hover:text-teal/70"
       >
-        {isEnglish ? 'Talk about your situation' : 'Über deine Situation sprechen'}
+        {isEnglish ? 'Talk about your situation' : 'Über Ihre Situation sprechen'}
         <svg aria-hidden="true" class="h-4 w-4" viewBox="0 0 16 16" fill="currentColor">
           <path fill-rule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clip-rule="evenodd" />
         </svg>
