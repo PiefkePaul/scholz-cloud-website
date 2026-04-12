@@ -6,89 +6,121 @@ interface Props {
 const { lang = 'de' } = Astro.props;
 const isEnglish = lang === 'en';
 
+const techTags = [
+  'Enterprise IT', 'Hyper-V / SCVMM', 'PowerShell', 'Automic UC4',
+  'Docker', 'Python', 'n8n', 'Claude AI', 'Cloudflare',
+];
+
 const content = isEnglish
   ? {
       id: 'about',
-      title: 'About Me',
-      lead:
-        'I\'m Paul Scholz — IT professional and automation engineer from Germany. For over a decade, I\'ve been automating complex processes at enterprise scale: in one of Germany\'s largest social security organizations, I designed and operated automation pipelines handling thousands of daily jobs with Automic (UC4) and PowerShell.',
-      body:
-        'On the side, I work with small businesses, freelancers, and individuals on automation, AI integration, and infrastructure. I run an extensive homelab with Docker, n8n, and self-hosted services — the playground where most of my ideas get tested before they go anywhere near production. I write about what I actually do, not about what sounds good.',
-      asideTitle: 'Track Record',
-      asideText:
-        '10+ years in enterprise IT. Automation at scale in regulated, large-organization environments. Personal projects in Docker, n8n, local LLMs, and self-hosted infrastructure.',
-      tags: [
-        'Enterprise IT',
-        'Hyper-V / SCVMM',
-        'PowerShell',
-        'Automic / UC4',
-        'KI / AI',
-        'Docker',
-        'Python',
-        'n8n',
-        'Cloud',
-      ]
+      label: 'Profile',
+      heading: 'One person. Directly reachable.\nWith real experience.',
+      para1: 'I\'m Paul Scholz — IT specialist, automation engineer and the person behind this website. No team, no agency, no middlemen. If you write, I read it. If I answer, it\'s my assessment.',
+      para2: 'For over a decade, I was responsible for keeping critical automation infrastructure running at one of Germany\'s largest government agencies — hundreds of Hyper-V hosts, thousands of virtual machines, pipelines with <em>Automic UC4</em> and <em>Microsoft PowerShell</em> processing tens of thousands of jobs daily. Enterprise standard, under real operational pressure.',
+      para3: 'I bring this experience to projects where it matters. <strong>Without enterprise overhead, but with enterprise quality.</strong> What I build is meant for production — not for presentation. It runs even when nobody is watching.',
+      para4: 'Privately, I run an extensive homelab: Docker stacks, local AI models via Ollama, self-hosted services. Not as a hobby — but as a development environment. Everything I recommend, I\'ve had in use myself.',
+      personRole: 'IT Automation & AI Integration',
+      tagsTitle: 'Toolbox',
     }
   : {
       id: 'ueber-mich',
-      title: 'Über mich',
-      lead:
-        'Ich bin Paul Scholz — IT-Spezialist und Automatisierungsentwickler aus Deutschland. Seit über einem Jahrzehnt automatisiere ich komplexe Prozesse im Enterprise-Maßstab: Bei einem der größten deutschen Sozialversicherungsträger habe ich Automatisierungs-Pipelines konzipiert und betrieben, die täglich tausende Jobs mit Automic (UC4) und PowerShell verarbeiten.',
-      body:
-        'Nebenbei arbeite ich mit Kleinunternehmen, Selbstständigen und Privatpersonen an Automatisierung, KI-Integration und Infrastruktur. Ich betreibe ein umfangreiches Homelab mit Docker, n8n und Self-Hosted-Services — der Spielplatz auf dem die meisten meiner Ideen getestet werden bevor sie irgendwo in Produktion gehen. Ich schreibe über das, was ich wirklich tue — nicht über das, was gut klingt.',
-      asideTitle: 'Nachweisliche Erfahrung',
-      asideText:
-        '10+ Jahre Enterprise-IT. Automatisierung im Maßstab in regulierten Großorganisations-Umgebungen. Eigene Projekte in Docker, n8n, lokalen LLMs und Self-Hosted-Infrastruktur.',
-      tags: [
-        'Enterprise IT',
-        'Hyper-V / SCVMM',
-        'PowerShell',
-        'Automic / UC4',
-        'KI / AI',
-        'Docker',
-        'Python',
-        'n8n',
-        'Cloud',
-      ]
+      label: 'Profil',
+      heading: 'Eine Person. Direkt erreichbar.\nMit echter Erfahrung.',
+      para1: 'Ich bin Paul Scholz — IT-Spezialist, Automatisierungsentwickler und der Ansprechpartner hinter dieser Website. Kein Team, keine Agentur, keine Zwischenhändler. Wenn Sie schreiben, lese ich es. Wenn ich antworte, ist es meine Einschätzung.',
+      para2: 'Über ein Jahrzehnt lang habe ich in einer der größten deutschen Bundesbehörden verantwortet, dass kritische Automatisierungsinfrastruktur läuft — hunderte von <em>Hyper-V-Hosts</em>, tausende virtuelle Maschinen, Pipelines mit <em>Automic UC4</em> und <em>Microsoft PowerShell</em>, die täglich zehntausende Jobs verarbeiteten. Enterprise-Standard, unter echtem Betriebsdruck.',
+      para3: 'Diese Erfahrung bringe ich heute in Projekte, wo es darauf ankommt. <strong>Ohne Enterprise-Overhead, aber mit Enterprise-Qualität.</strong> Was ich baue, ist für den Betrieb gedacht — nicht für die Präsentation. Es läuft auch dann, wenn niemand hinschaut.',
+      para4: 'Privat betreibe ich ein umfangreiches Homelab: Docker-Stacks, lokale KI-Modelle via <em>Ollama</em>, selbst gehostete Dienste. Nicht als Hobby — sondern als Entwicklungsumgebung. Alles was ich empfehle, habe ich selbst im Einsatz gehabt.',
+      personRole: 'IT-Automatisierung & KI-Integration',
+      tagsTitle: 'Werkzeugkasten',
     };
 ---
 
 <section
   id={content.id}
-  class="bg-white py-24 sm:py-28"
+  lang={lang}
+  class="bg-navy py-24 sm:py-28"
   aria-labelledby={`${content.id}-heading`}
 >
-  <div class="mx-auto grid max-w-6xl gap-12 px-6 md:px-10 lg:grid-cols-[1.45fr_0.95fr] lg:items-start lg:px-12">
-    <div class="max-w-3xl">
-      <p class="text-sm font-semibold uppercase tracking-[0.24em] text-teal">
-        {isEnglish ? 'Profile' : 'Profil'}
+  <div class="mx-auto grid max-w-6xl gap-12 px-6 md:px-10 lg:grid-cols-[1.4fr_1fr] lg:items-start lg:px-12">
+
+    <!-- Left: prose -->
+    <div data-reveal>
+      <p class="text-[10px] font-bold uppercase tracking-[0.24em] text-teal">
+        {content.label}
       </p>
       <h2
         id={`${content.id}-heading`}
-        class="mt-4 text-3xl font-semibold tracking-tight text-navy sm:text-4xl"
+        class="mt-4 whitespace-pre-line text-3xl font-black tracking-tight text-white sm:text-4xl"
       >
-        {content.title}
+        {content.heading}
       </h2>
-      <p class="mt-6 text-lg leading-8 text-slate-700">
-        {content.lead}
-      </p>
-      <p class="mt-6 text-base leading-8 text-slate-600">
-        {content.body}
-      </p>
+      <div class="mt-7 space-y-5 text-base leading-8 text-white/50 [&_strong]:font-medium [&_strong]:text-white/80 [&_em]:not-italic [&_em]:text-sky-300/80">
+        <p>{content.para1}</p>
+        <p set:html={content.para2}></p>
+        <p set:html={content.para3}></p>
+        <p set:html={content.para4}></p>
+      </div>
     </div>
 
-    <aside class="rounded-[2rem] bg-slate-50 p-8 ring-1 ring-slate-200">
-      <h3 class="text-xl font-semibold text-navy">{content.asideTitle}</h3>
-      <p class="mt-4 text-sm leading-7 text-slate-600">
-        {content.asideText}
-      </p>
+    <!-- Right: person card + tech tags -->
+    <aside class="flex flex-col gap-5" data-reveal data-reveal-delay="120">
 
-      <div class="mt-8 flex flex-wrap gap-3">
-        {content.tags.map((tag) => (
-          <span class="rounded-full bg-white px-4 py-2 text-sm font-medium text-slate-700 ring-1 ring-slate-200">
-            {tag}
-          </span>
-        ))}
+      <!-- Person card -->
+      <div class="rounded-2xl border border-white/[0.09] bg-white/[0.03] p-6 backdrop-blur-sm">
+        <div class="flex items-center gap-4">
+          <img
+            src="/images/paul-scholz.jpg"
+            alt="Paul Scholz"
+            width="56"
+            height="56"
+            loading="lazy"
+            decoding="async"
+            class="h-14 w-14 flex-shrink-0 rounded-full border-2 border-teal/35 object-cover object-center"
+          />
+          <div>
+            <p class="text-base font-bold text-slate-100">Paul Scholz</p>
+            <p class="mt-0.5 text-xs text-slate-600">{content.personRole}</p>
+          </div>
+        </div>
+        <div class="mt-5 flex flex-col gap-2.5">
+          <a
+            href="https://www.linkedin.com/in/p-scholz/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="flex items-center gap-3 rounded-xl border border-white/[0.08] bg-white/[0.03] px-4 py-2.5 text-xs font-semibold text-blue-400 transition-all hover:border-blue-400/30 hover:bg-blue-400/[0.06]"
+          >
+            <svg class="h-3.5 w-3.5 flex-shrink-0 fill-current" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/>
+            </svg>
+            linkedin.com/in/p-scholz
+          </a>
+          <a
+            href="https://github.com/PiefkePaul"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="flex items-center gap-3 rounded-xl border border-white/[0.08] bg-white/[0.03] px-4 py-2.5 text-xs font-semibold text-white/50 transition-all hover:border-white/20 hover:text-white/80"
+          >
+            <svg class="h-3.5 w-3.5 flex-shrink-0 fill-current" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+            </svg>
+            github.com/PiefkePaul
+          </a>
+        </div>
+      </div>
+
+      <!-- Tech tags -->
+      <div class="rounded-2xl border border-white/[0.07] bg-white/[0.02] p-5">
+        <h3 class="text-[10px] font-bold uppercase tracking-[0.15em] text-slate-700">
+          {content.tagsTitle}
+        </h3>
+        <div class="mt-4 flex flex-wrap gap-2">
+          {techTags.map((tag) => (
+            <span class="rounded-full border border-white/[0.09] px-3 py-1.5 text-[10px] font-medium text-white/45">
+              {tag}
+            </span>
+          ))}
+        </div>
       </div>
     </aside>
   </div>
