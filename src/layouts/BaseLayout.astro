@@ -19,8 +19,8 @@ const {
   ogType = 'website',
   personName = 'Paul Scholz',
   personRole = lang === 'de'
-    ? 'IT-Systemadministrator und SEO-Berater'
-    : 'IT systems administrator and SEO consultant',
+    ? 'IT-Automatisierung, KI-Integration & Infrastruktur'
+    : 'IT Automation, AI Integration & Infrastructure',
   noindex = false,
   alternateLinks = true,
 } = Astro.props;
@@ -50,6 +50,7 @@ const personSchema = {
     addressCountry: 'DE'
   },
   sameAs: [
+    'https://www.linkedin.com/in/p-scholz/',
     'https://github.com/PiefkePaul',
     'https://hub.docker.com/r/piefkepaul/',
     'https://www.instagram.com/lowfuel.dad/'
@@ -120,6 +121,15 @@ const personSchema = {
         }
       }
 
+      /* Scroll-reveal: hide elements before script runs (only when motion is allowed) */
+      @media (prefers-reduced-motion: no-preference) {
+        [data-reveal] {
+          opacity: 0;
+          transform: translateY(24px);
+          will-change: opacity, transform;
+        }
+      }
+
       @media (prefers-reduced-motion: reduce) {
         html {
           scroll-behavior: auto;
@@ -139,5 +149,9 @@ const personSchema = {
   <body>
     <!-- Analytics placeholder: add Plausible, Umami or Google Analytics here -->
     <slot />
+    <script>
+      import { initScrollReveal } from '../scripts/scroll-reveal';
+      initScrollReveal();
+    </script>
   </body>
 </html>
