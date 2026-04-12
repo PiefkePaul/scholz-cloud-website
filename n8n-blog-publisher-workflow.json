@@ -15,6 +15,28 @@
     {
       "parameters": {
         "method": "GET",
+        "url": "https://trends.google.com/trending/rss?geo=DE",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "User-Agent", "value": "Mozilla/5.0 (compatible; RSS-Reader/1.0)" },
+            { "name": "Accept", "value": "application/rss+xml, application/xml, text/xml" }
+          ]
+        },
+        "options": {
+          "response": {
+            "response": { "responseFormat": "text" }
+          }
+        }
+      },
+      "name": "Google Trends DE",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [480, 60]
+    },
+    {
+      "parameters": {
+        "method": "GET",
         "url": "https://news.google.com/rss/search?q=KI+K%C3%BCnstliche+Intelligenz+AI+LLM+ChatGPT+Sprachmodell+Gemini+Claude&hl=de&gl=DE&ceid=DE:de",
         "sendHeaders": true,
         "headerParameters": {
@@ -58,6 +80,21 @@
     },
     {
       "parameters": {
+        "method": "GET",
+        "url": "https://hn.algolia.com/api/v1/search?tags=front_page&hitsPerPage=15",
+        "options": {
+          "response": {
+            "response": { "responseFormat": "text" }
+          }
+        }
+      },
+      "name": "Hacker News Top Stories",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [480, 540]
+    },
+    {
+      "parameters": {
         "mode": "append"
       },
       "name": "RSS Feeds zusammenführen",
@@ -67,7 +104,7 @@
     },
     {
       "parameters": {
-        "jsCode": "// Beide RSS-Feeds parsen und zu einem strukturierten Text zusammenfassen\nconst allItems = [];\nconst inputs = $input.all();\n\ninputs.forEach((input, feedIndex) => {\n  const xml = String(input.json.data || input.json.body || '');\n  const category = feedIndex === 0 ? 'KI/AI' : 'IT/Tech/Nischen';\n\n  const getTag = (block, tag) => {\n    const open = '<' + tag + '>';\n    const close = '</' + tag + '>';\n    const s = block.indexOf(open);\n    const e = block.indexOf(close);\n    if (s === -1 || e === -1) return '';\n    let val = block.substring(s + open.length, e);\n    // CDATA entfernen\n    if (val.indexOf('CDATA[') !== -1) {\n      const cdataStart = val.indexOf('CDATA[') + 6;\n      const cdataEnd = val.lastIndexOf(']]>');\n      val = cdataEnd !== -1 ? val.substring(cdataStart, cdataEnd) : val.substring(cdataStart);\n    }\n    return val.replace(/<[^>]+>/g, '').replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').trim();\n  };\n\n  const rawItems = xml.split('<item>').slice(1, 14);\n  rawItems.forEach(block => {\n    const title = getTag(block, 'title').substring(0, 150);\n    const desc = getTag(block, 'description').substring(0, 300);\n    const link = getTag(block, 'link');\n    const date = getTag(block, 'pubDate');\n    if (title.length > 10) {\n      allItems.push({ category, title, description: desc, link, pubDate: date });\n    }\n  });\n});\n\nconst feedText = allItems.map((i, idx) =>\n  '[' + i.category + ' #' + (idx + 1) + '] ' + i.title +\n  (i.description ? '\\nInhalt: ' + i.description : '') +\n  '\\nURL: ' + i.link +\n  '\\nDatum: ' + i.pubDate\n).join('\\n\\n---\\n\\n');\n\nif (allItems.length < 3) {\n  throw new Error('Zu wenige RSS-Artikel gefunden: ' + allItems.length + '. Bitte RSS-Feeds prüfen.');\n}\n\nreturn [{ json: { feedText, itemCount: allItems.length, fetchedAt: new Date().toISOString() } }];"
+        "jsCode": "// Alle Feeds parsen (Google Trends RSS, Google News RSS ×2, Hacker News JSON)\nconst allItems = [];\nconst inputs = $input.all();\n\n// Hilfsfunktion: XML-Tag-Inhalt extrahieren + CDATA/HTML bereinigen\nconst getTag = (block, tag) => {\n  const open = '<' + tag + '>';\n  const close = '</' + tag + '>';\n  const s = block.indexOf(open);\n  const e = block.indexOf(close);\n  if (s === -1 || e === -1) return '';\n  let val = block.substring(s + open.length, e);\n  if (val.indexOf('CDATA[') !== -1) {\n    const cdataStart = val.indexOf('CDATA[') + 6;\n    const cdataEnd = val.lastIndexOf(']]>');\n    val = cdataEnd !== -1 ? val.substring(cdataStart, cdataEnd) : val.substring(cdataStart);\n  }\n  return val.replace(/<[^>]+>/g, '').replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').trim();\n};\n\n// Reihenfolge der Inputs entspricht der Verbindungsreihenfolge:\n// 0 = Google Trends DE (RSS), 1 = Google News KI/AI (RSS), 2 = Google News IT/Nischen (RSS), 3 = Hacker News (JSON)\ninputs.forEach((input, feedIndex) => {\n  const rawData = String(input.json.data || input.json.body || '');\n\n  if (feedIndex === 3) {\n    // Hacker News – JSON-Antwort (Algolia API)\n    let hn;\n    try { hn = JSON.parse(rawData); } catch (e) { return; }\n    const hits = Array.isArray(hn.hits) ? hn.hits : [];\n    hits.slice(0, 12).forEach(hit => {\n      if (!hit.title) return;\n      allItems.push({\n        category: 'Hacker News / Tech International',\n        title: String(hit.title).substring(0, 150),\n        description: (hit.points || 0) + ' Punkte · ' + (hit.num_comments || 0) + ' Kommentare',\n        link: hit.url || ('https://news.ycombinator.com/item?id=' + hit.objectID),\n        pubDate: hit.created_at || ''\n      });\n    });\n  } else if (feedIndex === 0) {\n    // Google Trends DE – Trending Searches RSS\n    const rawItems = rawData.split('<item>').slice(1, 14);\n    rawItems.forEach(block => {\n      const title = getTag(block, 'title').substring(0, 150);\n      // Zugehörige News zum Trending-Topic extrahieren\n      const relatedMatch = block.match(/<ht:news_item_title>([^<]+)<\\/ht:news_item_title>/);\n      const relatedSnippet = block.match(/<ht:news_item_snippet>([^<]+)<\\/ht:news_item_snippet>/);\n      let desc = '';\n      if (relatedMatch) desc = relatedMatch[1].trim();\n      if (relatedSnippet) desc += ' – ' + relatedSnippet[1].trim();\n      if (!desc) desc = getTag(block, 'description').substring(0, 300);\n      const link = getTag(block, 'link');\n      const date = getTag(block, 'pubDate');\n      if (title.length > 3) {\n        allItems.push({ category: 'Google Trends DE', title, description: desc.substring(0, 300), link, pubDate: date });\n      }\n    });\n  } else {\n    // Google News – RSS XML (index 1: KI/AI, index 2: IT/Nischen)\n    const category = feedIndex === 1 ? 'KI/AI' : 'IT/Tech/Nischen';\n    const rawItems = rawData.split('<item>').slice(1, 14);\n    rawItems.forEach(block => {\n      const title = getTag(block, 'title').substring(0, 150);\n      const desc = getTag(block, 'description').substring(0, 300);\n      const link = getTag(block, 'link');\n      const date = getTag(block, 'pubDate');\n      if (title.length > 10) {\n        allItems.push({ category, title, description: desc, link, pubDate: date });\n      }\n    });\n  }\n});\n\nconst feedText = allItems.map((i, idx) =>\n  '[' + i.category + ' #' + (idx + 1) + '] ' + i.title +\n  (i.description ? '\\nInhalt: ' + i.description : '') +\n  '\\nURL: ' + i.link +\n  '\\nDatum: ' + i.pubDate\n).join('\\n\\n---\\n\\n');\n\nif (allItems.length < 3) {\n  throw new Error('Zu wenige Artikel gefunden: ' + allItems.length + '. Bitte Feeds prüfen.');\n}\n\nreturn [{ json: { feedText, itemCount: allItems.length, fetchedAt: new Date().toISOString() } }];"
       },
       "name": "RSS Artikel extrahieren",
       "type": "n8n-nodes-base.code",
@@ -83,7 +120,7 @@
           "values": [
             {
               "role": "user",
-              "content": "=Du analysierst aktuelle News-Feeds und wählst die 3 besten Blog-Themen für scholz-cloud.de (IT-Automatisierung, KI, Infrastruktur – Zielgruppe: IT-Fachleute und Entscheider im deutschsprachigen Raum).\n\nAktuelle News-Artikel:\n{{ $json.feedText }}\n\nAUFGABE – Wähle exakt 3 Themen:\n- rank 0: Das HEISSESTE / aktuell brisanteste Thema (z.B. kritische Sicherheitslücke, bahnbrechende KI-News, großes Datenleck, wichtige Regulierung)\n- rank 1: Ein weiteres relevantes Thema aus IT, Cybersecurity, Tech oder Wirtschaft\n- rank 2: Ein drittes Thema – auch Nischen-Themen (Darknet, Leaks, kontroverse Tech-Trends) sind willkommen\n\nWICHTIG: Wähle NUR Themen, zu denen konkrete Fakten in den bereitgestellten News vorhanden sind. Keine Spekulation, keine veralteten Themen.\n\nAntworte AUSSCHLIESSLICH mit folgendem JSON (kein Text davor oder danach):\n{\n  \"topics\": [\n    {\n      \"rank\": 0,\n      \"topic\": \"Prägnanter Titel des Blog-Posts (DE)\",\n      \"summary\": \"Faktische Zusammenfassung in 4-5 Sätzen mit konkreten Details, Zahlen und Namen aus den News\",\n      \"sources\": [\"https://...\", \"https://...\"],\n      \"category\": \"KI|Cybersecurity|IT|Tech|Wirtschaft|Darknet\",\n      \"seo_keywords\": [\"keyword1\", \"keyword2\", \"keyword3\", \"keyword4\", \"keyword5\"]\n    },\n    { \"rank\": 1, \"topic\": \"...\", \"summary\": \"...\", \"sources\": [], \"category\": \"...\", \"seo_keywords\": [] },\n    { \"rank\": 2, \"topic\": \"...\", \"summary\": \"...\", \"sources\": [], \"category\": \"...\", \"seo_keywords\": [] }\n  ]\n}"
+              "content": "=Du analysierst aktuelle News-Feeds (Google Trends Deutschland, Google News KI/AI, Google News IT/Tech/Nischen, Hacker News) und wählst die 3 besten Blog-Themen für scholz-cloud.de (IT-Automatisierung, KI, Infrastruktur – Zielgruppe: IT-Fachleute und Entscheider im deutschsprachigen Raum).\n\nAktuelle News-Artikel:\n{{ $json.feedText }}\n\nAUFGABE – Wähle exakt 3 Themen:\n- rank 0: Das HEISSESTE / aktuell brisanteste Thema (z.B. kritische Sicherheitslücke, bahnbrechende KI-News, großes Datenleck, wichtige Regulierung, viraler Tech-Trend)\n- rank 1: Ein weiteres relevantes Thema aus IT, Cybersecurity, Tech oder Wirtschaft\n- rank 2: Ein drittes Thema – auch Nischen-Themen (Darknet, Leaks, kontroverse Tech-Trends, internationale Entwicklungen) sind willkommen\n\nWICHTIG: Wähle NUR Themen, zu denen konkrete Fakten in den bereitgestellten News vorhanden sind. Keine Spekulation, keine veralteten Themen.\n\nAntworte AUSSCHLIESSLICH mit folgendem JSON (kein Text davor oder danach):\n{\n  \"topics\": [\n    {\n      \"rank\": 0,\n      \"topic\": \"Prägnanter Titel des Blog-Posts (DE)\",\n      \"summary\": \"Faktische Zusammenfassung in 4-5 Sätzen mit konkreten Details, Zahlen und Namen aus den News\",\n      \"sources\": [\"https://...\", \"https://...\"],\n      \"category\": \"KI|Cybersecurity|IT|Tech|Wirtschaft|Darknet\",\n      \"seo_keywords\": [\"keyword1\", \"keyword2\", \"keyword3\", \"keyword4\", \"keyword5\"]\n    },\n    { \"rank\": 1, \"topic\": \"...\", \"summary\": \"...\", \"sources\": [], \"category\": \"...\", \"seo_keywords\": [] },\n    { \"rank\": 2, \"topic\": \"...\", \"summary\": \"...\", \"sources\": [], \"category\": \"...\", \"seo_keywords\": [] }\n  ]\n}"
             }
           ]
         },
@@ -111,7 +148,7 @@
     },
     {
       "parameters": {
-        "jsCode": "// OpenAI-Request-Body als String aufbauen (läuft 3× automatisch für jeden Topic)\nconst systemPrompt = 'Du bist ein erfahrener IT/Tech-Journalist und SEO-Spezialist. Du schreibst faktenbasierte, technisch fundierte Artikel für ein Fachpublikum (IT-Professionals, Entscheider, Administratoren).\\n\\nEISERNE REGEL: Schreibe AUSSCHLIESSLICH auf Basis der bereitgestellten Quellinformationen. Erfinde KEINE Fakten, Statistiken, Zitate oder Ereignisse. Wenn eine Information nicht aus den Quellen hervorgeht, schreibe sie NICHT. Spekuliere nicht.';\n\nconst userPrompt = 'Schreibe einen SEO-optimierten Artikel für scholz-cloud.de.\\n\\nThema: ' + $json.topic + '\\n\\nAktuelle Fakten aus News-Quellen:\\n' + $json.summary + '\\n\\nQuellenlinks:\\n' + $json.sources + '\\n\\nSEO-Keywords (organisch einbauen): ' + $json.seo_keywords + '\\n\\nFormat-Anforderungen:\\n- Länge: 900–1100 Wörter\\n- Hauptkeyword im H1-Titel und in mindestens einem H2\\n- Natürliche Keyword-Dichte (3–5×), kein Keyword-Stuffing\\n- Struktur: ## und ### Überschriften\\n- Einstieg: Was ist passiert? (aktueller Anlass, Datum wenn bekannt)\\n- Mittelteil: Kontext, technische Hintergründe, Bedeutung für IT/Tech-Leser\\n- Schluss: Fazit + konkreter Ausblick\\n- Am Ende ein Abschnitt ## Quellen mit den bereitgestellten Links\\n- Keine werblichen Formulierungen, keine Spekulation\\n- Tonalität: professionell, direkt, technisch präzise\\n\\nPublikationsdatum für Frontmatter: ' + $json.today + '\\n\\nAntworte NUR mit dem Markdown-Dokument (kein Text davor/danach):\\n\\n---\\ntitle: \"[Hauptkeyword im Titel]\"\\ntitleEn: \"[Englische Übersetzung des Titels]\"\\ndescription: \"[Meta-Description DE, 130–155 Zeichen, Hauptkeyword enthalten]\"\\ndescriptionEn: \"[Meta-Description EN, 130–155 chars]\"\\npubDate: ' + $json.today + '\\ntags: [\"tag1\", \"tag2\", \"tag3\", \"tag4\"]\\n---\\n\\n[Artikelinhalt ab hier]';\n\nconst requestBody = JSON.stringify({\n  model: 'gpt-4o-mini',\n  messages: [\n    { role: 'system', content: systemPrompt },\n    { role: 'user', content: userPrompt }\n  ],\n  temperature: 0.3,\n  max_tokens: 2200\n});\n\nreturn [{ json: { ...$json, requestBody } }];"
+        "jsCode": "// OpenAI-Request-Body als String aufbauen (läuft 3× automatisch für jeden Topic)\nconst systemPrompt = 'Du bist ein erfahrener IT/Tech-Journalist und SEO-Spezialist. Du schreibst faktenbasierte, technisch fundierte Artikel für ein Fachpublikum (IT-Professionals, Entscheider, Administratoren).\\n\\nDEINE ARBEITSWEISE:\\n- Die bereitgestellten News-Fakten sind dein Anker für das aktuelle Ereignis (konkrete Daten, Namen, Zahlen daraus direkt übernehmen)\\n- Ergänze frei mit deinem Fachwissen: technischer Kontext, Hintergründe, historische Einordnung, Branchenanalyse – so entsteht ein tiefer, wertvoller Artikel statt einer reinen News-Zusammenfassung\\n- Schreibe ausführlich, präzise und für Fachleute verständlich\\n\\nGRENZE: Erfinde KEINE spezifischen aktuellen Ereignisse, Statistiken oder Zitate, die weder in den bereitgestellten Fakten noch in gesichertem Trainingswissen vorhanden sind.';\n\nconst userPrompt = 'Schreibe einen SEO-optimierten Artikel für scholz-cloud.de.\\n\\nThema: ' + $json.topic + '\\n\\nAktuelle Fakten aus News-Quellen:\\n' + $json.summary + '\\n\\nQuellenlinks:\\n' + $json.sources + '\\n\\nSEO-Keywords (organisch einbauen): ' + $json.seo_keywords + '\\n\\nFormat-Anforderungen:\\n- Länge: 900–1100 Wörter\\n- Hauptkeyword im H1-Titel und in mindestens einem H2\\n- Natürliche Keyword-Dichte (3–5×), kein Keyword-Stuffing\\n- Struktur: ## und ### Überschriften\\n- Einstieg: Was ist passiert? (aktueller Anlass, Datum wenn bekannt)\\n- Mittelteil: Kontext, technische Hintergründe, Bedeutung für IT/Tech-Leser\\n- Schluss: Fazit + konkreter Ausblick\\n- Am Ende ein Abschnitt ## Quellen mit den bereitgestellten Links\\n- Keine werblichen Formulierungen, keine Spekulation\\n- Tonalität: professionell, direkt, technisch präzise\\n\\nPublikationsdatum für Frontmatter: ' + $json.today + '\\n\\nAntworte NUR mit dem Markdown-Dokument (kein Text davor/danach):\\n\\n---\\ntitle: \"[Hauptkeyword im Titel]\"\\ntitleEn: \"[Englische Übersetzung des Titels]\"\\ndescription: \"[Meta-Description DE, 130–155 Zeichen, Hauptkeyword enthalten]\"\\ndescriptionEn: \"[Meta-Description EN, 130–155 chars]\"\\npubDate: ' + $json.today + '\\ntags: [\"tag1\", \"tag2\", \"tag3\", \"tag4\"]\\n---\\n\\n[Artikelinhalt ab hier]';\n\nconst requestBody = JSON.stringify({\n  model: 'gpt-4o-mini',\n  messages: [\n    { role: 'system', content: systemPrompt },\n    { role: 'user', content: userPrompt }\n  ],\n  temperature: 0.3,\n  max_tokens: 2200\n});\n\nreturn [{ json: { ...$json, requestBody } }];"
       },
       "name": "OpenAI Prompt vorbereiten",
       "type": "n8n-nodes-base.code",
@@ -221,15 +258,23 @@
   "connections": {
     "Alle 3 Tage": {
       "main": [[
+        { "node": "Google Trends DE", "type": "main", "index": 0 },
         { "node": "Google News – KI & AI", "type": "main", "index": 0 },
-        { "node": "Google News – IT & Nischen", "type": "main", "index": 0 }
+        { "node": "Google News – IT & Nischen", "type": "main", "index": 0 },
+        { "node": "Hacker News Top Stories", "type": "main", "index": 0 }
       ]]
     },
-    "Google News – KI & AI": {
+    "Google Trends DE": {
       "main": [[{ "node": "RSS Feeds zusammenführen", "type": "main", "index": 0 }]]
     },
-    "Google News – IT & Nischen": {
+    "Google News – KI & AI": {
       "main": [[{ "node": "RSS Feeds zusammenführen", "type": "main", "index": 1 }]]
+    },
+    "Google News – IT & Nischen": {
+      "main": [[{ "node": "RSS Feeds zusammenführen", "type": "main", "index": 2 }]]
+    },
+    "Hacker News Top Stories": {
+      "main": [[{ "node": "RSS Feeds zusammenführen", "type": "main", "index": 3 }]]
     },
     "RSS Feeds zusammenführen": {
       "main": [[{ "node": "RSS Artikel extrahieren", "type": "main", "index": 0 }]]
