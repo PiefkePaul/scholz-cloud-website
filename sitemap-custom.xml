@@ -2,23 +2,33 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://www.scholz-cloud.de/</loc>
-    <lastmod>2026-04-14T08:31:26.097Z</lastmod>
+    <lastmod>2026-04-16T08:03:58.288Z</lastmod>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.scholz-cloud.de/en/</loc>
-    <lastmod>2026-04-14T08:31:26.097Z</lastmod>
+    <lastmod>2026-04-16T08:03:58.288Z</lastmod>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://www.scholz-cloud.de/blog/</loc>
-    <lastmod>2026-04-13T00:00:00.000Z</lastmod>
+    <lastmod>2026-04-16T00:00:00.000Z</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.scholz-cloud.de/en/blog/</loc>
-    <lastmod>2026-04-13T00:00:00.000Z</lastmod>
+    <lastmod>2026-04-16T00:00:00.000Z</lastmod>
     <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.scholz-cloud.de/blog/ki-sprachmodelle-im-vergleich-chatgpt-claude-und-alternativen-im-/</loc>
+    <lastmod>2026-04-16T00:00:00.000Z</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.scholz-cloud.de/en/blog/ki-sprachmodelle-im-vergleich-chatgpt-claude-und-alternativen-im-/</loc>
+    <lastmod>2026-04-16T00:00:00.000Z</lastmod>
+    <priority>0.6</priority>
   </url>
   <url>
     <loc>https://www.scholz-cloud.de/blog/large-language-models-im-vergleich-chatgpt-claude-co-im-haertetes/</loc>
