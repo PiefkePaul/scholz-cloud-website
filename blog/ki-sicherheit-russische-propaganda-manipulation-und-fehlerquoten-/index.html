@@ -1,0 +1,127 @@
+<!DOCTYPE html><html lang="de" class="bg-white text-slate-900"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>KI-Sicherheit: Russische Propaganda-Manipulation und Fehlerquoten bei 40% der Chatbot-Antworten | Paul Scholz</title><meta name="description" content="Aktuelle Studien zeigen kritische Sicherheitslücken in LLM-Systemen. Erfahren Sie mehr über die Risiken für Unternehmen."><meta property="og:title" content="KI-Sicherheit: Russische Propaganda-Manipulation und Fehlerquoten bei 40% der Chatbot-Antworten | Paul Scholz"><meta property="og:description" content="Aktuelle Studien zeigen kritische Sicherheitslücken in LLM-Systemen. Erfahren Sie mehr über die Risiken für Unternehmen."><meta property="og:image" content="https://www.scholz-cloud.de/images/paul-scholz.jpg"><meta property="og:url" content="https://www.scholz-cloud.de/blog/ki-sicherheit-russische-propaganda-manipulation-und-fehlerquoten-/"><meta property="og:type" content="article"><meta name="twitter:card" content="summary_large_image"><link rel="canonical" href="https://www.scholz-cloud.de/blog/ki-sicherheit-russische-propaganda-manipulation-und-fehlerquoten-/"><link rel="alternate" hreflang="de" href="https://www.scholz-cloud.de/blog/ki-sicherheit-russische-propaganda-manipulation-und-fehlerquoten-/"><link rel="alternate" hreflang="en" href="https://www.scholz-cloud.de/en/blog/ki-sicherheit-russische-propaganda-manipulation-und-fehlerquoten-/"><link rel="alternate" hreflang="x-default" href="https://www.scholz-cloud.de/blog/ki-sicherheit-russische-propaganda-manipulation-und-fehlerquoten-/"><meta name="theme-color" content="#0f172a"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Paul Scholz","description":"Aktuelle Studien zeigen kritische Sicherheitslücken in LLM-Systemen. Erfahren Sie mehr über die Risiken für Unternehmen.","jobTitle":"IT-Automatisierung, KI-Integration & Infrastruktur","url":"https://www.scholz-cloud.de/","image":"https://www.scholz-cloud.de/images/paul-scholz.jpg","email":"mailto:p.scholz@scholz-cloud.de","address":{"@type":"PostalAddress","addressCountry":"DE"},"sameAs":["https://www.linkedin.com/in/p-scholz/","https://github.com/PiefkePaul","https://hub.docker.com/r/piefkepaul/","https://www.instagram.com/lowfuel.dad/"],"knowsAbout":["Enterprise IT","Hyper-V","SCVMM","PowerShell","SEO","AI automation","Docker","Python","n8n","Cloud infrastructure"]}</script><link rel="stylesheet" href="/_astro/_slug_.CqBu5r9G.css"><script type="module" src="/_astro/hoisted.BdQNpsQ2.js"></script></head> <body> <!-- Analytics placeholder: add Plausible, Umami or Google Analytics here -->  <nav id="site-nav" data-home-path="/" data-scrolled="false" data-hidden="false" class="fixed inset-x-0 top-0 z-50 border-b border-white/10 text-white transition-transform duration-300" aria-label="Hauptnavigation" data-astro-cid-pux6a34n> <div class="mx-auto max-w-6xl px-6 md:px-10 lg:px-12" data-astro-cid-pux6a34n> <input id="nav-toggle" type="checkbox" class="peer sr-only" aria-hidden="true" data-astro-cid-pux6a34n> <div class="flex h-20 items-center justify-between gap-4" data-astro-cid-pux6a34n> <a href="/" class="text-lg font-bold tracking-tight text-white" data-astro-cid-pux6a34n>
+Paul Scholz
+</a> <div class="hidden items-center gap-8 md:flex" data-astro-cid-pux6a34n> <div class="flex items-center gap-6" data-astro-cid-pux6a34n> <a href="/#leistungen" class="nav-link text-sm font-medium text-slate-300 transition-colors duration-200 hover:text-white" data-nav-link data-section-link="leistungen" data-active="false" data-astro-cid-pux6a34n> Leistungen </a><a href="/#vorgehen" class="nav-link text-sm font-medium text-slate-300 transition-colors duration-200 hover:text-white" data-nav-link data-section-link="vorgehen" data-active="false" data-astro-cid-pux6a34n> Vorgehen </a><a href="/#ueber-mich" class="nav-link text-sm font-medium text-slate-300 transition-colors duration-200 hover:text-white" data-nav-link data-section-link="ueber-mich" data-active="false" data-astro-cid-pux6a34n> Über mich </a><a href="/blog/" class="nav-link text-sm font-medium text-slate-300 transition-colors duration-200 hover:text-white" data-nav-link data-active="false" data-astro-cid-pux6a34n> Blog </a><a href="/#kontakt" class="nav-link text-sm font-medium text-slate-300 transition-colors duration-200 hover:text-white" data-nav-link data-section-link="kontakt" data-active="false" data-astro-cid-pux6a34n> Kontakt </a> </div> <div class="flex items-center rounded-full border border-white/10 bg-white/5 p-1" data-astro-cid-pux6a34n> <a href="/" class="rounded-full px-3 py-1.5 text-xs font-semibold transition-colors bg-teal text-white" aria-label="Zur deutschen Version wechseln" data-astro-cid-pux6a34n>
+DE
+</a> <a href="/en/" class="rounded-full px-3 py-1.5 text-xs font-semibold transition-colors text-slate-300 hover:text-white" aria-label="Switch to the English version" data-astro-cid-pux6a34n>
+EN
+</a> </div> </div> <label for="nav-toggle" class="grid h-11 w-11 place-items-center rounded-full border border-white/10 bg-white/5 text-white md:hidden" aria-label="Navigationsmenü öffnen" data-astro-cid-pux6a34n> <span class="relative block h-4 w-5" data-astro-cid-pux6a34n> <span class="absolute left-0 top-0 h-0.5 w-5 rounded-full bg-current transition-transform duration-300 peer-checked:translate-y-[7px] peer-checked:rotate-45" data-astro-cid-pux6a34n></span> <span class="absolute left-0 top-[7px] h-0.5 w-5 rounded-full bg-current transition-opacity duration-300 peer-checked:opacity-0" data-astro-cid-pux6a34n></span> <span class="absolute left-0 top-[14px] h-0.5 w-5 rounded-full bg-current transition-transform duration-300 peer-checked:-translate-y-[7px] peer-checked:-rotate-45" data-astro-cid-pux6a34n></span> </span> </label> </div> <div class="max-h-0 overflow-hidden opacity-0 transition-all duration-300 peer-checked:max-h-[32rem] peer-checked:pb-6 peer-checked:opacity-100 md:hidden" data-astro-cid-pux6a34n> <div class="space-y-3 rounded-3xl border border-white/10 bg-white/5 p-5 shadow-2xl shadow-navy/20 backdrop-blur" data-astro-cid-pux6a34n> <a href="/#leistungen" class="nav-link block text-base font-medium text-slate-200 transition-colors hover:text-white" data-nav-link data-section-link="leistungen" data-active="false" data-astro-cid-pux6a34n> Leistungen </a><a href="/#vorgehen" class="nav-link block text-base font-medium text-slate-200 transition-colors hover:text-white" data-nav-link data-section-link="vorgehen" data-active="false" data-astro-cid-pux6a34n> Vorgehen </a><a href="/#ueber-mich" class="nav-link block text-base font-medium text-slate-200 transition-colors hover:text-white" data-nav-link data-section-link="ueber-mich" data-active="false" data-astro-cid-pux6a34n> Über mich </a><a href="/blog/" class="nav-link block text-base font-medium text-slate-200 transition-colors hover:text-white" data-nav-link data-active="false" data-astro-cid-pux6a34n> Blog </a><a href="/#kontakt" class="nav-link block text-base font-medium text-slate-200 transition-colors hover:text-white" data-nav-link data-section-link="kontakt" data-active="false" data-astro-cid-pux6a34n> Kontakt </a> <div class="flex items-center gap-2 border-t border-white/10 pt-4" data-astro-cid-pux6a34n> <a href="/" class="rounded-full px-3 py-2 text-xs font-semibold transition-colors bg-teal text-white" aria-label="Zur deutschen Version wechseln" data-astro-cid-pux6a34n>
+DE
+</a> <a href="/en/" class="rounded-full px-3 py-2 text-xs font-semibold transition-colors bg-white/5 text-slate-300 hover:text-white" aria-label="Switch to the English version" data-astro-cid-pux6a34n>
+EN
+</a> </div> </div> </div> </div> </nav>  <script>
+  const nav = document.getElementById('site-nav');
+  const navToggle = document.getElementById('nav-toggle');
+
+  if (nav) {
+    const normalizePath = (value) => (value.endsWith('/') ? value : `${value}/`);
+    const currentPath = normalizePath(window.location.pathname);
+    const homePath = normalizePath(nav.dataset.homePath || '/');
+    const links = Array.from(nav.querySelectorAll('[data-nav-link]'));
+
+    const sectionPairs =
+      currentPath === homePath
+        ? links
+            .map((link) => ({
+              link,
+              section: document.getElementById(link.dataset.sectionLink || '')
+            }))
+            .filter((entry) => entry.section)
+        : [];
+
+    const setActiveLink = () => {
+      if (!sectionPairs.length) return;
+
+      const marker = window.scrollY + window.innerHeight * 0.35;
+      let activeLink = sectionPairs[0].link;
+
+      sectionPairs.forEach(({ link, section }) => {
+        if (section && marker >= section.offsetTop) {
+          activeLink = link;
+        }
+      });
+
+      links.forEach((link) => {
+        if (link.dataset.sectionLink) {
+          link.dataset.active = link === activeLink ? 'true' : 'false';
+        }
+      });
+    };
+
+    let lastY = window.scrollY;
+
+    const onScroll = () => {
+      const currentY = window.scrollY;
+
+      nav.dataset.scrolled = currentY > 24 ? 'true' : 'false';
+      nav.dataset.hidden = currentY > lastY && currentY > 180 ? 'true' : 'false';
+
+      if (currentY < 80) {
+        nav.dataset.hidden = 'false';
+      }
+
+      lastY = currentY;
+      setActiveLink();
+    };
+
+    links.forEach((link) => {
+      link.addEventListener('click', () => {
+        if (navToggle instanceof HTMLInputElement) {
+          navToggle.checked = false;
+        }
+      });
+    });
+
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('hashchange', setActiveLink);
+  }
+</script> <main class="bg-slate-50 pt-32"> <section class="mx-auto max-w-5xl px-6 py-16 md:px-10 lg:px-12"> <a href="/blog/" class="inline-flex items-center text-sm font-semibold text-teal transition-colors hover:text-navy">
+Zurück zum Blog
+</a> <article class="mt-8 overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-sm"> <header class="border-b border-slate-200 px-6 py-10 md:px-10"> <div class="flex flex-wrap items-center gap-3 text-sm text-slate-500"> <time datetime="2026-04-19T00:00:00.000Z"> 19. April 2026 </time> <span class="h-1 w-1 rounded-full bg-slate-300"></span> <span>4 Min. Lesezeit</span>  </div> <h1 class="mt-6 text-4xl font-semibold tracking-tight text-navy md:text-5xl"> KI-Sicherheit: Russische Propaganda-Manipulation und Fehlerquoten bei 40% der Chatbot-Antworten </h1> <p class="mt-5 max-w-3xl text-lg leading-8 text-slate-600">Aktuelle Studien zeigen kritische Sicherheitslücken in LLM-Systemen. Erfahren Sie mehr über die Risiken für Unternehmen.</p> <div class="mt-6 flex flex-wrap gap-2"> <span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-600">
+#KI-Sicherheit </span><span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-600">
+#Chatbot-Manipulation </span><span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-600">
+#Cybersecurity </span> </div> </header> <div class="px-6 py-10 md:px-10 md:py-12"> <div class="prose prose-slate max-w-none
+            prose-headings:text-navy prose-headings:font-semibold prose-headings:tracking-tight
+            prose-h2:text-2xl prose-h2:mt-12 prose-h2:mb-4 prose-h2:pb-3 prose-h2:border-b prose-h2:border-slate-200
+            prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-3
+            prose-p:text-slate-700 prose-p:leading-8
+            prose-li:text-slate-700 prose-li:leading-8
+            prose-a:text-teal prose-a:no-underline prose-a:font-medium hover:prose-a:text-navy
+            prose-strong:text-navy prose-strong:font-semibold
+            prose-code:text-sky-700 prose-code:bg-sky-50 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-sm prose-code:font-mono prose-code:before:content-none prose-code:after:content-none
+            prose-pre:overflow-x-auto prose-pre:rounded-2xl prose-pre:border prose-pre:border-slate-800 prose-pre:bg-slate-950 prose-pre:text-slate-100 prose-pre:text-sm prose-pre:leading-7
+            [&_pre_code]:bg-transparent [&_pre_code]:text-slate-100 [&_pre_code]:p-0 [&_pre_code]:rounded-none [&_pre_code]:text-sm
+            prose-img:rounded-2xl prose-img:shadow-md
+            prose-blockquote:border-l-4 prose-blockquote:border-teal prose-blockquote:bg-teal/5 prose-blockquote:rounded-r-2xl prose-blockquote:px-6 prose-blockquote:py-4 prose-blockquote:not-italic prose-blockquote:text-slate-700
+            prose-blockquote:before:content-none prose-blockquote:after:content-none
+            prose-table:text-sm prose-th:bg-slate-100 prose-th:text-navy prose-th:font-semibold
+            prose-td:text-slate-700
+            prose-hr:border-slate-200 prose-hr:my-10"> <p>Beim Lesen der heutigen News ist mir aufgefallen, dass die Sicherheitslage rund um KI-Chatbots und deren Einsatz in Unternehmen zunehmend besorgniserregend wird. Aktuelle Studien zeigen, dass nicht nur die Fehlerquoten bei den Antworten dieser Systeme alarmierend hoch sind, sondern dass auch gezielte Manipulationen durch Akteure wie Russland stattfinden, um Desinformation zu verbreiten. Dies wirft erhebliche Fragen zur Sicherheit und Zuverlässigkeit von KI-gestützten Technologien auf.</p>
+<h2 id="die-kritischen-fehlerquoten-bei-llm-systemen">Die kritischen Fehlerquoten bei LLM-Systemen</h2>
+<p>Die neuesten Erkenntnisse deuten darauf hin, dass bis zu 40% der Antworten von großen Sprachmodellen (LLMs) fehlerhaft sind. Diese Fehler können von einfachen grammatikalischen Ungenauigkeiten bis hin zu gravierenden inhaltlichen Fehlern reichen, die potenziell schädliche Auswirkungen auf die Entscheidungsfindung in Unternehmen haben können. In einer Zeit, in der Unternehmen zunehmend auf Automatisierung und KI setzen, um Effizienz und Produktivität zu steigern, ist eine derartige Fehlerquote inakzeptabel.</p>
+<p>Die Ursachen für diese hohen Fehlerquoten sind vielfältig. Einerseits sind die Trainingsdaten, die für die Entwicklung dieser Modelle verwendet werden, oft nicht repräsentativ oder enthalten verzerrte Informationen. Andererseits sind die Algorithmen selbst nicht perfekt und können kontextuelle Nuancen nicht immer korrekt erfassen. Dies führt dazu, dass die Antworten der Chatbots oft nicht den Erwartungen der Nutzer entsprechen.</p>
+<h2 id="manipulation-durch-desinformation">Manipulation durch Desinformation</h2>
+<p>Besonders alarmierend ist die Tatsache, dass diese fehlerhaften Systeme gezielt von Akteuren wie Russland manipuliert werden, um Desinformation zu verbreiten. Die Verwendung von KI-Chatbots zur Verbreitung von Propaganda ist ein strategisches Werkzeug, das nicht nur die öffentliche Meinung beeinflussen kann, sondern auch das Vertrauen in digitale Plattformen untergräbt. Diese Manipulation kann in verschiedenen Formen auftreten, von der gezielten Verbreitung falscher Informationen bis hin zur Schaffung von gefälschten Identitäten, die in sozialen Medien agieren.</p>
+<p>Die Auswirkungen dieser Manipulation sind weitreichend. Unternehmen, die auf KI-gestützte Systeme setzen, laufen Gefahr, in die Falle von Desinformation zu tappen, was zu falschen Entscheidungen und potenziellen finanziellen Verlusten führen kann. Darüber hinaus kann das Vertrauen der Kunden in die Marke und die Produkte eines Unternehmens erheblich beeinträchtigt werden, wenn sie feststellen, dass die Informationen, die sie erhalten, nicht zuverlässig sind.</p>
+<h2 id="risiken-für-unternehmens-infrastruktur">Risiken für Unternehmens-Infrastruktur</h2>
+<p>Die Sicherheitsrisiken, die mit der Verwendung von fehlerhaften und manipulierten KI-Chatbots verbunden sind, sind nicht zu unterschätzen. Unternehmen, die diese Technologien in ihre Infrastruktur integrieren, müssen sich der potenziellen Gefahren bewusst sein. Ein fehlerhaftes Antwortverhalten kann nicht nur interne Prozesse stören, sondern auch externe Kommunikation und Kundeninteraktionen negativ beeinflussen.</p>
+<p>Darüber hinaus können Unternehmen, die nicht proaktiv gegen diese Risiken vorgehen, anfällig für Cyberangriffe werden. Die Verwendung von LLMs in sicherheitskritischen Bereichen, wie z.B. im Finanzsektor oder im Gesundheitswesen, erfordert besondere Vorsicht. Hier können Fehler in den Antworten nicht nur zu finanziellen Schäden führen, sondern auch die Sicherheit von sensiblen Daten gefährden.</p>
+<h2 id="strategien-zur-verbesserung-der-ki-sicherheit">Strategien zur Verbesserung der KI-Sicherheit</h2>
+<p>Um die Risiken, die mit der Verwendung von KI-Chatbots verbunden sind, zu minimieren, sollten Unternehmen mehrere Strategien in Betracht ziehen:</p>
+<ol>
+<li>
+<p><strong>Regelmäßige Sicherheitsüberprüfungen</strong>: Unternehmen sollten regelmäßige Audits ihrer KI-Systeme durchführen, um Schwachstellen zu identifizieren und zu beheben.</p>
+</li>
+<li>
+<p><strong>Verbesserung der Trainingsdaten</strong>: Die Qualität der Trainingsdaten ist entscheidend für die Leistung von LLMs. Unternehmen sollten sicherstellen, dass ihre Modelle mit repräsentativen und unverzerrten Daten trainiert werden.</p>
+</li>
+<li>
+<p><strong>Einsatz von menschlicher Aufsicht</strong>: In kritischen Anwendungen sollte menschliche Aufsicht integriert werden, um die Qualität der Antworten zu überprüfen und sicherzustellen, dass keine falschen Informationen verbreitet werden.</p>
+</li>
+<li>
+<p><strong>Schulung der Mitarbeiter</strong>: Die Sensibilisierung der Mitarbeiter für die Risiken von Desinformation und fehlerhaften KI-Antworten ist entscheidend. Schulungen können helfen, das Bewusstsein zu schärfen und die Reaktionsfähigkeit zu verbessern.</p>
+</li>
+</ol>
+<h2 id="fazit">Fazit</h2>
+<p>Die aktuellen Entwicklungen im Bereich der KI-Sicherheit sind alarmierend und erfordern dringende Maßnahmen von Unternehmen. Die Kombination aus hohen Fehlerquoten bei LLMs und der gezielten Manipulation durch Akteure wie Russland stellt eine erhebliche Bedrohung dar. Unternehmen müssen sich dieser Risiken bewusst sein und proaktive Schritte unternehmen, um ihre Systeme zu sichern und das Vertrauen ihrer Kunden zu erhalten.</p>
+<p>Meine Einschätzung: Die Integration von KI in Unternehmensprozesse ist unvermeidlich, aber ohne angemessene Sicherheitsvorkehrungen wird dies zu einem zweischneidigen Schwert. Unternehmen müssen sich der Risiken bewusst sein und aktiv daran arbeiten, ihre Systeme zu schützen, um nicht Opfer von Desinformation und Manipulation zu werden.</p> </div> </div> <div class="border-t border-slate-200 bg-slate-50 px-6 py-8 md:px-10"> <div class="flex flex-col items-center gap-4 text-center sm:flex-row sm:text-left"> <img src="/images/paul-scholz.jpg" alt="Paul Scholz" width="56" height="56" class="h-14 w-14 rounded-full object-cover ring-2 ring-teal/30 shrink-0"> <div> <p class="font-semibold text-navy">Paul Scholz</p> <p class="text-sm text-slate-600 mt-0.5">IT-Administrator &amp; SEO-Berater · Enterprise Hyper-V/SCVMM · Docker Homelab · Lokale SEO</p> </div> </div> </div> </article> <nav class="mt-10 grid gap-4 md:grid-cols-2" aria-label="Beitragsnavigation"> <div></div> <a href="/blog/ki-sprachmodelle-im-vergleich-chatgpt-claude-und-alternativen-im-/" class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm transition-colors hover:border-teal/50"> <p class="text-sm font-semibold text-teal">Älterer Beitrag</p> <p class="mt-3 text-xl font-semibold tracking-tight text-navy">KI-Sprachmodelle im Vergleich: ChatGPT, Claude und Alternativen im Härtetest</p> </a> </nav> </section> </main> <footer class="bg-slate-950 py-10 text-slate-300" aria-label="Fußbereich"> <div class="mx-auto flex max-w-6xl flex-col gap-6 px-6 md:flex-row md:items-center md:justify-between md:px-10 lg:px-12"> <div> <p class="text-sm font-semibold text-white">Paul Scholz © 2025</p> <p class="mt-2 text-sm text-slate-400"> Gebaut mit Astro &amp; Tailwind CSS. Gehostet auf GitHub Pages. </p> </div> <div class="flex flex-col gap-5 md:items-end"> <div class="flex flex-wrap items-center gap-4 text-sm"> <a href="/impressum/" class="hover:text-white"> Impressum </a> <a href="/datenschutz/" class="hover:text-white"> Datenschutz </a> </div> <div class="flex items-center gap-3"> <a href="https://github.com/PiefkePaul" target="_blank" rel="noopener noreferrer" aria-label="GitHub" class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-slate-200 transition-colors hover:border-teal hover:text-teal"> <svg viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5"> <path d="M12 2C6.48 2 2 6.59 2 12.24c0 4.52 2.87 8.36 6.84 9.72.5.09.68-.22.68-.48 0-.24-.01-1.03-.01-1.87-2.78.62-3.37-1.2-3.37-1.2-.46-1.19-1.11-1.5-1.11-1.5-.91-.64.07-.63.07-.63 1 .07 1.54 1.05 1.54 1.05.9 1.57 2.35 1.12 2.92.86.09-.67.35-1.12.63-1.37-2.22-.26-4.56-1.14-4.56-5.09 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.31.1-2.73 0 0 .84-.28 2.75 1.05A9.36 9.36 0 0 1 12 6.84c.85 0 1.7.12 2.49.35 1.91-1.33 2.74-1.05 2.74-1.05.55 1.42.2 2.47.1 2.73.64.72 1.03 1.63 1.03 2.75 0 3.96-2.34 4.82-4.57 5.08.36.32.67.95.67 1.92 0 1.39-.01 2.5-.01 2.84 0 .27.18.58.69.48A10.28 10.28 0 0 0 22 12.24C22 6.59 17.52 2 12 2Z"></path> </svg> </a><a href="https://hub.docker.com/r/piefkepaul/" target="_blank" rel="noopener noreferrer" aria-label="Docker Hub" class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-slate-200 transition-colors hover:border-teal hover:text-teal"> <svg viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5"> <path d="M4 13.5h2.4v2.3H4v-2.3Zm2.9 0h2.4v2.3H6.9v-2.3Zm2.9 0h2.4v2.3H9.8v-2.3Zm2.9 0h2.4v2.3h-2.4v-2.3Zm-5.8-2.9h2.4v2.3H7.8v-2.3Zm2.9 0h2.4v2.3h-2.4v-2.3Zm2.9 0h2.4v2.3h-2.4v-2.3Zm-5.8-2.9h2.4V10H7.8V7.7Zm2.9 0h2.4V10h-2.4V7.7Zm7.7 4.7c-.3 2.4-1.9 4.4-4.2 5.3-1 .4-2.2.6-3.5.5-2.9-.2-5.4-2.2-6.1-5 .7.5 1.7.7 2.7.7h.5c.4 0 .8-.3.8-.8v-5c0-.4.3-.8.8-.8h.6v-1c0-.8.7-1.5 1.5-1.5h1V8h.9V6.4c0-.8.7-1.5 1.5-1.5h1v2.4h.9v5.1h.8c.9 0 1.8-.2 2.6-.7Z"></path> </svg> </a><a href="https://www.instagram.com/lowfuel.dad/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-slate-200 transition-colors hover:border-teal hover:text-teal"> <svg viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5"> <path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5Zm0 2.2A2.8 2.8 0 0 0 4.2 7v10A2.8 2.8 0 0 0 7 19.8h10a2.8 2.8 0 0 0 2.8-2.8V7A2.8 2.8 0 0 0 17 4.2H7Zm10.25 1.45a1.2 1.2 0 1 1-1.2 1.2 1.2 1.2 0 0 1 1.2-1.2ZM12 7a5 5 0 1 1-5 5 5 5 0 0 1 5-5Zm0 2.2a2.8 2.8 0 1 0 2.8 2.8A2.8 2.8 0 0 0 12 9.2Z"></path> </svg> </a> </div> </div> </div> </footer>   </body> </html>
