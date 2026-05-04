@@ -1,5 +1,23 @@
 dist/
 node_modules/
 .env
+.env.local
+.env.*.local
 .astro/
 .npm-cache/
+
+# OS metadata
+.DS_Store
+Thumbs.db
+
+# Local agent/planning artifacts
+.superpowers/
+docs/superpowers/
+
+# Local automation not required for the GitHub Pages website
+n8n-blog-publisher-workflow.json
+n8n-*.json
+create_n8n*.py
+fix_claude_maxtokens.py
+fix_github_node.py
+.github/workflows/publish-blog.yml
