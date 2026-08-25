@@ -24,29 +24,29 @@ const socials = [
   }
 ];
 const logoSources = [
-  { name: 'Microsoft', source: 'sharepointeurope.com' },
-  { name: 'SYNAXON AG', source: 'synaxon.com' },
-  { name: 'Securepoint', source: 'xing.com' },
-  { name: 'Google', source: 'de.wikipedia.org' },
-  { name: 'Autohaus Dahlmann / Volkswagen', source: 'autohaus-dahlmann.de' },
-  { name: 'Deutsche Rentenversicherung Bund', source: 'de.wikipedia.org' },
-  { name: isEnglish ? 'German Forestry Council (DFWR)' : 'Deutscher Forstwirtschaftsrat (DFWR)', source: 'dfwr.de' },
-  { name: 'Der Bäcker Feihl', source: 'baecker-feihl.de' },
-  { name: 'Arvato Systems (Bertelsmann)', source: 'bertelsmann.com' },
-  { name: 'Apple', source: 'de.wikipedia.org' },
-  { name: 'TERRA (Wortmann AG)', source: 'wortmann.de' },
+  { name: 'Microsoft', source: 'sharepointeurope.com', href: 'https://www.microsoft.com/de-de' },
+  { name: 'SYNAXON AG', source: 'synaxon.com', href: 'https://synaxon.com/de-de/' },
+  { name: 'Securepoint', source: 'xing.com', href: 'https://www.securepoint.de' },
+  { name: 'Google', source: 'de.wikipedia.org', href: 'https://www.google.com' },
+  { name: 'Autohaus Dahlmann / Volkswagen', source: 'autohaus-dahlmann.de', href: 'https://www.autohaus-dahlmann.de' },
+  { name: 'Deutsche Rentenversicherung Bund', source: 'de.wikipedia.org', href: 'https://www.deutsche-rentenversicherung-bund.de' },
+  { name: isEnglish ? 'German Forestry Council (DFWR)' : 'Deutscher Forstwirtschaftsrat (DFWR)', source: 'dfwr.de', href: 'https://www.dfwr.de' },
+  { name: 'Der Bäcker Feihl', source: 'baecker-feihl.de', href: 'https://baecker-feihl.de' },
+  { name: 'Arvato Systems (Bertelsmann)', source: 'bertelsmann.com', href: 'https://www.arvato-systems.de' },
+  { name: 'Apple', source: 'de.wikipedia.org', href: 'https://www.apple.com/de/' },
+  { name: 'TERRA (Wortmann AG)', source: 'wortmann.de', href: 'https://www.wortmann.de' },
 ];
 
 const legalNote = isEnglish
   ? {
       summary: 'Logo credits & legal note',
-      p1: 'The company logos shown in the "Enterprise environments I\'ve helped build" section illustrate my professional background as COO of an IT service provider and, currently, as an employee at the Deutsche Rentenversicherung Bund. They do not imply a direct contract, endorsement, or partnership between me and the respective brand owners.',
+      p1: 'The company logos shown in the "Enterprise environments I\'ve helped build" section illustrate my professional background as COO of an IT service provider and through a role in public-sector employment. They do not imply a direct contract, endorsement, or partnership between me and the respective brand owners.',
       p2: 'The Volkswagen logo stands in for my work related to Autohaus Dahlmann, an authorised VW dealership — not a direct relationship with Volkswagen AG.',
       p3: 'All trademarks and logos remain the property of their respective owners. Sources:',
     }
   : {
       summary: 'Logo-Quellen & rechtlicher Hinweis',
-      p1: 'Die Firmenlogos im Abschnitt „Enterprise-Umgebungen, die ich mitgestaltet habe" ordnen meinen beruflichen Werdegang als COO eines IT-Systemhauses sowie aktuell als Angestellter bei der Deutschen Rentenversicherung Bund ein. Sie implizieren keine direkte Auftrags-, Empfehlungs- oder Partnerschaftsbeziehung zwischen mir und den jeweiligen Markeninhabern.',
+      p1: 'Die Firmenlogos im Abschnitt „Enterprise-Umgebungen, die ich mitgestaltet habe" ordnen meinen beruflichen Werdegang als COO eines IT-Systemhauses sowie im Rahmen einer Tätigkeit im öffentlichen Dienst ein. Sie implizieren keine direkte Auftrags-, Empfehlungs- oder Partnerschaftsbeziehung zwischen mir und den jeweiligen Markeninhabern.',
       p2: 'Das Volkswagen-Logo steht stellvertretend für die Zusammenarbeit im Umfeld von Autohaus Dahlmann, einem VW-Vertragshändler — nicht für eine direkte Beziehung zur Volkswagen AG.',
       p3: 'Alle Marken- und Bildrechte liegen bei den jeweiligen Inhabern. Quellen:',
     };
@@ -61,7 +61,7 @@ const legalNote = isEnglish
           ? 'Built with Astro & Tailwind CSS. Hosted on GitHub Pages.'
           : 'Gebaut mit Astro & Tailwind CSS. Gehostet auf GitHub Pages.'}
       </p>
-      <details class="mt-4 max-w-md text-xs text-slate-500">
+      <details class="mt-4 max-w-md text-xs text-slate-500 md:open:max-w-2xl">
         <summary class="cursor-pointer select-none hover:text-slate-300">{legalNote.summary}</summary>
         <div class="mt-2 space-y-2 leading-relaxed">
           <p>{legalNote.p1}</p>
@@ -70,7 +70,7 @@ const legalNote = isEnglish
             {legalNote.p3}{' '}
             {logoSources.map((s, i) => (
               <>
-                {s.name} ({s.source}){i < logoSources.length - 1 ? '; ' : '.'}
+                <a href={s.href} target="_blank" rel="noopener noreferrer nofollow" class="underline decoration-slate-600 underline-offset-2 hover:text-slate-300 hover:decoration-slate-400">{s.name}</a>{' '}({s.source}){i < logoSources.length - 1 ? '; ' : '.'}
               </>
             ))}
           </p>
