@@ -1,0 +1,80 @@
+---
+export interface LogoEntry {
+  id: string;
+  name: string;
+  href: string;
+  type: 'img' | 'html';
+  mono: string;
+  color: string;
+  width?: number;
+  height?: number;
+  scale?: number;
+  nudgeY?: number;
+  badge?: { mono: string; color: string; scale?: number };
+}
+
+interface Props {
+  entry: LogoEntry;
+}
+
+const { entry } = Astro.props;
+const scale = entry.scale ?? 1;
+const nudgeY = entry.nudgeY ?? 0;
+const badgeScale = entry.badge?.scale ?? 0.68;
+---
+
+<a
+  href={entry.href}
+  target="_blank"
+  rel="noopener noreferrer nofollow"
+  aria-label={entry.name}
+  class="group/logo inline-flex h-7 shrink-0 items-center gap-0.5 opacity-70 transition-opacity duration-300 hover:opacity-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-teal sm:h-8"
+>
+  {entry.badge && (
+    <span class="relative flex items-center" style={`height: ${badgeScale * 100}%`}>
+      <span
+        class="flex h-full items-center [&_svg]:h-full [&_svg]:w-auto"
+        set:html={entry.badge.mono}
+      />
+      <span
+        class="absolute inset-0 flex items-center opacity-0 transition-opacity duration-300 group-hover/logo:opacity-100 [&_svg]:h-full [&_svg]:w-auto"
+        set:html={entry.badge.color}
+      />
+    </span>
+  )}
+
+  <span class="relative flex items-center justify-center" style={`height: ${scale * 100}%; transform: translateY(${nudgeY}px);`}>
+    {entry.type === 'img' ? (
+      <>
+        <img
+          src={entry.mono}
+          width={entry.width}
+          height={entry.height}
+          alt=""
+          aria-hidden="true"
+          loading="eager"
+          class="h-full w-auto object-contain transition-opacity duration-300 group-hover/logo:opacity-0"
+        />
+        <img
+          src={entry.color}
+          width={entry.width}
+          height={entry.height}
+          alt={entry.name}
+          loading="lazy"
+          class="absolute inset-0 m-auto h-full w-auto object-contain opacity-0 transition-opacity duration-300 group-hover/logo:opacity-100"
+        />
+      </>
+    ) : (
+      <>
+        <span
+          class="flex h-full items-center transition-opacity duration-300 group-hover/logo:opacity-0 [&_svg]:h-full [&_svg]:w-auto"
+          set:html={entry.mono}
+        />
+        <span
+          class="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 group-hover/logo:opacity-100 [&_svg]:h-full [&_svg]:w-auto"
+          set:html={entry.color}
+        />
+      </>
+    )}
+  </span>
+</a>

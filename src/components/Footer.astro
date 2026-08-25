@@ -23,6 +23,33 @@ const socials = [
     path: 'M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5Zm0 2.2A2.8 2.8 0 0 0 4.2 7v10A2.8 2.8 0 0 0 7 19.8h10a2.8 2.8 0 0 0 2.8-2.8V7A2.8 2.8 0 0 0 17 4.2H7Zm10.25 1.45a1.2 1.2 0 1 1-1.2 1.2 1.2 1.2 0 0 1 1.2-1.2ZM12 7a5 5 0 1 1-5 5 5 5 0 0 1 5-5Zm0 2.2a2.8 2.8 0 1 0 2.8 2.8A2.8 2.8 0 0 0 12 9.2Z'
   }
 ];
+const logoSources = [
+  { name: 'Microsoft', source: 'sharepointeurope.com' },
+  { name: 'SYNAXON AG', source: 'synaxon.com' },
+  { name: 'Securepoint', source: 'xing.com' },
+  { name: 'Google', source: 'de.wikipedia.org' },
+  { name: 'Autohaus Dahlmann / Volkswagen', source: 'autohaus-dahlmann.de' },
+  { name: 'Deutsche Rentenversicherung Bund', source: 'de.wikipedia.org' },
+  { name: isEnglish ? 'German Forestry Council (DFWR)' : 'Deutscher Forstwirtschaftsrat (DFWR)', source: 'dfwr.de' },
+  { name: 'Der Bäcker Feihl', source: 'baecker-feihl.de' },
+  { name: 'Arvato Systems (Bertelsmann)', source: 'bertelsmann.com' },
+  { name: 'Apple', source: 'de.wikipedia.org' },
+  { name: 'TERRA (Wortmann AG)', source: 'wortmann.de' },
+];
+
+const legalNote = isEnglish
+  ? {
+      summary: 'Logo credits & legal note',
+      p1: 'The company logos shown in the "Enterprise environments I\'ve helped build" section illustrate my professional background as COO of an IT service provider and, currently, as an employee at the Deutsche Rentenversicherung Bund. They do not imply a direct contract, endorsement, or partnership between me and the respective brand owners.',
+      p2: 'The Volkswagen logo stands in for my work related to Autohaus Dahlmann, an authorised VW dealership — not a direct relationship with Volkswagen AG.',
+      p3: 'All trademarks and logos remain the property of their respective owners. Sources:',
+    }
+  : {
+      summary: 'Logo-Quellen & rechtlicher Hinweis',
+      p1: 'Die Firmenlogos im Abschnitt „Enterprise-Umgebungen, die ich mitgestaltet habe" ordnen meinen beruflichen Werdegang als COO eines IT-Systemhauses sowie aktuell als Angestellter bei der Deutschen Rentenversicherung Bund ein. Sie implizieren keine direkte Auftrags-, Empfehlungs- oder Partnerschaftsbeziehung zwischen mir und den jeweiligen Markeninhabern.',
+      p2: 'Das Volkswagen-Logo steht stellvertretend für die Zusammenarbeit im Umfeld von Autohaus Dahlmann, einem VW-Vertragshändler — nicht für eine direkte Beziehung zur Volkswagen AG.',
+      p3: 'Alle Marken- und Bildrechte liegen bei den jeweiligen Inhabern. Quellen:',
+    };
 ---
 
 <footer class="bg-slate-950 py-10 text-slate-300" aria-label={isEnglish ? 'Footer' : 'Fußbereich'}>
@@ -34,6 +61,21 @@ const socials = [
           ? 'Built with Astro & Tailwind CSS. Hosted on GitHub Pages.'
           : 'Gebaut mit Astro & Tailwind CSS. Gehostet auf GitHub Pages.'}
       </p>
+      <details class="mt-4 max-w-md text-xs text-slate-500">
+        <summary class="cursor-pointer select-none hover:text-slate-300">{legalNote.summary}</summary>
+        <div class="mt-2 space-y-2 leading-relaxed">
+          <p>{legalNote.p1}</p>
+          <p>{legalNote.p2}</p>
+          <p>
+            {legalNote.p3}{' '}
+            {logoSources.map((s, i) => (
+              <>
+                {s.name} ({s.source}){i < logoSources.length - 1 ? '; ' : '.'}
+              </>
+            ))}
+          </p>
+        </div>
+      </details>
     </div>
 
     <div class="flex flex-col gap-5 md:items-end">
