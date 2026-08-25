@@ -6,8 +6,6 @@ interface Props {
 const { lang = 'de' } = Astro.props;
 const isEnglish = lang === 'en';
 const homePath = isEnglish ? '/en/' : '/';
-const blogPath = isEnglish ? '/en/blog/' : '/blog/';
-const currentPath = Astro.url.pathname.endsWith('/') ? Astro.url.pathname : `${Astro.url.pathname}/`;
 
 const sectionIds = {
   services: isEnglish ? 'services' : 'leistungen',
@@ -31,10 +29,6 @@ const links = [
     label: isEnglish ? 'About' : 'Über mich',
     href: `${homePath}#${sectionIds.about}`,
     section: sectionIds.about
-  },
-  {
-    label: 'Blog',
-    href: blogPath
   },
   {
     label: isEnglish ? 'Contact' : 'Kontakt',
@@ -67,8 +61,6 @@ const links = [
               class="nav-link text-sm font-medium text-slate-300 transition-colors duration-200 hover:text-white"
               data-nav-link
               data-section-link={link.section}
-              data-active={currentPath === blogPath && link.href === blogPath ? 'true' : 'false'}
-              aria-current={currentPath === blogPath && link.href === blogPath ? 'page' : undefined}
             >
               {link.label}
             </a>
@@ -118,8 +110,6 @@ const links = [
             class="nav-link block text-base font-medium text-slate-200 transition-colors hover:text-white"
             data-nav-link
             data-section-link={link.section}
-            data-active={currentPath === blogPath && link.href === blogPath ? 'true' : 'false'}
-            aria-current={currentPath === blogPath && link.href === blogPath ? 'page' : undefined}
           >
             {link.label}
           </a>
